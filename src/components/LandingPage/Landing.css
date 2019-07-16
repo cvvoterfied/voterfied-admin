@@ -1,0 +1,151 @@
+.loginPage {
+    overflow-y: auto;
+    max-height: 95vh;
+}
+
+.landingSignupForm {
+    height: 100%;
+    min-height: 100%;
+    align-content: center;
+}
+
+.leftmost {
+    width: 70%;
+    min-width: 70%;
+}
+
+.logo {
+    height: 60px;
+    min-height: 60px;
+}
+
+.customLink {
+    font-size: 10px;
+}
+
+    .customLink:hover {
+        color: silver;
+    }
+
+.loginButton {
+    margin-right: 24px;
+}
+
+.editProfileButton {
+    background-color: #707070;
+}
+
+.landingNavBar {
+    margin-top: 30px;
+}
+
+.indented_email {
+    margin-left: 25%;
+}
+
+.featuredCategories {
+    background-color: #243859;
+    opacity: 0.9;
+    vertical-align: bottom;
+    margin-top: 24px;
+    border-color: #FFF;
+    border-style: solid;
+}
+
+.landingCandidate {
+    min-height: 250px;
+    min-width: 100%;
+    background-color: #243859;
+    opacity: 0.9;
+    vertical-align: bottom;
+    position: fixed;
+    bottom: 0;
+    border-color: #FFF;
+    border-style: solid;
+}
+
+.candidateName {
+    font-weight: 700;
+    color: #FFF;
+    display: normal;
+}
+
+.circle {
+    border-radius: 112px;
+    opacity: 1;
+    vertical-align: central;
+    border-color: #FFF;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.candidatePhoto {
+    max-width: 20%;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.descriptiveColumn {
+    min-width: 30%;
+}
+
+.iconTitle {
+    min-height: 50px;
+    vertical-align: central;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: -10px;
+}
+
+.voteButton {
+    min-width: 70px;
+}
+
+.subTitle {
+    color: #FFF;
+    font-size: 36px;
+}
+
+.allIssues {
+    background-color: #F2F2F2;    
+    width: 100%;
+}
+
+.transparentButton {
+    background-color: inherit;
+    color: silver;
+    border: none;
+    font-size: 12px;
+}
+
+    .transparentButton:hover {
+        color: #BC8F8F;
+        background-color: inherit;
+    }
+
+transparentButton:window-inactive {
+    color: silver;
+    border: none;
+}
+
+transparentButton:visited {
+    border: none;
+}
+
+.userStatusButton {
+    font-size: smaller;
+    color: #7CFC00;
+    background-color: none;
+    opacity: inherit;
+    filter: drop-shadow(3px3px8pxrgba(0,0,0,0.502));
+    fill: transparent;
+    stroke: #fff;
+    stroke-width: 2px;
+    stroke-linejoin: miter;
+    stroke-linecap: butt;
+    stroke-miterlimit: 4;
+    shape-rendering: auto;
+    border-color: #FFF;
+    border-width: 1px;
+}

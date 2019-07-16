@@ -1,0 +1,87 @@
+﻿.vote {
+    text-align: center;
+    align-content: center;
+}
+
+.votes {
+    font-size: small;
+    color: #8B4513;
+    border-left: 20px;
+    border-color: #000;
+    border-width: thin;
+}
+
+.answers {
+    margin-left: 12px;
+    margin-bottom: 10px;
+    vertical-align: central;
+    width: 100%;
+}
+
+.currentanswer {
+    width: 175px;
+    margin-left: 12px;
+    margin-top: 12px;
+    align-content: center;
+    align-items: center;
+    color: #FFF;
+    font-weight: 700;
+    background-color: #3cc447;
+    border-color: #708090;
+    border-width: thin;
+}
+
+    .currentanswer:focus {
+        background-color: #3cc447;
+        color: lightgray;
+    }
+
+.answer {
+    width: 175px;
+    margin-left: 12px;
+    margin-top: 12px;
+    background-color: lightgray;
+    color: #000;
+    font-weight: 700;
+    align-content: center;
+    align-items: center;
+    border-color: #708090;
+    border-width: thin;
+}
+
+.question {
+    margin-top: 20px;
+    width: 300px;
+    font-weight: 600;
+    color: #0E2C5B;
+}
+
+.padBottom {
+    margin-bottom: 50px;
+    background-color: #F2F2F2;
+}
+
+.title {
+    font-weight: 600;
+    visibility: hidden;
+}
+
+.rankBox {
+    width: 80px;
+    margin-top: 12px;
+    margin-left: 48px;
+    align-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.metaData {
+    text-align: left;
+}
+
+.stats {
+    margin-top: 12px;
+    font-size: small;
+    font-style: italic;
+    text-align: left;
+}

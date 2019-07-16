@@ -1,0 +1,16 @@
+﻿.linkBox {
+    border-top-color: #707070;
+    border-top-style: solid;
+    border-top-width: 1px;
+    margin-bottom: 12px;
+}
+
+.titleBox {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.urlBox {
+    font-size: 12px;
+}

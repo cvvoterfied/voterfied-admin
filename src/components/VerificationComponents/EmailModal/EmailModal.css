@@ -1,0 +1,14 @@
+﻿.modalLoginButton {
+    margin: 0 auto;
+}
+
+.loginModalHeader {
+    text-align: center;
+}
+
+.medium {
+    text-align: center;
+    align-content: center;
+    width: 100%;
+    margin-left: 20px;
+}

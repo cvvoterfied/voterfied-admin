@@ -1,0 +1,127 @@
+body {
+    background: url(./images/landingPageBackground.jpg) no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+    overflow: hidden;
+    min-height: 100%;
+    padding: unset;
+    font-family: 'Open Sans';
+}
+
+h1 {
+    color: #FFF;
+    vertical-align: central;
+    align-content: center;
+    font-size: 48px;
+}
+
+.App {
+    text-align: center;
+}
+
+.App-logo {
+    animation: App-logo-spin infinite 20s linear;
+    height: 40in;
+    pointer-events: none;
+}
+
+.App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px+2vmin);
+    color: #FFF;
+}
+
+.App-link {
+    color: #FFF;
+}
+
+to {
+    transform: rotate(360deg);
+}
+
+.btn-danger {
+    background-image: linear-gradient(#e41e35,#ac1627);
+    font-size: 10px;
+    font-family: sans-serif;
+    font-weight: 300;
+    border-radius: 25px;
+    display: normal;
+}
+
+.roundedges {
+    border-radius: 25px;
+    font-size: 10px;
+    min-width: 225px;
+    min-height: 30px;
+    margin-right: 5px;
+    display: normal;
+}
+
+.largetext {
+    font-size: 16px;
+    color: #FFF;
+    display: normal;
+}
+
+.loginModalFooter {
+    text-align: center;
+    font-size: 10px;
+    color: #243859;
+    min-width: 100%;
+    width: 90%;
+    margin: 0 10px 10px;
+}
+
+.mediumtext {
+    font-size: 12px;
+    color: #FFF;
+    display: normal;
+    padding-right: 12px;
+}
+
+.leftLinks {
+    position: relative;
+    left: 0;
+}
+
+.rightLinks {
+    position: absolute;
+    right: 0;
+    display: inline-block;
+}
+
+.footerLinkR {
+    display: inline-block;
+}
+
+.gridLayout {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    margin-top: 15px;
+}
+
+.hidden {
+    visibility: hidden;
+    height: 0;
+    display: none;
+}
+
+.versionModal {
+    text-align: left;
+}
+
+.menuItem {
+    font-size: x-small;
+    color: #FFF;
+    background-color: darkslategrey;
+    opacity: unset;
+}
+
+.form-control, .modal-content {
+    border-radius: 25px;
+}
