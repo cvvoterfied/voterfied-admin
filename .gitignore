@@ -3,3 +3,8 @@
 ################################################################################
 
 /create-react-redux-app-structure
+/node_modules
+/src/.vs/VoterfiedAdminv2/v15/.suo
+/src/bin/Microsoft.NodejsTools.WebRole.dll
+/src/images/MattHall
+/src/obj

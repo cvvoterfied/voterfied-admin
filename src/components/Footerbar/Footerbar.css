@@ -1,0 +1,20 @@
+.footerWrapper {
+    background-color: #000;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.footerLinkL {
+    margin-left: 1%;
+    color: #FFF;
+}
+
+    .footerLinkL:hover {
+        color: #FFF;
+        text-decoration: none;
+    }
+
+.footerLinkRight, .footerLinkRight:hover {
+    color: #FFF;
+}

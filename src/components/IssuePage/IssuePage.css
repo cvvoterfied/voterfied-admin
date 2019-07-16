@@ -1,0 +1,301 @@
+﻿body {
+    background-color: #F2F2F2;
+    color: #282c34;
+}
+
+.issuePage {
+    display: grid;
+    background: none;
+    background-color: #e5e5e5;
+    grid-gap: 1em;    
+    grid-template-columns: repeat(3, 1fr);    
+    overflow: auto;      
+    max-height: 99vh;
+}
+
+.buttonBack {
+    background-color: inherit;
+    width: 120px;
+    min-width: 80px;
+    height: 40px;
+    align-self: flex-start;
+}
+
+.opinionButton {
+    background-color: #e5e5e5;
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgb(172, 22, 39);
+    border-radius: 25px;
+    min-width: 12px;
+    width: 50px;
+    height: 30px;
+    min-height: 12px;
+    color: rgb(172, 22, 39);
+    margin-left: 0px;
+    padding: 0px;
+}
+
+.opinionButton:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.opinionButtonActive {
+    text-align: right;
+}
+
+.opinionButtonInactive {
+    text-align: left;
+}
+
+.opinionBullet{
+    height: 24px;
+    margin-left: 1px;
+    margin-top: 0px;
+}
+
+.issueCategory {
+    align-content: center;
+    text-align: center;
+    font-size: 24px;
+    color: #282c34;
+    font-weight: 700;
+    margin-top: 12px;
+}
+
+.shadowBox {
+    background-color: white;
+    box-shadow: 5px 5px 9px grey;
+    border-radius: 50px;
+    text-align: center;
+}
+
+.shadowBoxTitle {
+    color: #282c34;
+    font-size: 16px;
+    grid-row: 2;
+    grid-column: 2;
+    align-content: center;
+    margin-bottom: 12px;
+    height: 60px;
+}
+
+.questionTitle {
+    line-height: 3.5;
+}
+
+.opinionSection {
+    grid-column: 2;
+    grid-row: 3;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.shadowBoxFor {
+    border-color: rgba(48,160,57,1);
+    border-width: 2px;
+    border-style: solid;
+    color: green;
+    font-size: 12px;
+    grid-row: 5/6;
+    grid-column: 1;
+    margin-left: 6%;
+}
+
+.buttonFor {
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+    background: linear-gradient(rgba(60,196,71,1), rgba(48,160,57,1));
+    margin-bottom: 12px;
+    border: none;
+}
+
+.buttonFor:focus {
+    box-shadow: none;
+}
+
+.buttonAgainst {
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+    background: linear-gradient(rgba(227,29,52,1), rgba(172,22,39,1));
+    margin-bottom: 12px;
+    border: none;
+}
+
+.buttonAgainst:focus {
+    box-shadow: none;
+}
+
+.shadowBoxAgainst {
+    border-color: rgba(172,22,39,1);
+    border-width: 2px;
+    border-style: solid;
+    color: rgba(172,22,39,1);
+    font-size: 12px;
+    grid-row: 5/6;
+    grid-column: 2;
+    margin: 0 2% 0 2%;
+}
+
+.shadowBoxNoBorder {
+    color: #282c34;
+    font-size: 12px;
+}
+
+.shadowBoxAddInfo {
+    grid-row: 5/6;
+    grid-column: 3;
+    margin-right: 6%;
+}
+
+.shadowBoxMultipleChoice {
+    grid-row: 5/6;
+    grid-column: 1/3;
+    display: grid;
+    height: 120px;
+    align-content: center;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.shadowBoxComments {
+    grid-column: 1/4;
+    grid-row: 9/12;
+    min-height: 150px;
+}
+
+.opinionText {
+    grid-column: 2/3;
+    grid-row: 4;
+    margin-bottom: 12px;
+}
+
+.shadowBoxCenter {
+    font-size: 18px;
+    grid-row: 7/8;
+    grid-column: 2;
+    margin-bottom: 30px;
+    background-color: #000;
+    color: #FFF;
+    font-weight: 700;
+}
+
+.scrollBoxArgs {
+    overflow: auto;
+    height: 50px;
+    color: #000;
+    margin: 12px;
+}
+
+.stats {
+    grid-column: 3;
+    grid-row: 8;
+    vertical-align: central;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-right: 10%;
+    margin-bottom: 10%;
+    margin-top: -10%;
+}
+
+.resultTitle {
+    font-weight: 700;
+    text-align: center;
+    grid-column: 1/4;
+    grid-row: 1;
+}
+
+.totalCount {
+    text-align: center;
+    grid-column: 1/4;
+}
+
+.legendBox {
+    align-content: unset;
+    align-items: unset;
+    position: relative;
+}
+
+.darkgreen {
+    grid-column: 1;
+    grid-row: 1;
+    color: #23A139;
+}
+
+.darkred {
+    grid-column: 2;
+    grid-row: 1;
+    color: #8B0000;
+}
+
+.yellow {
+    grid-column: 1;
+    grid-row: 2;
+    color: #FF0;
+    text-shadow: 1px 1px 1px #B8860B;
+}
+
+.darkblue {
+    grid-column: 2;
+    grid-row: 2;
+    color: #00008B;
+}
+
+.magenta {
+    grid-column: 3;
+    grid-row: 1;
+    color: #F0F;
+}
+
+.white {
+    grid-column: 3;
+    grid-row: 2;
+    color: #F5F5DC;
+    text-shadow: 1px 1px 1px #FFDEAD;
+}
+
+.orange {
+    grid-column: 4;
+    grid-row: 1;
+    color: #FFA500;
+}
+
+.purple {
+    grid-column: 4;
+    grid-row: 2;
+    color: #800080;
+}
+
+.lightblue {
+    grid-column: 5;
+    grid-row: 1;
+    color: #ADD8E6;
+}
+
+.darkgray {
+    grid-column: 5;
+    grid-row: 2;
+    color: #A9A9A9;
+}
+
+.lightgray {
+    grid-column: 6;
+    grid-row: 1;
+    color: lightgray;
+}
+.shadowBoxHeader {
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    letter-spacing: 0.6px;
+}
+.shadowBoxHeaderFor {
+    color: rgba(48,160,57,1);
+}
+.shadwoBoxHeaderAgainst {
+    color: rgba(172,22,39,1);
+}

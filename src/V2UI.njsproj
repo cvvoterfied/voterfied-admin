@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{bb5cfcb0-088a-4fb7-a664-f2ef0d4b838a}</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <ProjectView>ShowAllFiles</ProjectView>
+    <StartupFile />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <EnableTypeScript>true</EnableTypeScript>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
+    <NameOfLastUsedPublishProfile>Voterfiedv2UI - Web Deploy</NameOfLastUsedPublishProfile>
+    <StartWebBrowser>True</StartWebBrowser>
+    <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <ItemGroup>
+    <Content Include="App.css" />
+    <Content Include="components\AdditionalInfo\AdditionalInfo.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="components\ChangePasswordModal\ChangePasswordModal.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="components\EditProfile\EditProfile.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="components\IssueList\IssueList.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="components\IssuePage\IssuePage.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="images\ballotBox.png" />
+    <Content Include="fonts.css" />
+    <Content Include="images\bulletpoint.png">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="images\MattHall\HeadshotMH400x400.png" />
+    <Content Include="images\landingPageBackground.jpg">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="images\MattHall\MattHallLogo.png">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="images\thumbs_down.png" />
+    <Content Include="images\thumbs_down2.png" />
+    <Content Include="images\thumbs_up.png" />
+    <Content Include="images\thumbs_up2.png" />
+    <Content Include="images\voterfied_stars.png">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="components\VerificationComponents\ConfirmationModal\ConfirmationModal.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="components\VerificationComponents\CongratulationsModal\CongratulationsModal.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="components\VerificationComponents\EmailModal\EmailModal.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="components\VerificationComponents\VerificationMessageModal\VerificationMessageModal.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="components\VerificationComponents\VoterVerificationModal\VoterVerificationModal.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="components\VoteIssueList\VoteIssueList.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="index.css" />
+    <Content Include="logo.svg" />
+    <Content Include="package.json" />
+    <Content Include="App.js" />
+    <Content Include="App.test.js" />
+    <Content Include="index.js" />
+    <Content Include="serviceWorker.js" />
+    <Content Include="store.js" />
+    <Content Include="actions\LoginActions.js" />
+    <Content Include="reducers\rootReducer.js" />
+    <Content Include="components\Footerbar\Footerbar.css" />
+    <Content Include="components\Footerbar\Footerbar.js" />
+    <Content Include="components\Footerbar\index.js" />
+    <Content Include="components\LandingPage\Landing.css" />
+    <Content Include="components\LandingPage\index.js" />
+    <Content Include="components\LandingPage\Landing.js" />
+    <Content Include="components\LoginModal\LoginModal.css" />
+    <Content Include="components\LoginModal\index.js" />
+    <Content Include="components\LoginModal\LoginModal.js" />
+    <Content Include="components\SignupModal\SignupModal.css" />
+    <Content Include="components\SignupModal\index.js" />
+    <Content Include="components\SignupModal\SignupModal.js" />
+    <None Include="Voterfiedv2UI - Web Deploy.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="actions" />
+    <Folder Include="components" />
+    <Folder Include="components\Footerbar" />
+    <Folder Include="components\LandingPage" />
+    <Folder Include="components\LoginModal" />
+    <Folder Include="components\ChangePasswordModal\" />
+    <Folder Include="components\IssuePage\" />
+    <Folder Include="components\AdditionalInfo\" />
+    <Folder Include="components\IssueList\" />
+    <Folder Include="components\EditProfile\" />
+    <Folder Include="components\ResultGraph\" />
+    <Folder Include="components\VersionModal\" />
+    <Folder Include="components\VoteAnswerForm\" />
+    <Folder Include="components\VoteIssueList\" />
+    <Folder Include="components\VerificationComponents\EmailModal\" />
+    <Folder Include="components\VerificationComponents\ConfirmationModal\" />
+    <Folder Include="components\VerificationComponents\CongratulationsModal\" />
+    <Folder Include="components\VerificationComponents\" />
+    <Folder Include="components\VerificationComponents\VerificationMessageModal\" />
+    <Folder Include="components\VerificationComponents\VoterVerificationModal\" />
+    <Folder Include="components\SignupModal" />
+    <Folder Include="constants\" />
+    <Folder Include="images\" />
+    <Folder Include="images\MattHall\" />
+    <Folder Include="reducers" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="actions\CustomerActions.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="actions\EmailActions.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="actions\VersionActions.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="actions\VoteActions.js" />
+    <Compile Include="components\AdditionalInfo\AdditionalInfo.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\AdditionalInfo\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\ChangePasswordModal\ChangePasswordModal.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\ChangePasswordModal\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\EditProfile\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\EditProfile\EditProfile.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\IssueList\CategoryDropdown.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\IssueList\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\IssueList\IssueList.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\IssuePage\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\IssuePage\IssuePage.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\ResultGraph\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\ResultGraph\ResultGraph.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\ResultGraph\ResultLegend.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\ResultGraph\ResultLegendRow.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VerificationComponents\ConfirmationModal\ConfirmationModal.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VerificationComponents\ConfirmationModal\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VerificationComponents\CongratulationsModal\CongratulationsModal.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VerificationComponents\CongratulationsModal\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VerificationComponents\EmailModal\EmailModal.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VerificationComponents\EmailModal\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VerificationComponents\VerificationMessageModal\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VerificationComponents\VerificationMessageModal\VerificationMessageModal.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VerificationComponents\VoterVerificationModal\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VerificationComponents\VoterVerificationModal\VoterVerificationModal.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VersionModal\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VersionModal\VersionModal.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VoteAnswerForm\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VoteAnswerForm\VoteAnswerForm.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VoteAnswerForm\VoteAnswerRow.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VoteIssueList\index.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VoteIssueList\Question.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\VoteIssueList\VoteIssueList.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="constants\ActionConstants.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="reducers\customerReducer.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="reducers\EmailReducer.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="reducers\LoginReducer.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="reducers\VersionReducer.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="reducers\VoteReducer.js">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
