@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.489
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "V2UI", "..\src\V2UI.njsproj", "{BB5CFCB0-088A-4FB7-A664-F2EF0D4B838A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB5CFCB0-088A-4FB7-A664-F2EF0D4B838A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB5CFCB0-088A-4FB7-A664-F2EF0D4B838A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB5CFCB0-088A-4FB7-A664-F2EF0D4B838A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB5CFCB0-088A-4FB7-A664-F2EF0D4B838A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3E3E8082-4FA6-41CE-BF85-DDC33A93E1C6}
+	EndGlobalSection
+EndGlobal
