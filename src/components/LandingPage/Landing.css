@@ -1,6 +1,6 @@
 body {
     color: white;
-    text-align: center;
+    text-align: center;    
 }
 
 .label {
@@ -9,7 +9,8 @@ body {
 
 .loginPage {
     overflow-y: auto;
-    max-height: 95vh;
+    height: 100vh;
+    width: 100vw;
 }
 
 .landingSignupForm {
@@ -160,5 +161,32 @@ transparentButton:visited {
 }
 
 #gridContainer {
-    height: 440px;
+    height: 100%;
+    width: 100%;
+    border-width: 3px;
+    border-color: white;
 }
+
+.dx-datagrid-rowsview .dx-data-row .dx-validator.dx-datagrid-invalid .dx-highlight-outline::after  {
+    border-width: 3px;
+    border-color: white;
+}
+
+.grid {
+    border-color: white;
+    border-width: 3px;
+    border-style: solid;
+}
+
+thead {
+    font-weight: bold;
+    font-style: italic;
+}
+
+table {
+    min-height: 80%;
+    height: 80%;
+    width: 80%;
+
+}
+

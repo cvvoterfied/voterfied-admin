@@ -39,7 +39,7 @@ class Landing extends React.Component {
       this.onChange = this.onChange.bind(this); 
       this.onShowVersion = this.onShowVersion.bind(this);
       this.onClickEditProfile = this.onClickEditProfile.bind(this);
-      
+      this.exportToCSV = this.exportToCSV.bind(this);
       this.logOut = this.logOut.bind(this);
     } 
 
@@ -117,7 +117,38 @@ class Landing extends React.Component {
         columns[1].width = 100;
         columns[2].width = 240;
         columns[3].width = 100;
-        columns[4].width = 200;
+        columns[4].width = 100;
+    }
+
+    exportToCSV() {
+        var processRow = function (row) {
+            return row.question + "," + 
+                row.createdDate + "," + 
+                row.answer + "," + 
+                String(row.rank) + ",\r\n"                            
+        };
+
+        var csvFile = "Question,Vote Date,Answer,Rank,Email\n";
+        for (var i = 0; i < this.props.votes.length; i++) {
+            csvFile += processRow(this.props.votes[i]);
+        }
+
+        var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
+        if (navigator.msSaveBlob) { // IE 10+
+            navigator.msSaveBlob(blob, "downloadVotes.csv");
+        } else {
+            var link = document.createElement("a");
+            if (link.download !== undefined) { // feature detection
+                // Browsers that support HTML5 download attribute
+                var url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", "downloadVotes.csv");
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
     }
 
     render() {
@@ -191,13 +222,17 @@ class Landing extends React.Component {
                 <Row>
                 <Col><div className="label">Customers: </div><CustomerDropdown customers={this.props.customerList}/> </Col>
                 <Col><div className="label">User List: </div><UserLoginDropdown userLogins={this.props.userLogins}/></Col>
-                <Col><div className="label">Questions: </div><QuestionDropdown questions={this.props.allquestions}/></Col>
+                <Col><div className="label">Questions: </div><QuestionDropdown questions={this.props.allquestions} /></Col>
+                <Col className={this.props.votes && this.props.votes.length > 0 ? "label" : "hidden"}><div className="label">&nbsp; </div><div><Button variant="danger" onClick={this.exportToCSV} className="exportButton">Export to CSV</Button></div></Col>
                 </Row>
                 <Row></Row>
-            
-               <div><br/>
-                    <span className={this.props.isloggedin ? "float-center" : "hidden"} md={4}>
-                        <DataGrid elementAttr={{ id: 'gridContainer' }}
+
+                
+
+                <br />
+               <div className="grid">
+                    <span className={this.props.isloggedin ? "float-center " : "hidden"} md={4}>
+                    <DataGrid className="grid" elementAttr={{ id: 'gridContainer' }}
                             dataSource={this.props.votes}
                             showBorders={true}
                             customizeColumns={this.customizeColumns}>                        
