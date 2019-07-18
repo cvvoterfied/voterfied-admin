@@ -3,6 +3,10 @@ body {
     text-align: center;
 }
 
+.label {
+    text-align: left;
+}
+
 .loginPage {
     overflow-y: auto;
     max-height: 95vh;

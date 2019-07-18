@@ -3,7 +3,7 @@
 import "./Dropdown.css";
 import { connect } from 'react-redux';
 import Select from 'react-styled-select';
-import { listVotesByQuestion } from '../../actions/VoteActions';
+import { listVotesByQuestion, enumVotes } from '../../actions/VoteActions';
 
 class QuestionDropdown extends React.Component {
     constructor(props) {
@@ -17,9 +17,11 @@ class QuestionDropdown extends React.Component {
     onChange = (e) => {
         this.setState({ "currentQuestion": e });
 
-        if (e && e > 0) {
+        if (e && e !== "0") {
             this.props.listVotesByQuestion(this.props.logintoken, this.props.currentCustomer.id, e);
-
+        }
+        if (e === "0") {
+            this.props.enumVotes(this.props.logintoken, this.props.currentCustomer.id);
         }
     }
 
@@ -54,4 +56,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { listVotesByQuestion })(QuestionDropdown);
+export default connect(mapStateToProps, { listVotesByQuestion, enumVotes })(QuestionDropdown);

@@ -1,42 +1,37 @@
 ﻿import React from 'react';
 
-import "./IssueList.css";
+import "./Dropdown.css";
 import { connect } from 'react-redux';
-import { listQuestionsByCategory, listQuestions } from '../../actions/VoteActions';
 import Select from 'react-styled-select';
 
-class IssueList extends React.Component {
+class UserLoginDropdown extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            "currentCategory": { "label": "All Categories", "value": "0" }
+            "currentUserLogin": { "label": "All UserLogins", "value": "0" }
         };
         this.onChange = this.onChange.bind(this);
     }
 
     onChange = (e) => {
-        this.setState({ "currentCategory": e });
+        this.setState({ "currentUserLogin": e });
 
+        if (e && e !== "0") {
+            //this.props.listVotesByUserLogin(this.props.logintoken, this.props.currentCustomer.id, e);
+        }
         if (e === "0") {
-            this.props.listQuestions(this.props.logintoken);
-        }
-        else {
-            this.props.listQuestionsByCategory(this.props.logintoken, e);
-        }
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (newProps.logintoken && newProps.logintoken.length > 0 && this.props.allquestions && this.props.allquestions.length === 0) {
-            this.props.listQuestions(this.props.logintoken);
+            //this.props.enumVotes(this.props.logintoken, this.props.currentCustomer.id);
         }
     }
 
     render() {
         var cats = [];
-        cats.push({ "label": "All Categories", "value": "0" });
+        cats.push({ "label": "All UserLogins", "value": "0" });
 
-        for (var i = 0; i < this.props.categories.length; i++) {
-            cats.push({ "label": this.props.categories[i].name, "value": this.props.categories[i].id });
+        if (this.props.userLogins) {
+            for (var i = 0; i < this.props.userLogins.length; i++) {
+                cats.push({ "label": this.props.userLogins[i].name, "value": this.props.userLogins[i].id });
+            }
         }
 
         return (
@@ -44,7 +39,7 @@ class IssueList extends React.Component {
                 className="red-theme"
                 name="categoryFilter"
                 options={cats}
-                value={this.state.currentCategory}
+                value={this.state.currentUserLogin}
                 onChange={this.onChange}
             />
         )
@@ -56,7 +51,7 @@ class IssueList extends React.Component {
 function mapStateToProps(state) {
     return {
         logintoken: state.loginReducer.loginToken,
-        users: state.loginReducer.allUsers
+        currentCustomer: state.customerReducer.currentCustomer
     }
 }
 

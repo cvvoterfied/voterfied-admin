@@ -25,6 +25,7 @@ import { enumCustomer } from '../../actions/CustomerActions';
 import DataGrid, { Scrolling, Sorting, Column } from 'devextreme-react/data-grid';
 
 import stars from '../../images/voterfied_stars.png';
+import UserLoginDropdown from '../DropdownFilters/UserLoginDropdown';
 
 class Landing extends React.Component {
   constructor(props) {
@@ -183,23 +184,23 @@ class Landing extends React.Component {
            
            
             
-                <div className={this.props.isloggedin ? "hidden" : "landingSignupForm float-center"}>
+                <div className={this.props.isloggedin ? "hidden" : "landingSignupForm "}>
                     <h1>{this.getTitle()}</h1>
                     <div className={this.props.isloggedin ? "hidden" : ""}><img alt="" src={stars} /><br /><br /></div>                   
                 </div>
                 <Row>
-                <Col>Customers: <CustomerDropdown customers={this.props.customerList}/> </Col>
-                    <Col>User List: </Col>
-                <Col>Questions: <QuestionDropdown questions={this.props.allquestions}/></Col>
+                <Col><div className="label">Customers: </div><CustomerDropdown customers={this.props.customerList}/> </Col>
+                <Col><div className="label">User List: </div><UserLoginDropdown userLogins={this.props.userLogins}/></Col>
+                <Col><div className="label">Questions: </div><QuestionDropdown questions={this.props.allquestions}/></Col>
                 </Row>
                 <Row></Row>
             
-                <center>
+               <div><br/>
                     <span className={this.props.isloggedin ? "float-center" : "hidden"} md={4}>
                         <DataGrid elementAttr={{ id: 'gridContainer' }}
                             dataSource={this.props.votes}
                             showBorders={true}
-                            customizeColumns={this.customizeColumns}>
+                            customizeColumns={this.customizeColumns}>                        
                             <Sorting mode={'none'} />
                             <Scrolling mode={'infinite'} />
                         <Column
@@ -235,7 +236,7 @@ class Landing extends React.Component {
                         </DataGrid>
 
                     </span>
-                </center>
+                </div>
             <br />
             <br />
             
@@ -281,7 +282,8 @@ function mapStateToProps(state) {
         showVersion: state.versionReducer.showVersion,
         votes: state.voteReducer.votes,
         customerList: state.customerReducer.customerList,
-        allquestions: state.voteReducer.allquestions
+        allquestions: state.voteReducer.allquestions,
+        userLogins: state.loginReducer.allUsers
     }
 }
 
