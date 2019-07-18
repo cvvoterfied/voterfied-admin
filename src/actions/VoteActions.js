@@ -400,7 +400,7 @@ export function enumQuestions(token, customerId) {
         axios
             .get(serverEnvironment.API_URL + '/question/' + String(customerId), axiosConfig)
             .then(res => {
-                dispatch(fulfilled_function(ENUM_QUESTIONS));
+                dispatch(fulfilled_function(ENUM_QUESTIONS, res));
             })
             .catch(err => {
                 dispatch(rejected_function(ENUM_QUESTIONS, err));

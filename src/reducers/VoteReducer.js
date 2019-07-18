@@ -45,12 +45,12 @@ export default function reducer(state = {
                 message: "Working..."
             }
         case fulfilled(voteActionTypes.ADD_QUESTION):
-            var temp = this.state.allquestions;
-            temp.push(action.payload.data);
+            var temp2 = this.state.allquestions;
+            temp2.push(action.payload.data);
             
             return {
                 ...state,
-                allquestions: temp,
+                allquestions: temp2,
                 message: ""
             }
         case rejected(voteActionTypes.ADD_QUESTION):

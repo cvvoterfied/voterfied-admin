@@ -8,13 +8,16 @@
 
 import { customerActionTypes, pending_function, rejected_function, fulfilled_function, serverEnvironment } from '../constants/ActionConstants';
 import axios from 'axios';
+export var axiosConfig = {
+    headers: { 'token': '' }
+};
 
 /*
  * getCustomer() returns a CustomerBTO by customer ID
  * 
  * */
 
-export function getCustomer() {
+export function getCustomer(customerId) {
     const { GET_CUSTOMER_DATA } = customerActionTypes;
 
     return function (dispatch, getState) {
@@ -22,7 +25,7 @@ export function getCustomer() {
         dispatch(pending_function(GET_CUSTOMER_DATA));
 
         axios
-            .get(serverEnvironment.API_URL + '/customer/' + serverEnvironment.customer.id)
+            .get(serverEnvironment.API_URL + '/customer/' + String(customerId))
             .then(res => {
                 dispatch(fulfilled_function(GET_CUSTOMER_DATA, res));
             })
@@ -49,12 +52,12 @@ export function getCustomer() {
  * 
  * */
 
-export function addCustomer(customer) {
+export function addCustomer(token, customer) {
     const { ADD_CUSTOMER } = customerActionTypes;
 
     return function (dispatch, getState) {
         dispatch(pending_function(ADD_CUSTOMER));
-
+        axiosConfig.headers.token = token;
         axios
             .post(serverEnvironment.API_URL + '/customer', customer)
             .then(res => {
@@ -71,12 +74,12 @@ export function addCustomer(customer) {
  * 
  * */
 
-export function editCustomer(customer) {
+export function editCustomer(token, customer) {
     const { EDIT_CUSTOMER } = customerActionTypes;
 
     return function (dispatch, getState) {
         dispatch(pending_function(EDIT_CUSTOMER));
-
+        axiosConfig.headers.token = token;
         axios
             .put(serverEnvironment.API_URL + '/customer/' + customer.id, customer)
             .then(res => {
@@ -94,12 +97,12 @@ export function editCustomer(customer) {
  * 
  * */
 
-export function deleteCustomer(customerId) {
+export function deleteCustomer(token, customerId) {
     const { DELETE_CUSTOMER } = customerActionTypes;
 
     return function (dispatch, getState) {
         dispatch(pending_function(DELETE_CUSTOMER));
-
+        axiosConfig.headers.token = token;
         axios
             .delete(serverEnvironment.API_URL + '/customer/' + customerId)
             .then(res => {
@@ -117,13 +120,13 @@ export function deleteCustomer(customerId) {
  * 
  * */
 
-export function enumCustomer() {
+export function enumCustomer(token) {
     const { ENUM_CUSTOMER } = customerActionTypes;
 
     return function (dispatch, getState) {
 
         dispatch(pending_function(ENUM_CUSTOMER));
-
+        axiosConfig.headers.token = token;
         axios
             .get(serverEnvironment.API_URL + '/customer')
             .then(res => {

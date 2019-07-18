@@ -9,13 +9,13 @@ class IssueList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            "currentCategory": { "label": "All Categories", "value": "0"}
+            "currentCategory": { "label": "All Categories", "value": "0" }
         };
         this.onChange = this.onChange.bind(this);
     }
 
     onChange = (e) => {
-        this.setState({"currentCategory": e });
+        this.setState({ "currentCategory": e });
 
         if (e === "0") {
             this.props.listQuestions(this.props.logintoken);
@@ -40,25 +40,24 @@ class IssueList extends React.Component {
         }
 
         return (
-            <Select   
+            <Select
                 className="red-theme"
                 name="categoryFilter"
                 options={cats}
                 value={this.state.currentCategory}
                 onChange={this.onChange}
-            /> 
-            )
-        
+            />
+        )
+
     }
 }
 
 
 function mapStateToProps(state) {
     return {
-        logintoken: state.loginReducer.loginToken,        
-        categories: state.voteReducer.categories,
-        allquestions: state.voteReducer.allquestions
+        logintoken: state.loginReducer.loginToken,
+        users: state.loginReducer.allUsers
     }
 }
 
-export default connect(mapStateToProps, {listQuestionsByCategory, listQuestions })(IssueList);
+export default connect(mapStateToProps, {  })(UserLoginDropdown);

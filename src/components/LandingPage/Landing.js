@@ -1,34 +1,28 @@
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownToggle from 'react-bootstrap/DropdownToggle';
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import DropdownItem from 'react-bootstrap/DropdownItem';
 import LoginModal from '../LoginModal';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import CustomerDropdown from '../DropdownFilters/CustomerDropdown';
 
-import * as qs from 'query-string';
 import EditProfile from '../EditProfile';
 import ChangePasswordModal from '../ChangePasswordModal';
 import VersionModal from '../VersionModal';
-import VoteIssueList from '../VoteIssueList';
-import IssuePage from '../IssuePage';
-import IssueList from '../IssueList';
-import CategoryDropdown from '../IssueList/CategoryDropdown';
-//import VerificationMessageModal from '../VerificationComponents/VerificationMessageModal';
-
+import QuestionDropdown from '../DropdownFilters/QuestionDropdown';
 import "../../App.css";
 import "./Landing.css";
 import Footerbar from '../Footerbar';
 import { connect } from 'react-redux';
 import { logout, startLogin, cancelLogin, startRegistering, verifyEmail, emailConfirmed, resetPassword, startEditProfile } from '../../actions/LoginActions';
-import { hideVoteScreen, listCategories, clearVotes } from '../../actions/VoteActions';
-import { serverEnvironment } from '../../constants/ActionConstants';
-import { getCustomer } from '../../actions/CustomerActions';
 import { getApiVersion, hideVersionModal, showVersionModal } from '../../actions/VersionActions';
+import { enumCustomer } from '../../actions/CustomerActions';
+
+import DataGrid, { Scrolling, Sorting, Column } from 'devextreme-react/data-grid';
 
 import stars from '../../images/voterfied_stars.png';
 
@@ -41,7 +35,6 @@ class Landing extends React.Component {
       };
       this.getLoginText();
       this.onClickLogin = this.onClickLogin.bind(this);
-      this.onClickSignup = this.onClickSignup.bind(this);
       this.onChange = this.onChange.bind(this); 
       this.onShowVersion = this.onShowVersion.bind(this);
       this.onClickEditProfile = this.onClickEditProfile.bind(this);
@@ -50,13 +43,19 @@ class Landing extends React.Component {
     } 
 
     componentWillMount() {
-       
+        
     }
 
     componentDidMount() {
         if (String(window.location).includes('/login')) {
             this.props.startLogin();
             return;
+        }
+    }
+
+    componentWillReceiveProps(newProps) {
+        if (newProps.logintoken && newProps.logintoken != this.props.logintoken) {
+            this.props.enumCustomer(newProps.logintoken);
         }
     }
 
@@ -70,7 +69,8 @@ class Landing extends React.Component {
 
     getUserStatus() {
         if (this.props.isloggedin) {
-            return (this.props.user.UserRole === 0 || this.props.user.UserRole === undefined ? "Unverified" : "Verified");
+            return (this.props.user.UserRole < 2 || this.props.user.UserRole === undefined ?
+                "Unverified" : (this.props.user.UserRole === 2 ? "Admin" : "Super Admin"));
         }
         else
             return "";
@@ -85,20 +85,9 @@ class Landing extends React.Component {
         return loginText;
     }    
 
-    onClickSignup(e) {
-        if (!this.state.email)
-            alert("Please enter your email first");
-        else {
-            this.props.startRegistering(this.state.email);
-            this.setState({loggingOut: false});
-        }
-    }
-
     logOut(e) {
         if (this.props.logintoken !== undefined && this.props.logintoken !== '') {
-            this.props.logout();
-            this.props.clearVotes();
-            this.props.hideVoteScreen(0, false);
+            this.props.logout();            
             this.setState({ loggingOut: true });
         }
     }
@@ -120,6 +109,14 @@ class Landing extends React.Component {
     onShowVersion = (e) => {
         this.props.getApiVersion();
         this.props.showVersionModal();
+    }
+
+    customizeColumns(columns) {
+        columns[0].width = 500;
+        columns[1].width = 100;
+        columns[2].width = 240;
+        columns[3].width = 100;
+        columns[4].width = 200;
     }
 
     render() {
@@ -185,17 +182,60 @@ class Landing extends React.Component {
             </div>
            
            
-            <center>
+            
                 <div className={this.props.isloggedin ? "hidden" : "landingSignupForm float-center"}>
                     <h1>{this.getTitle()}</h1>
-                    <div className={this.props.isloggedin ? "hidden" : "float-center"}><img alt="" src={stars} /><br /><br /></div>
-
-                    <span className={this.props.isloggedin ? "hidden" : ""} md={4}>
+                    <div className={this.props.isloggedin ? "hidden" : ""}><img alt="" src={stars} /><br /><br /></div>                   
+                </div>
+                <Row>
+                <Col>Customers: <CustomerDropdown customers={this.props.customerList}/> </Col>
+                    <Col>User List: </Col>
+                <Col>Questions: <QuestionDropdown questions={this.props.allquestions}/></Col>
+                </Row>
+                <Row></Row>
+            
+                <center>
+                    <span className={this.props.isloggedin ? "float-center" : "hidden"} md={4}>
+                        <DataGrid elementAttr={{ id: 'gridContainer' }}
+                            dataSource={this.props.votes}
+                            showBorders={true}
+                            customizeColumns={this.customizeColumns}>
+                            <Sorting mode={'none'} />
+                            <Scrolling mode={'infinite'} />
+                        <Column
+                            dataField={"question"}
+                            caption={"Question"}
+                            dataType={"string"}
+                            alignment={"left"}
+                        />
+                        <Column
+                            dataField={"createdDate"}
+                            caption={"Vote Date"}
+                            dataType={"date"}
+                            alignment={"left"}
+                        />
+                        <Column
+                            dataField={"answer"}
+                            caption={"Answer"}
+                            dataType={"string"}
+                            alignment={"left"}
+                        />
+                        <Column
+                            dataField={"rank"}
+                            caption={"Rank"}
+                            dataType={"number"}
+                            alignment={"center"}
+                        />
+                        <Column
+                            dataField={"email"}
+                            caption={"Email"}
+                            dataType={"string"}
+                            alignment={"left"}
+                        />
+                        </DataGrid>
 
                     </span>
-                </div>
-            </center>
-
+                </center>
             <br />
             <br />
             
@@ -239,25 +279,26 @@ function mapStateToProps(state) {
         hideVoteScreen: state.voteReducer.hideVoteScreen,
         currentQuestion: state.voteReducer.currentQuestion,   
         showVersion: state.versionReducer.showVersion,
+        votes: state.voteReducer.votes,
+        customerList: state.customerReducer.customerList,
+        allquestions: state.voteReducer.allquestions
     }
 }
 
 export default connect(mapStateToProps, {
     getApiVersion,
-    getCustomer,
     hideVersionModal,
     showVersionModal,
-    hideVoteScreen,
     logout,
     startRegistering,
     startEditProfile,
     startLogin,
     cancelLogin,
     verifyEmail,
-    listCategories,
     emailConfirmed,
     resetPassword,
-    clearVotes
+    enumCustomer
+    
 }
 )(Landing);
 

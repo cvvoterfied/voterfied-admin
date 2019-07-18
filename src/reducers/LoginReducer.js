@@ -1,5 +1,5 @@
 ﻿
-import { loginActionTypes, pending, rejected, fulfilled, serverEnvironment } from '../constants/ActionConstants';
+import { loginActionTypes, pending, rejected, fulfilled } from '../constants/ActionConstants';
 
 export default function reducer(state = {
     loginToken: '',
@@ -99,19 +99,10 @@ export default function reducer(state = {
             var isVerified = false;
 
             // Super Admin has access
-            if (action.payload.user.UserRole > 2) {
+            if (action.payload.user.UserRole > 2 && action.payload.token) {
                 isVerified = true;
             }
-            else {
-                // Ensure the user is authorized for this customer.  Otherwise, they will be stuck on the verify screen
-                for (var i = 0; i < action.payload.user.AuthorizedCustomers.length; i++) {
-                    if (action.payload.user.AuthorizedCustomers[i].id === serverEnvironment.customer.id) {
-                        isVerified = true;
-                        break;
-                    }
-                }
-            }
-
+           
             return {
                 ...state,
                 loginShow: false,
@@ -305,3 +296,4 @@ export default function reducer(state = {
             return state;
     }
 };
+

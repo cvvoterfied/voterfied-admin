@@ -1,3 +1,8 @@
+body {
+    color: white;
+    text-align: center;
+}
+
 .loginPage {
     overflow-y: auto;
     max-height: 95vh;
@@ -148,4 +153,8 @@ transparentButton:visited {
     shape-rendering: auto;
     border-color: #FFF;
     border-width: 1px;
+}
+
+#gridContainer {
+    height: 440px;
 }

@@ -277,43 +277,6 @@ export function verifyVoter(first, last, birthMonth, birthDay, birthYear, houseN
 }
 
 /*
- * confirmVoter() updates the database to confirm that the voter is now verified.
- * This is accomplished by adding this customer's record to the user's list of 
- * AuthorizedCustomers
- *  
- * */
-export function confirmVoter(user, voter) {
-    const { CONFIRM_VOTER } = loginActionTypes;
-    return function (dispatch) {
-        dispatch(pending_function(CONFIRM_VOTER));
-
-        // Add customer
-        var ulc =
-        {
-            id : customer.id,
-            name : serverEnvironment.customer.name,
-            ConstituentID : voter.id
-        }
-
-        // User's role is Verified 
-        user.UserRole = 1;          
-        if (!user.AuthorizedCustomers ) {
-            user.AuthorizedCustomers = [];
-        }
-        user.AuthorizedCustomers.push(ulc);
-       
-        axios
-            .put(serverEnvironment.API_URL + '/userLogin/' + String(user.id), user)
-            .then((res) => {                
-                dispatch(fulfilled_function(CONFIRM_VOTER, user));
-            })
-            .catch(err => {
-                dispatch(rejected_function(CONFIRM_VOTER, err));
-            });
-    }
-}
-
-/*
  * startRegistering() is used to invoke the initial email registration window
  *  
  * */
@@ -362,12 +325,13 @@ export function cancelEditProfile() {
  * This is how new admins are added for a customer, or super admins for internals
  *  
  * */
-export function addUserProfile(user) {
+export function addUserProfile(token, user) {
 
     const { ADD_USER_PROFILE } = loginActionTypes;
 
     return function (dispatch) {
         dispatch(pending_function(ADD_USER_PROFILE));
+        axiosConfig.headers.token = token;
         axios
             .post(serverEnvironment.API_URL + '/userLogin', user)
             .then((res) => {                
@@ -385,12 +349,13 @@ export function addUserProfile(user) {
  * but it's going to dispatch as the same thing as the more limited one
  *  
  * */
-export function editUserProfile2(user) {
+export function editUserProfile2(token, user) {
 
     const { EDIT_USER_PROFILE } = loginActionTypes;
 
     return function (dispatch) {
         dispatch(pending_function(EDIT_USER_PROFILE));
+        axiosConfig.headers.token = token;
         axios
             .put(serverEnvironment.API_URL + '/userLogin/' + String(user.id), user)
             .then((res) => {
@@ -407,12 +372,13 @@ export function editUserProfile2(user) {
  * TODO: This should be a soft delete
  *  
  * */
-export function deleteUserLogin(userLoginId) {
+export function deleteUserLogin(token, userLoginId) {
 
     const { DELETE_USER_PROFILE } = loginActionTypes;
 
     return function (dispatch) {
         dispatch(pending_function(DELETE_USER_PROFILE));
+        axiosConfig.headers.token = token;
         axios
             .delete(serverEnvironment.API_URL + '/userLogin/' + String(userLoginId))
             .then((res) => {
@@ -428,14 +394,15 @@ export function deleteUserLogin(userLoginId) {
  * EnumUserProfile returns all users in the database
  *  
  * */
-export function enumUserProfile(customerId) {
+export function enumUserProfile(token) {
 
     const { ENUM_USER_PROFILE } = loginActionTypes;
 
     return function (dispatch) {
         dispatch(pending_function(ENUM_USER_PROFILE));
+        axiosConfig.headers.token = token;
         axios
-            .get(serverEnvironment.API_URL + '/userLogin')
+            .get(serverEnvironment.API_URL + '/userLogin' )
             .then((res) => {
                 dispatch(fulfilled_function(ENUM_USER_PROFILE, res));
             })

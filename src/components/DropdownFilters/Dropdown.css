@@ -1,0 +1,34 @@
+﻿body {
+    align-content: center;
+    align-items: center;
+}
+
+.red-theme {
+    --styled-select-placeholder__color: #AC1627;
+    --styled-select__color: #AC1627;
+    --styled-select__background-color: white;
+    --styled-select__border-color: #AC1627;
+    --styled-select__border-width: 3px;
+    --styled-select__border-radius: 50px;
+    --styled-select-menu__max-height: 350px;
+    --styled-select-menu-outer__margin: 0;
+    --styled-select-menu-outer__padding: 0;
+    --styled-select-menu-outer__background-color: white;
+    --styled-select-menu-outer__border-color: #AC1627;
+    --styled-select-menu-outer__border-style: solid;
+    --styled-select-menu-outer__border-width: 1px;
+    --styled-select-menu-outer__border-radius: 0px;
+    --styled-select-menu-outer__max-height: 350px;
+    --styled-select-option__background-color: white;
+    --styled-select-option__color: #AC1627;
+    --styled-select-option__color--focused: #AC1627;
+    --styled-select-option__background-color--focused: silver;
+    --styled-select-option__color--selected: white;
+    --styled-select-option__background-color--selected: #AC1627;
+    --styled-select-value__overflow: auto;
+    --styled-select-arrow__color: red;
+    --styled-select-arrow-zone__width: 50px;
+    width: 250px;
+    color: #AC1627;
+    font-size: small;
+}
