@@ -17,6 +17,8 @@ class UserLoginDropdown extends React.Component {
             "currentUserLogin": { "label": "All UserLogins", "value": "0" }
         };
         this.onChange = this.onChange.bind(this);
+        this.showAddModal = this.showAddModal.bind(this);
+
         this.showEditModal = this.showEditModal.bind(this);
         this.showDeleteModal = this.showDeleteModal.bind(this);
 

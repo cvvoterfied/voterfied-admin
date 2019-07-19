@@ -178,9 +178,9 @@ export default function reducer(state = {
         case fulfilled(loginActionTypes.SHOW_USER_FORM):
             var editingUser = {};
             if (String(action.payload) !== "0") {
-                for (var i = 0; i < this.state.allUsers; i++) {
-                    if (String(this.state.allUsers[i].id) === action.payload) {
-                        editingUser = this.state.allUsers[i];
+                for (var i = 0; i < state.allUsers.length; i++) {
+                    if (state.allUsers[i].id === action.payload) {
+                        editingUser = state.allUsers[i];
                     }
                 }
             }
@@ -188,7 +188,8 @@ export default function reducer(state = {
             return {
                 ...state,
                 showUserForm: true,
-                currentUserLogin: editingUser
+                currentUserLogin: (editingUser ? editingUser : {}),
+                message: ""
             }
         case fulfilled(loginActionTypes.START_LOGIN):
             return {

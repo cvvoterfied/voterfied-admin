@@ -18,7 +18,7 @@ import "../../App.css";
 import "./Landing.css";
 import Footerbar from '../Footerbar';
 import { connect } from 'react-redux';
-import { logout, startLogin, cancelLogin, startRegistering, verifyEmail, emailConfirmed, resetPassword, startEditProfile } from '../../actions/LoginActions';
+import { logout, startLogin, cancelLogin, startRegistering, verifyEmail, emailConfirmed, resetPassword, startEditProfile, showUserForm } from '../../actions/LoginActions';
 import { getApiVersion, hideVersionModal, showVersionModal } from '../../actions/VersionActions';
 import { enumCustomer } from '../../actions/CustomerActions';
 import { clearVotes } from '../../actions/VoteActions';
@@ -27,6 +27,7 @@ import DataGrid, { Scrolling, Sorting, Column } from 'devextreme-react/data-grid
 
 import stars from '../../images/voterfied_stars.png';
 import UserLoginDropdown from '../DropdownFilters/UserLoginDropdown';
+import UserLoginModal from '../Modals/UserLoginModal';
 
 class Landing extends React.Component {
   constructor(props) {
@@ -214,8 +215,6 @@ class Landing extends React.Component {
                     </span>
               </Nav>
             </div>
-           
-           
             
                 <div className={this.props.isloggedin ? "hidden" : "landingSignupForm "}>
                     <h1>{this.getTitle()}</h1>
@@ -228,8 +227,6 @@ class Landing extends React.Component {
                 <Col className={this.props.votes && this.props.votes.length > 0 ? "label" : "hidden"}><div className="label">&nbsp; </div><div><Button variant="danger" onClick={this.exportToCSV} className="exportButton">Export to CSV</Button></div></Col>
                 </Row>
                 <Row></Row>
-
-                
 
                 <br />
                <div className="grid">
@@ -273,7 +270,12 @@ class Landing extends React.Component {
                         </DataGrid>
 
                     </span>
-                </div>
+            </div>
+
+            <UserLoginModal show={this.props.userFormVisible}
+                currentUserLogin={this.props.currentUserLogin}
+            />
+
             <br />
             <br />
             
@@ -321,7 +323,9 @@ function mapStateToProps(state) {
         customerList: state.customerReducer.customerList,
         allquestions: state.voteReducer.allquestions,
         userLogins: state.loginReducer.allUsers,
-        customerLogo: state.customerReducer.currentCustomer.logoURL
+        customerLogo: state.customerReducer.currentCustomer.logoURL,
+        userFormVisible: state.loginReducer.showUserForm,
+        currentUserLogin: state.loginReducer.currentUserLogin
     }
 }
 
@@ -338,7 +342,8 @@ export default connect(mapStateToProps, {
     verifyEmail,
     emailConfirmed,
     resetPassword,
-    enumCustomer
+    enumCustomer,
+    showUserForm
     
 }
 )(Landing);
