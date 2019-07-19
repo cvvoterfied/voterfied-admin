@@ -24,7 +24,7 @@ class UserLoginModal extends React.Component {
             password: '',
             password2: '',
             forcePasswordChange: false,
-            userRole: 0,
+            userRole: 2,
             customers: [],
             header: "Modify User Login"
         };
@@ -112,7 +112,7 @@ class UserLoginModal extends React.Component {
         var data = this.props.currentUserLogin;
         if (!data || !data.AuthorizedCustomers) {
             data = {
-                id: 0, name: "", UserRole: { id: 1, name: "Unverified" }, AuthorizedCustomers: []
+                id: 0, name: "", UserRole:1, AuthorizedCustomers: []
             };
         }
         var customerList = [];
@@ -126,6 +126,14 @@ class UserLoginModal extends React.Component {
                 }
             }
         }
+
+        var roles =
+            [
+                { "label": "Unverified Voter", "value": 0, "isSelected": (data.UserRole === 0 ? true : undefined) },
+                { "label": "Verified Voter", "value": 1, "isSelected": (data.UserRole === 1 ? true : undefined) },
+                { "label": "Customer Admin", "value": 2, "isSelected": (data.UserRole === 2 ? true : undefined) },
+                { "label": "Super Admin", "value": 3, "isSelected": (data.UserRole === 3 ? true : undefined) }
+            ];
 
         return (
             <Modal
@@ -174,12 +182,9 @@ class UserLoginModal extends React.Component {
                             <Select
                                 className="red-theme"
                                 name="userRole"
-                                options={[{ "label": "Unverified Voter", "value": 0},
-                                    { "label": "Verified Voter", "value": 1 },
-                                    { "label": "Customer Admin", "value": 2 },
-                                    { "label": "Super Admin", "value": 3 }
-                                ]}
-                                defaultValue={data.UserRole.id}
+                                options={roles}
+                                
+                                defaultValue={data.UserRole}
                                 value={this.state.userRole}
                                 onChange={this.onSelect}
                             /> 
