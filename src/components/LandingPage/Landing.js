@@ -21,6 +21,7 @@ import { connect } from 'react-redux';
 import { logout, startLogin, cancelLogin, startRegistering, verifyEmail, emailConfirmed, resetPassword, startEditProfile } from '../../actions/LoginActions';
 import { getApiVersion, hideVersionModal, showVersionModal } from '../../actions/VersionActions';
 import { enumCustomer } from '../../actions/CustomerActions';
+import { clearVotes } from '../../actions/VoteActions';
 
 import DataGrid, { Scrolling, Sorting, Column } from 'devextreme-react/data-grid';
 
@@ -88,7 +89,8 @@ class Landing extends React.Component {
 
     logOut(e) {
         if (this.props.logintoken !== undefined && this.props.logintoken !== '') {
-            this.props.logout();            
+            this.props.logout();  
+            this.props.clearVotes();
             this.setState({ loggingOut: true });
         }
     }
@@ -162,9 +164,9 @@ class Landing extends React.Component {
             <div className="landingNavBar">                               
                 <Nav className="justify-content-start">
                     <Nav.Item className="leftLinks">
-                        <div className="App-link" >                            
+                        <div className="App-link" >
                             <div className="App-link" >
-                                <img className="img-fluid logo" src="" alt="" />                                
+                                <img className="img-fluid logo" src={this.props.customerLogo} alt="" />
                             </div>
                         </div>
                     </Nav.Item>
@@ -318,12 +320,14 @@ function mapStateToProps(state) {
         votes: state.voteReducer.votes,
         customerList: state.customerReducer.customerList,
         allquestions: state.voteReducer.allquestions,
-        userLogins: state.loginReducer.allUsers
+        userLogins: state.loginReducer.allUsers,
+        customerLogo: state.customerReducer.currentCustomer.logoURL
     }
 }
 
 export default connect(mapStateToProps, {
     getApiVersion,
+    clearVotes,
     hideVersionModal,
     showVersionModal,
     logout,

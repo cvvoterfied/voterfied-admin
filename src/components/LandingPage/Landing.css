@@ -1,6 +1,10 @@
 body {
     color: white;
     text-align: center;    
+    border-width: 1px;
+    border-style: solid;
+    border-color: white;
+    font-size: small;
 }
 
 .label {
@@ -176,17 +180,5 @@ transparentButton:visited {
     border-color: white;
     border-width: 3px;
     border-style: solid;
-}
-
-thead {
-    font-weight: bold;
-    font-style: italic;
-}
-
-table {
-    min-height: 80%;
-    height: 80%;
-    width: 80%;
-
 }
 
