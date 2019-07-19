@@ -32,3 +32,20 @@
     color: #AC1627;
     font-size: small;
 }
+
+.crudicons {
+    vertical-align: bottom;
+    
+}
+
+.crudicons:hover {
+    cursor: pointer;
+    border-color: white;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.transparent {
+    background-color: transparent;
+    border: none;
+}

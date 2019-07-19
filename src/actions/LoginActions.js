@@ -411,3 +411,25 @@ export function enumUserProfile(token) {
             });
     }
 }
+
+/*
+ * showUserForm() is used to invoke the add or edit user form
+ *  
+ * */
+export function showUserForm(user) {
+    const { SHOW_USER_FORM } = loginActionTypes;
+    return function (dispatch) {
+        dispatch(fulfilled_function(SHOW_USER_FORM, user));
+    }
+}
+
+/*
+ * hideUserForm() closes the add/edit user form
+ *  
+ * */
+export function hideUserForm() {
+    const { HIDE_USER_FORM } = loginActionTypes;
+    return function (dispatch) {
+        dispatch(fulfilled_function(HIDE_USER_FORM));
+    }
+}

@@ -3,7 +3,12 @@
 import "./Dropdown.css";
 import { connect } from 'react-redux';
 import Select from 'react-styled-select';
+import Row from 'react-bootstrap/Row';
 import { listVotesByQuestion, enumVotes } from '../../actions/VoteActions';
+
+import add from "../../images/icons/add.jpg";
+import edit from "../../images/icons/edit.png";
+import del from "../../images/icons/delete.jpg";
 
 class QuestionDropdown extends React.Component {
     constructor(props) {
@@ -12,6 +17,9 @@ class QuestionDropdown extends React.Component {
             "currentQuestion": { "label": "All Questions", "value": "0" }
         };
         this.onChange = this.onChange.bind(this);
+        this.showEditModal = this.showEditModal.bind(this);
+        this.showDeleteModal = this.showDeleteModal.bind(this);
+
     }
 
     onChange = (e) => {
@@ -25,6 +33,28 @@ class QuestionDropdown extends React.Component {
         }
     }
 
+    showAddModal() {
+
+    }
+
+    showEditModal() {
+        if (this.state.currentQuestion && this.state.currentQuestion !== "0" && this.state.currentQuestion.value !== "0") {
+            // edit
+        }
+        else {
+            alert("No question selected");
+        }
+    }
+
+    showDeleteModal() {
+        if (this.state.currentQuestion && this.state.currentQuestion !== "0" && this.state.currentQuestion.value !== "0") {
+            // delete
+        }
+        else {
+            alert("No question selected");
+        }
+    } 
+
     render() {
         var cats = [];
         cats.push({ "label": "All Questions", "value": "0" });
@@ -36,13 +66,18 @@ class QuestionDropdown extends React.Component {
         }
 
         return (
-            <Select
-                className="red-theme"
-                name="categoryFilter"
-                options={cats}
-                value={this.state.currentQuestion}
-                onChange={this.onChange}
-            />
+            <Row>
+                <Select
+                    className="red-theme"
+                    name="categoryFilter"
+                    options={cats}
+                    value={this.state.currentQuestion}
+                    onChange={this.onChange}
+                /> 
+                <button className="transparent" onClick={this.showAddModal}><img className="crudicons" src={add} height="20" alt="" /> </button>
+                <button className="transparent" onClick={this.showEditModal}><img className="crudicons" src={edit} height="20" alt="" /> </button>
+                <button className="transparent" onClick={this.showDeleteModal}><img className="crudicons" src={del} height="20" alt=""/></button>
+            </Row>
         )
 
     }

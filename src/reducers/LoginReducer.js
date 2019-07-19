@@ -12,6 +12,8 @@ export default function reducer(state = {
     forcePasswordChange: false,
     registrationStep: 0,
     voter: {},
+    currentUserLogin: {},
+    showUserForm: false,
     message: 'Please log in'
     
 }, action) {
@@ -25,6 +27,7 @@ export default function reducer(state = {
 
             return {
                 ...state,
+                showUserForm: false,
                 message: "User profile Added"
             }
         case rejected(loginActionTypes.ADD_USER_PROFILE):
@@ -88,6 +91,11 @@ export default function reducer(state = {
             return {
                 ...state,
                 message: action.payload.message
+            }
+        case fulfilled(loginActionTypes.HIDE_USER_FORM):
+            return {
+                ...state,
+                showUserForm: false
             }
         case pending(loginActionTypes.LOGIN):
             return {
@@ -166,6 +174,21 @@ export default function reducer(state = {
                 ...state,
                 registrationStep: 2,
                 registerShow: true
+            }
+        case fulfilled(loginActionTypes.SHOW_USER_FORM):
+            var editingUser = {};
+            if (String(action.payload) !== "0") {
+                for (var i = 0; i < this.state.allUsers; i++) {
+                    if (String(this.state.allUsers[i].id) === action.payload) {
+                        editingUser = this.state.allUsers[i];
+                    }
+                }
+            }
+
+            return {
+                ...state,
+                showUserForm: true,
+                currentUserLogin: editingUser
             }
         case fulfilled(loginActionTypes.START_LOGIN):
             return {

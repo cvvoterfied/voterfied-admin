@@ -3,9 +3,15 @@
 import "./Dropdown.css";
 import { connect } from 'react-redux';
 import Select from 'react-styled-select';
+import Row from 'react-bootstrap/Row';
 import { enumQuestions, enumVotes } from '../../actions/VoteActions';
 import { enumUserProfile } from '../../actions/LoginActions';
 import { getCustomer } from '../../actions/CustomerActions';
+
+import add from  "../../images/icons/add.jpg";
+import edit from "../../images/icons/edit.png";
+import del from "../../images/icons/delete.jpg";
+
 
 class CustomerDropdown extends React.Component {
     constructor(props) {
@@ -14,6 +20,9 @@ class CustomerDropdown extends React.Component {
             "currentCustomer": { "label": "All Customers", "value": "0" }
         };
         this.onChange = this.onChange.bind(this);
+        this.showEditModal = this.showEditModal.bind(this);
+        this.showDeleteModal = this.showDeleteModal.bind(this);
+
     }
 
     onChange = (e) => {
@@ -27,6 +36,28 @@ class CustomerDropdown extends React.Component {
         }
     }
 
+    showAddModal() {
+
+    }
+
+    showEditModal() {
+        if (this.state.currentCustomer && this.state.currentCustomer !== "0" && this.state.currentCustomer.value !== "0") {
+            // edit
+        }
+        else {
+            alert("No customer selected");
+        }
+    }
+
+    showDeleteModal() {
+        if (this.state.currentCustomer && this.state.currentCustomer !== "0" && this.state.currentCustomer.value !== "0") {
+            // delete
+        }
+        else {
+            alert("No customer selected");
+        }
+    } 
+
     render() {
         var cats = [];
         cats.push({ "label": "All Customers", "value": "0" });
@@ -36,13 +67,19 @@ class CustomerDropdown extends React.Component {
         }
 
         return (
-            <Select
-                className="red-theme"
-                name="categoryFilter"
-                options={cats}
-                value={this.state.currentCustomer}
-                onChange={this.onChange}
-            />
+            <Row>
+                <Select
+                    className="red-theme"
+                    name="categoryFilter"
+                    options={cats}
+                    value={this.state.currentCustomer}
+                    onChange={this.onChange}
+                    />
+                <button className="transparent" onClick={this.showAddModal}><img className="crudicons" src={add} height="20" alt="" /> </button>
+                <button className="transparent" onClick={this.showEditModal}><img className="crudicons" src={edit} height="20" alt=""  /> </button>
+                <button className="transparent" onClick={this.showDeleteModal}><img className="crudicons" src={del} height="20" alt=""/></button>
+                
+            </Row>
         )
 
     }
