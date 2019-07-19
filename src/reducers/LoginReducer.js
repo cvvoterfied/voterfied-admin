@@ -12,7 +12,7 @@ export default function reducer(state = {
     forcePasswordChange: false,
     registrationStep: 0,
     voter: {},
-    currentUserLogin: {},
+    currentUserLogin: {  id: 0, name: "", UserRole: { id: 1, name: "Unverified" }, AuthorizedCustomers: [] },
     showUserForm: false,
     message: 'Please log in'
     
@@ -188,7 +188,7 @@ export default function reducer(state = {
             return {
                 ...state,
                 showUserForm: true,
-                currentUserLogin: (editingUser ? editingUser : {}),
+                currentUserLogin: (editingUser ? editingUser : { id: 0, name: "", UserRole: { id: 1, name: "Unverified" }, AuthorizedCustomers: [] }),
                 message: ""
             }
         case fulfilled(loginActionTypes.START_LOGIN):

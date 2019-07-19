@@ -3,11 +3,14 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import Checkbox from 'react-bootstrap/FormCheckInput'
 import { connect } from 'react-redux';
 import Label from 'react-bootstrap/FormLabel';
 import { addUserProfile, editUserProfile2, hideUserForm } from '../../actions/LoginActions';
 import './Modal.css';
 import stars from '../../images/voterfied_stars.png';
+import Select from 'react-styled-select';
+import Multiselect from 'react-bootstrap-multiselect';
 
 class UserLoginModal extends React.Component {
     constructor(props) {
@@ -29,6 +32,8 @@ class UserLoginModal extends React.Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.onClickCancel = this.onClickCancel.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onSelect = this.onSelect.bind(this);
+        this.onMultiSelect = this.onMultiSelect.bind(this);
     }
 
     isEditing() {
@@ -37,10 +42,10 @@ class UserLoginModal extends React.Component {
     }
 
     onSubmit = () => {
-
+        var user = {}
 
         if (!this.isEditing()) {
-            var user = {
+            user = {
                 id: 0,
                 name: this.state.userLoginName,
                 FirstName: this.state.firstName,
@@ -60,7 +65,7 @@ class UserLoginModal extends React.Component {
         } else {
 
             // Can't edit password, user name or created date from here
-            var user = this.props.currentUserLogin;
+            user = this.props.currentUserLogin;
             if (this.state.firstName && this.state.firstName.length > 0) {
                 user.FirstName = this.state.firstName;
             }
@@ -71,7 +76,7 @@ class UserLoginModal extends React.Component {
                 user.ForcePasswordChange = this.state.forcePasswordChange;
             }
             if (this.state.userRole && this.state.userRole >= 0) {
-                user.UserRole = this.state.userRole;
+                user.UserRole.id = this.state.userRole;
             }
             if (this.state.phone && this.state.phone.length > 0) {
                 user.Phone = this.state.phone;
@@ -94,10 +99,34 @@ class UserLoginModal extends React.Component {
         this.setState({ [e.target.id]: e.target.value });
     }
 
+    onSelect = (e) => {
+        this.setState({ "userRole": e });
+    }
+
+    onMultiSelect = (e) => {
+        this.setState({ "customerList":  e });
+    }
+
     render() {
 
-        var loginName = this.props.currentUserLogin.name;
-        
+        var data = this.props.currentUserLogin;
+        if (!data || !data.AuthorizedCustomers) {
+            data = {
+                id: 0, name: "", UserRole: { id: 1, name: "Unverified" }, AuthorizedCustomers: []
+            };
+        }
+        var customerList = [];
+        for (var i = 0; i < this.props.customers.length; i++) {
+            customerList.push({ "label": this.props.customers[i].name, "value": this.props.customers[i].id });
+        }
+        for (var j = 0; j < data.AuthorizedCustomers.length; j++) {
+            for (var k = 0; k < customerList.length; k++) {
+                if (customerList[k].value === data.AuthorizedCustomers[j].id) {
+                    customerList[k].selected = true;
+                }
+            }
+        }
+
         return (
             <Modal
                 {...this.props}
@@ -114,40 +143,52 @@ class UserLoginModal extends React.Component {
                     <div className="userLoginForm">
                         <Form.Group>
                             <Label>Login Name: </Label> 
-                            <Form.Control type='email' id='userLoginName' onChange={this.onChange} defaultValue={loginName} value={this.props.userLoginName} />
+                            <Form.Control type='email' id='userLoginName' onChange={this.onChange} defaultValue={data.name} value={this.props.userLoginName} />
                         </Form.Group>
                         <Form.Group className={this.isEditing() ? "hidden" : ""}>
                             <Label>Password: </Label>
-                            <Form.Control type='password' id='password' onChange={this.onChange} defaultValue={this.props.currentUserLogin.Password} value={this.props.password} />
+                            <Form.Control type='password' id='password' onChange={this.onChange} defaultValue={data.Password} value={this.props.password} />
                         </Form.Group>
                         <Form.Group>
                             <Label>First Name: </Label>
-                            <Form.Control type='text' id='firstName' onChange={this.onChange} defaultValue={this.props.currentUserLogin.FirstName} value={this.props.firstName} />
+                            <Form.Control type='text' id='firstName' onChange={this.onChange} defaultValue={data.FirstName} value={this.props.firstName} />
                         </Form.Group>
                         <Form.Group>
                             <Label>Last Name: </Label>
-                            <Form.Control type='text' id='lastName' onChange={this.onChange} defaultValue={this.props.currentUserLogin.LastName} value={this.props.lastName} />
+                            <Form.Control type='text' id='lastName' onChange={this.onChange} defaultValue={data.LastName} value={this.props.lastName} />
                         </Form.Group>
                         <Form.Group>
                             <Label>Email: </Label>
-                            <Form.Control type='email' id='email' onChange={this.onChange} defaultValue={this.props.currentUserLogin.Email} value={this.props.email} />
+                            <Form.Control type='email' id='email' onChange={this.onChange} defaultValue={data.Email} value={this.props.email} />
                         </Form.Group>
                         <Form.Group>
                             <Label>Phone: </Label>
-                            <Form.Control type='text' id='phone' onChange={this.onChange} defaultValue={this.props.currentUserLogin.Phone} value={this.props.phone} />
+                            <Form.Control type='text' id='phone' onChange={this.onChange} defaultValue={data.Phone} value={this.props.phone} />
+                        </Form.Group>
+                        <Form.Group>
+                            <Label>Force Password Change: </Label><br/>
+                            <Checkbox value={this.state.forcePasswordChange} defaultValue={data.ForcePasswordChange} />
                         </Form.Group>
                         <Form.Group>
                             <Label>Role: </Label>
-
+                            <Select
+                                className="red-theme"
+                                name="userRole"
+                                options={[{ "label": "Unverified Voter", "value": 0},
+                                    { "label": "Verified Voter", "value": 1 },
+                                    { "label": "Customer Admin", "value": 2 },
+                                    { "label": "Super Admin", "value": 3 }
+                                ]}
+                                defaultValue={data.UserRole.id}
+                                value={this.state.userRole}
+                                onChange={this.onSelect}
+                            /> 
                         </Form.Group>
                         <Form.Group>
-                            <Label>Customer(s): </Label>
-
+                            <Label>Customer(s): </Label><br/>
+                            <Multiselect data={customerList} multiple />
                         </Form.Group>
-                        <Form.Group>
-                            <Label>Force Password Change: </Label>
-
-                        </Form.Group>
+                        
                     </div>
                     <Row>
                         <Button className="modalLoginButton" variant="danger" onClick={this.onSubmit} href="#">Save</Button>
@@ -170,7 +211,9 @@ function mapStateToProps(state) {
     return {
         logintoken: state.loginReducer.loginToken,
         message: state.loginReducer.message,
-        currentUserLogin: state.loginReducer.currentUserLogin
+        currentUserLogin: state.loginReducer.currentUserLogin,
+        customers: state.customerReducer.customerList
+
     }
 }
 export default connect(mapStateToProps, { addUserProfile, editUserProfile2, hideUserForm })(UserLoginModal);

@@ -57,7 +57,7 @@ class Landing extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.logintoken && newProps.logintoken != this.props.logintoken) {
+        if (newProps.logintoken && newProps.logintoken !== this.props.logintoken) {
             this.props.enumCustomer(newProps.logintoken);
         }
     }
@@ -273,7 +273,6 @@ class Landing extends React.Component {
             </div>
 
             <UserLoginModal show={this.props.userFormVisible}
-                currentUserLogin={this.props.currentUserLogin}
             />
 
             <br />
@@ -324,8 +323,7 @@ function mapStateToProps(state) {
         allquestions: state.voteReducer.allquestions,
         userLogins: state.loginReducer.allUsers,
         customerLogo: state.customerReducer.currentCustomer.logoURL,
-        userFormVisible: state.loginReducer.showUserForm,
-        currentUserLogin: state.loginReducer.currentUserLogin
+        userFormVisible: state.loginReducer.showUserForm
     }
 }
 
