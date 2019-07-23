@@ -1,10 +1,11 @@
 ﻿
-import { customerActionTypes, pending, rejected, fulfilled } from '../constants/ActionConstants';
+import { customerActionTypes, pending, rejected, fulfilled, emptyCustomer } from '../constants/ActionConstants';
 
 export default function reducer(state = {
-    currentCustomer : {},    
+    currentCustomer: emptyCustomer,    
     customerList : [],
-    lastError :  ""
+    lastError: "",
+    customerFormVisible: false
 
 }, action) {
     switch (action.type) {
@@ -33,7 +34,7 @@ export default function reducer(state = {
             return {
                 ...state,
                 lastError: "",
-                currentCustomer: {}
+                currentCustomer: emptyCustomer
             }
         case rejected(customerActionTypes.DELETE_CUSTOMER):
             return {
@@ -87,6 +88,26 @@ export default function reducer(state = {
             return {
                 ...state,
                 lastError: action.payload.message
+            }
+        case fulfilled(customerActionTypes.HIDE_CUSTOMER_FORM):
+            return {
+                ...state,
+                customerFormVisible: false,
+                lastError: ""
+            }
+        case fulfilled(customerActionTypes.SHOW_CUSTOMER_FORM):
+            var selectedItem = {};
+            for (var i = 0; i < state.customerList.length; i++) {
+                if (state.customerList[i].id == action.payload) {
+                    selectedItem = state.customerList[i];
+                    break;
+                }
+            }
+            return {
+                ...state,
+                currentCustomer: selectedItem,
+                customerFormVisible: true,
+                lastError: ""
             }
         default:
             return state

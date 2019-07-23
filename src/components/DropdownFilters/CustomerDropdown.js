@@ -6,11 +6,12 @@ import Select from 'react-styled-select';
 import Row from 'react-bootstrap/Row';
 import { enumQuestions, enumVotes } from '../../actions/VoteActions';
 import { enumUserProfile } from '../../actions/LoginActions';
-import { getCustomer } from '../../actions/CustomerActions';
+import { getCustomer, showCustomerForm, deleteCustomer  } from '../../actions/CustomerActions';
 
 import add from  "../../images/icons/add.jpg";
 import edit from "../../images/icons/edit.png";
 import del from "../../images/icons/delete.jpg";
+import { emptyCustomer } from '../../constants/ActionConstants';
 
 
 class CustomerDropdown extends React.Component {
@@ -20,6 +21,7 @@ class CustomerDropdown extends React.Component {
             "currentCustomer": { "label": "All Customers", "value": "0" }
         };
         this.onChange = this.onChange.bind(this);
+        this.showAddModal = this.showAddModal.bind(this);
         this.showEditModal = this.showEditModal.bind(this);
         this.showDeleteModal = this.showDeleteModal.bind(this);
 
@@ -37,12 +39,13 @@ class CustomerDropdown extends React.Component {
     }
 
     showAddModal() {
-
+        this.props.showCustomerForm(emptyCustomer);
     }
 
     showEditModal() {
         if (this.state.currentCustomer && this.state.currentCustomer !== "0" && this.state.currentCustomer.value !== "0") {
             // edit
+            this.props.showCustomerForm(this.state.currentCustomer);
         }
         else {
             alert("No customer selected");
@@ -52,6 +55,7 @@ class CustomerDropdown extends React.Component {
     showDeleteModal() {
         if (this.state.currentCustomer && this.state.currentCustomer !== "0" && this.state.currentCustomer.value !== "0") {
             // delete
+            this.props.deleteCustomer(this.props.logintoken, this.props.currentCustomer.id);
         }
         else {
             alert("No customer selected");
@@ -89,8 +93,9 @@ class CustomerDropdown extends React.Component {
 function mapStateToProps(state) {
     return {
         logintoken: state.loginReducer.loginToken,
+        currentCustomer: state.customerReducer.currentCustomer,
         customers: state.customerReducer.customerList
     }
 }
 
-export default connect(mapStateToProps, { getCustomer, enumQuestions, enumUserProfile, enumVotes })(CustomerDropdown);
+export default connect(mapStateToProps, { getCustomer, enumQuestions, enumUserProfile, enumVotes, showCustomerForm, deleteCustomer })(CustomerDropdown);

@@ -20,7 +20,7 @@ import Footerbar from '../Footerbar';
 import { connect } from 'react-redux';
 import { logout, startLogin, cancelLogin, startRegistering, verifyEmail, emailConfirmed, resetPassword, startEditProfile, showUserForm } from '../../actions/LoginActions';
 import { getApiVersion, hideVersionModal, showVersionModal } from '../../actions/VersionActions';
-import { enumCustomer } from '../../actions/CustomerActions';
+import { enumCustomer} from '../../actions/CustomerActions';
 import { clearVotes } from '../../actions/VoteActions';
 
 import DataGrid, { Scrolling, Sorting, Column } from 'devextreme-react/data-grid';
@@ -28,6 +28,7 @@ import DataGrid, { Scrolling, Sorting, Column } from 'devextreme-react/data-grid
 import stars from '../../images/voterfied_stars.png';
 import UserLoginDropdown from '../DropdownFilters/UserLoginDropdown';
 import UserLoginModal from '../Modals/UserLoginModal';
+import CustomerModal from '../Modals/CustomerModal';
 
 class Landing extends React.Component {
   constructor(props) {
@@ -272,8 +273,8 @@ class Landing extends React.Component {
                     </span>
             </div>
 
-            <UserLoginModal show={this.props.userFormVisible}
-            />
+            <UserLoginModal show={this.props.userFormVisible} />
+            <CustomerModal show={this.props.customerFormVisible}/>
 
             <br />
             <br />
@@ -322,8 +323,9 @@ function mapStateToProps(state) {
         customerList: state.customerReducer.customerList,
         allquestions: state.voteReducer.allquestions,
         userLogins: state.loginReducer.allUsers,
-        customerLogo: state.customerReducer.currentCustomer.logoURL,
-        userFormVisible: state.loginReducer.showUserForm
+        customerLogo: (state.customerReducer.currentCustomer ? state.customerReducer.currentCustomer.logoURL : ""),
+        userFormVisible: state.loginReducer.showUserForm,
+        customerFormVisible: state.customerReducer.customerFormVisible
     }
 }
 

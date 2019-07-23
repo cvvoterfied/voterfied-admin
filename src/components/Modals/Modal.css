@@ -6,3 +6,10 @@
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 1em;   
 }
+
+.modal-longbox {
+    border-radius: 12px;
+    border-color: darkblue;
+    color: darkblue;
+    margin-top: 12px;
+}

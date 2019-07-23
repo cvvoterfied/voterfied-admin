@@ -7,6 +7,7 @@ export const serverEnvironment = {
 }
 
 export const colors = ["darkgreen", "darkred", "yellow", "darkblue", "magenta", "white", "orange", "purple", "lightblue", "darkgray", "lightgray"];
+export const emptyCustomer = { id: 0, name: '', logoURL: '' };
 
 export const pending = function (status) {
     return status.concat("_PENDING");

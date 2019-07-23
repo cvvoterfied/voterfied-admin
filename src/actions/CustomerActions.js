@@ -139,3 +139,27 @@ export function enumCustomer(token) {
     }
 }
 
+/* 
+ *  showCustomerForm
+ *  
+ *  */
+export function showCustomerForm(customer) {
+    const { SHOW_CUSTOMER_FORM } = customerActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(fulfilled_function(SHOW_CUSTOMER_FORM, customer));
+    }
+}
+
+/*
+ * hideCustomerForm
+ * 
+ * */
+export function hideCustomerForm() {
+    const { HIDE_CUSTOMER_FORM } = customerActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(fulfilled_function(HIDE_CUSTOMER_FORM));
+    }
+}
+
