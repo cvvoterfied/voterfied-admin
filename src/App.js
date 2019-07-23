@@ -8,7 +8,7 @@ import { store, persistor } from './store';
 
 class App extends Component {
 componentDidMount() {
-    document.title = "Voterfied";
+    document.title = "Voterfied"; 
 }
   render() {
       return (
