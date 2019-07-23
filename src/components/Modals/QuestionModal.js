@@ -3,14 +3,14 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import Checkbox from 'react-bootstrap/FormCheckInput'
 import { connect } from 'react-redux';
 import Label from 'react-bootstrap/FormLabel';
-import { addUserProfile, editUserProfile2, hideUserForm } from '../../actions/LoginActions';
+import { addQuestion, editQuestion, hideQuestionModal } from '../../actions/VoteActions';
 import './Modal.css';
 import stars from '../../images/voterfied_stars.png';
 import Select from 'react-styled-select';
-import Multiselect from 'react-bootstrap-multiselect';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 class QuestionModal extends React.Component {
     constructor(props) {
@@ -26,14 +26,16 @@ class QuestionModal extends React.Component {
             forcePasswordChange: false,
             userRole: 2,
             customers: [],
-            header: "Modify User Login"
+            header: "Modify Question"
         };
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onClickCancel = this.onClickCancel.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.onSelect = this.onSelect.bind(this);
-        this.onMultiSelect = this.onMultiSelect.bind(this);
+        this.onSelectType = this.onSelectType.bind(this);
+        this.onSelectCat = this.onSelectCat.bind(this);
+        this.onSelectStartDate = this.onSelectStartDate.bind(this);
+        this.onSelectEndDate = this.onSelectEndDate.bind(this);
     }
 
     isEditing() {
@@ -42,97 +44,134 @@ class QuestionModal extends React.Component {
     }
 
     onSubmit = () => {
-        var user = {}
+        var question = {};
+        var answers = [];
+        var list = this.state.answers.split("\r\n");
+        var ordinal = 1;
+
+        for (var i = 0; i < list.length; i++ , ordinal++) {
+            if (list[i].name && list[i].name.length > 0) {
+                answers.push({ id: 0, name: list[i], ordinal });
+            }
+        }        
 
         if (!this.isEditing()) {
-            user = {
+            question = {
                 id: 0,
-                name: this.state.userLoginName,
-                FirstName: this.state.firstName,
-                LastName: this.state.lastName,
-                Password: this.state.password,
-                ForcePasswordChange: this.state.forcePasswordChange,
-                Email: this.state.email,
-                Phone: this.state.phone,
-                UserRole: this.state.userRole,
-                AuthorizedCustomers: this.state.customers,
+                name: this.state.question,
+                customerID: this.props.currentCustomer.id,
+                questionType: { id: this.state.questionType, name: '' },
+                startDate: this.state.startDate,
+                endDate: this.state.endDate,
+                categoryId: this.state.categoryId,
+                pros: this.state.pros,
+                cons: this.state.cons,
+                candidateOpinion: this.state.candidateOpinion,
+                answers: answers,
+                ordinal: this.state.ordinal,
                 createdDate: new Date(),
                 modifiedDate: new Date(),
                 ts: "QEA="
             }
-            this.props.addUserProfile(this.props.logintoken, user);
+            this.props.addQuestion(this.props.logintoken, question);
 
         } else {
 
-            // Can't edit password, user name or created date from here
-            user = this.props.currentUserLogin;
-            if (this.state.firstName && this.state.firstName.length > 0) {
-                user.FirstName = this.state.firstName;
-            }
-            if (this.state.lastName && this.state.lastName.length > 0) {
-                user.LastName = this.state.lastName;
-            }
-            if (this.state.forcePasswordChange) {
-                user.ForcePasswordChange = this.state.forcePasswordChange;
-            }
-            if (this.state.userRole && this.state.userRole >= 0) {
-                user.UserRole.id = this.state.userRole;
-            }
-            if (this.state.phone && this.state.phone.length > 0) {
-                user.Phone = this.state.phone;
-            }
-            if (this.state.email && this.state.email.length > 0) {
-                user.Email = this.state.email;
-            }
-            user.modifiedDate = new Date();
-            //           user.AuthorizedCustomers = this.state.customers;
+            
+            question = this.props.currentQuestion;
 
-            this.props.editUserProfile2(this.props.logintoken, user);
+            if (this.state.question && this.state.question.length > 0) {
+                question.name = this.state.question;
+            }
+            if (this.state.questionType && this.state.questionType.length > 0) {
+                question.questionType = { id: this.state.questionType, name: '' };
+            }           
+            if (this.state.startDate && this.state.startDate.length > 0) {
+                question.startDate = this.state.startDate;
+            }
+            if (this.state.endDate && this.state.endDate.length > 0) {
+                question.endDate = this.state.endDate;
+            }
+            if (this.state.categoryId && this.state.categoryId.length > 0) {
+                question.categoryId = this.state.categoryId;
+                if (!question.categoryId || question.categoryId === 0) {
+                    // TODO: Need the option to add a new category and then use the new category ID
+                    // 
+                }
+            }
+            if (this.state.pros && this.state.pros.length > 0) {
+                question.pros = this.state.pros;
+            }
+            if (this.state.cons && this.state.cons.length > 0) {
+                question.cons = this.state.cons;
+            }
+            if (this.state.candidateOpinion && this.state.candidateOpinion.length > 0) {
+                question.candidateOpinion = this.state.candidateOpinion;
+            }
+            question.answers = answers;
+
+            if (this.state.ordinal && this.state.ordinal.length > 0) {
+                question.ordinal = this.state.ordinal;
+            }
+                   
+            question.modifiedDate = new Date();            
+
+            this.props.editQuestion(this.props.logintoken, question);
         }
     }
 
     onClickCancel = () => {
-        this.props.hideUserForm();
+        this.props.hideQuestionModal();
     }
 
     onChange = (e) => {
         this.setState({ [e.target.id]: e.target.value });
     }
 
-    onSelect = (e) => {
-        this.setState({ "userRole": e });
+    onSelectType = (e) => {
+        this.setState({ "questionType": e });
+        if (e === 1) {
+            this.setState({"answers": "Yes\r\nNo\r\n"});
+        }
     }
 
-    onMultiSelect = (e) => {
-        this.setState({ "customerList": e });
+    onSelectCat = (e) => {
+        this.setState({ "categoryId": e });
+    }
+
+    onSelectStartDate = (e) => {
+        this.setState({ "startDate": e });
+    }
+
+    onSelectEndDate = (e) => {
+        this.setState({ "endDate": e });
     }
 
     render() {
 
-        var data = this.props.currentUserLogin;
-        if (!data || !data.AuthorizedCustomers) {
-            data = {
-                id: 0, name: "", UserRole: 1, AuthorizedCustomers: []
-            };
-        }
-        var customerList = [];
-        for (var i = 0; i < this.props.customers.length; i++) {
-            customerList.push({ "label": this.props.customers[i].name, "value": this.props.customers[i].id });
-        }
-        for (var j = 0; j < data.AuthorizedCustomers.length; j++) {
-            for (var k = 0; k < customerList.length; k++) {
-                if (customerList[k].value === data.AuthorizedCustomers[j].id) {
-                    customerList[k].selected = true;
-                }
+        var data = this.props.currentQuestion;
+
+        // Convert answer list into flat string
+        var tempAnswers = '';
+        for (var j = 0; j < data.answers.length; j++) {
+            if (data.answers[j].name && data.answers[j].name.length > 0) {
+                tempAnswers = tempAnswers + data.answers[j].name + "\r\n" ;
             }
         }
 
-        var roles =
+        // Load combo box with categories
+        var cats = [];
+        for (var i = 0; i < this.props.categories; i++) {
+            cats.push({ "label": this.props.categories[i].name, "value": this.props.categories[i].id });
+        }
+
+        // Question Types
+        var items =
             [
-                { "label": "Unverified Voter", "value": 0, "isSelected": (data.UserRole === 0 ? true : undefined) },
-                { "label": "Verified Voter", "value": 1, "isSelected": (data.UserRole === 1 ? true : undefined) },
-                { "label": "Customer Admin", "value": 2, "isSelected": (data.UserRole === 2 ? true : undefined) },
-                { "label": "Super Admin", "value": 3, "isSelected": (data.UserRole === 3 ? true : undefined) }
+                { "label": "Yes/No", "value": 1 },
+                { "label": "Multiple Choice", "value": 2},
+                { "label": "Ranked Choice", "value": 3 },
+                { "label": "Cascading", "value": 4 }
             ];
 
         return (
@@ -150,50 +189,63 @@ class QuestionModal extends React.Component {
 
                     <div className="userLoginForm">
                         <Form.Group>
-                            <Label>Login Name: </Label>
-                            <Form.Control type='email' id='userLoginName' onChange={this.onChange} defaultValue={data.name} value={this.props.userLoginName} />
-                        </Form.Group>
-                        <Form.Group className={this.isEditing() ? "hidden" : ""}>
-                            <Label>Password: </Label>
-                            <Form.Control type='password' id='password' onChange={this.onChange} defaultValue={data.Password} value={this.props.password} />
+                            <Label>Question: </Label>
+                            <Form.Control type='email' id='userLoginName' onChange={this.onChange} defaultValue={data.name} value={this.props.name} />
                         </Form.Group>
                         <Form.Group>
-                            <Label>First Name: </Label>
-                            <Form.Control type='text' id='firstName' onChange={this.onChange} defaultValue={data.FirstName} value={this.props.firstName} />
-                        </Form.Group>
-                        <Form.Group>
-                            <Label>Last Name: </Label>
-                            <Form.Control type='text' id='lastName' onChange={this.onChange} defaultValue={data.LastName} value={this.props.lastName} />
-                        </Form.Group>
-                        <Form.Group>
-                            <Label>Email: </Label>
-                            <Form.Control type='email' id='email' onChange={this.onChange} defaultValue={data.Email} value={this.props.email} />
-                        </Form.Group>
-                        <Form.Group>
-                            <Label>Phone: </Label>
-                            <Form.Control type='text' id='phone' onChange={this.onChange} defaultValue={data.Phone} value={this.props.phone} />
-                        </Form.Group>
-                        <Form.Group>
-                            <Label>Force Password Change: </Label><br />
-                            <Checkbox value={this.state.forcePasswordChange} defaultValue={data.ForcePasswordChange} />
-                        </Form.Group>
-                        <Form.Group>
-                            <Label>Role: </Label>
+                            <Label>Question Type: </Label>
                             <Select
                                 className="red-theme"
-                                name="userRole"
-                                options={roles}
-
-                                defaultValue={data.UserRole}
-                                value={this.state.userRole}
-                                onChange={this.onSelect}
+                                name="questionType"
+                                options={items}                                
+                                defaultValue={items.filter(option => option.value === data.questionType.id)}
+                                value={this.state.questionType}
+                                onChange={this.onSelectType}
                             />
                         </Form.Group>
+
                         <Form.Group>
-                            <Label>Customer(s): </Label><br />
-                            <Multiselect data={customerList} multiple />
+                            <Label>Start Date: </Label><br/>
+                            <DatePicker id="startDate" defaultValue={data.startDate} selected={this.state.startDate} onSelect={this.onSelectStartDate}/>
+                        </Form.Group>
+                        <Form.Group>
+                            <Label>End Date: </Label><br />
+                            <DatePicker id="endDate" defaultValue={data.endDate} selected={this.state.endDate} onSelect={this.onSelectEndDate}/>
                         </Form.Group>
 
+                        <Form.Group>
+                            <Label>Category: </Label>
+                            <Select
+                                className="red-theme"
+                                name="questionType"
+                                options={cats}
+                                value={data.categoryId}
+                                onChange={this.onSelectCat}
+                            />
+                            
+                        </Form.Group>
+                        <Form.Group>
+                            <Label>Sort Order: </Label>
+                            <Form.Control type='text' id='ordinal' onChange={this.onChange} defaultValue="1" value={this.props.ordinal} />
+                        </Form.Group>
+
+                        <Form.Group>
+                            <Label>Pros: </Label>
+                            <textarea rows="5" cols="50" className="modal-longbox" id='pros' onChange={this.onChange} defaultValue={data.pros} value={this.props.pros} />
+                        </Form.Group>
+                        <Form.Group>
+                            <Label>Cons: </Label>
+                            <textarea rows="5" cols="50" className="modal-longbox" id='cons' onChange={this.onChange} defaultValue={data.cons} value={this.props.cons} />
+                        </Form.Group>
+                        <Form.Group>
+                            <Label>Candidate's Opinion: </Label>
+                            <textarea rows="5" cols="50" className="modal-longbox" id="candidateOpinion" onChange={this.onChange} defaultValue={data.candidateOpinion} value={this.props.candidateOpinion} />
+                        </Form.Group>
+                        <Form.Group>
+                            <Label>Answers: </Label>
+                            <textarea rows="5" cols="50" className="modal-longbox" id='answers' onChange={this.onChange} defaultValue={tempAnswers} value={this.props.answers} />
+                        </Form.Group>
+                      
                     </div>
                     <Row>
                         <Button className="modalLoginButton" variant="danger" onClick={this.onSubmit} href="#">Save</Button>
@@ -216,10 +268,10 @@ function mapStateToProps(state) {
     return {
         logintoken: state.loginReducer.loginToken,
         message: state.loginReducer.message,
-        currentUserLogin: state.loginReducer.currentUserLogin,
-        customers: state.customerReducer.customerList
-
+        currentQuestion: state.voteReducer.currentQuestion,
+        customers: state.customerReducer.customerList,
+        categories: state.voteReducer.categories
     }
 }
-export default connect(mapStateToProps, { addUserProfile, editUserProfile2, hideUserForm })(QuestionModal);
+export default connect(mapStateToProps, { addQuestion, editQuestion, hideQuestionModal })(QuestionModal);
 

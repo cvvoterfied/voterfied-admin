@@ -407,3 +407,30 @@ export function enumQuestions(token, customerId) {
             });
     };
 }
+
+/*
+ * showQuestionModal
+ * 
+ * */
+
+export function showQuestionModal(question) {
+    const { SHOW_QUESTION_FORM } = voteActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(fulfilled_function(SHOW_QUESTION_FORM, question));
+    }
+}
+
+
+/*
+ * hideQuestionModal
+ * 
+ * */
+
+export function hideQuestionModal() {
+    const { HIDE_QUESTION_FORM } = voteActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(fulfilled_function(HIDE_QUESTION_FORM));
+    }
+}

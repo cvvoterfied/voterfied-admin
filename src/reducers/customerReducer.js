@@ -98,7 +98,7 @@ export default function reducer(state = {
         case fulfilled(customerActionTypes.SHOW_CUSTOMER_FORM):
             var selectedItem = {};
             for (var i = 0; i < state.customerList.length; i++) {
-                if (state.customerList[i].id == action.payload) {
+                if (state.customerList[i].id === action.payload) {
                     selectedItem = state.customerList[i];
                     break;
                 }

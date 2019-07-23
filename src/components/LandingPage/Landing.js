@@ -29,6 +29,7 @@ import stars from '../../images/voterfied_stars.png';
 import UserLoginDropdown from '../DropdownFilters/UserLoginDropdown';
 import UserLoginModal from '../Modals/UserLoginModal';
 import CustomerModal from '../Modals/CustomerModal';
+import QuestionModal from '../Modals/QuestionModal';
 
 class Landing extends React.Component {
   constructor(props) {
@@ -275,7 +276,7 @@ class Landing extends React.Component {
 
             <UserLoginModal show={this.props.userFormVisible} />
             <CustomerModal show={this.props.customerFormVisible}/>
-
+            <QuestionModal show={this.props.showQuestionForm} />
             <br />
             <br />
             
@@ -325,7 +326,8 @@ function mapStateToProps(state) {
         userLogins: state.loginReducer.allUsers,
         customerLogo: (state.customerReducer.currentCustomer ? state.customerReducer.currentCustomer.logoURL : ""),
         userFormVisible: state.loginReducer.showUserForm,
-        customerFormVisible: state.customerReducer.customerFormVisible
+        customerFormVisible: state.customerReducer.customerFormVisible,
+        showQuestionForm: state.voteReducer.showQuestionForm
     }
 }
 

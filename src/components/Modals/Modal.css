@@ -13,3 +13,9 @@
     color: darkblue;
     margin-top: 12px;
 }
+
+#startDate, #endDate {
+    border-radius: 12px;
+    color: darkblue;
+    width: 100%;
+}

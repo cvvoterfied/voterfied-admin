@@ -4,7 +4,7 @@ import "./Dropdown.css";
 import { connect } from 'react-redux';
 import Select from 'react-styled-select';
 import Row from 'react-bootstrap/Row';
-import { listVotesByQuestion, enumVotes } from '../../actions/VoteActions';
+import { listVotesByQuestion, enumVotes, showQuestionModal, deleteQuestion } from '../../actions/VoteActions';
 
 import add from "../../images/icons/add.jpg";
 import edit from "../../images/icons/edit.png";
@@ -19,7 +19,7 @@ class QuestionDropdown extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.showEditModal = this.showEditModal.bind(this);
         this.showDeleteModal = this.showDeleteModal.bind(this);
-
+        this.showAddModal = this.showAddModal.bind(this);
     }
 
     onChange = (e) => {
@@ -34,12 +34,12 @@ class QuestionDropdown extends React.Component {
     }
 
     showAddModal() {
-
+        this.props.showQuestionModal({});
     }
 
     showEditModal() {
         if (this.state.currentQuestion && this.state.currentQuestion !== "0" && this.state.currentQuestion.value !== "0") {
-            // edit
+            this.props.showQuestionModal(this.state.currentQuestion);
         }
         else {
             alert("No question selected");
@@ -48,7 +48,7 @@ class QuestionDropdown extends React.Component {
 
     showDeleteModal() {
         if (this.state.currentQuestion && this.state.currentQuestion !== "0" && this.state.currentQuestion.value !== "0") {
-            // delete
+            this.props.deleteQuestion(this.state.logintoken, this.state.currentQuestion.id);
         }
         else {
             alert("No question selected");
@@ -91,4 +91,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { listVotesByQuestion, enumVotes })(QuestionDropdown);
+export default connect(mapStateToProps, { listVotesByQuestion, enumVotes, showQuestionModal, deleteQuestion })(QuestionDropdown);

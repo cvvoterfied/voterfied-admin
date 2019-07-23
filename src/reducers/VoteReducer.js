@@ -14,6 +14,7 @@ export default function reducer(state = {
     allquestions: [],
     stats: [],
     votes: [],
+    showQuestionForm: false,
     showVoteScreen: false,
     currentQuestion: blankQuestion
 
@@ -200,6 +201,11 @@ export default function reducer(state = {
                 showVoteScreen: true,
                 currentQuestion: action.payload
             }
+        case fulfilled(voteActionTypes.HIDE_QUESTION_FORM):
+            return {
+                ...state,
+                showQuestionForm: false
+            }
         case fulfilled(voteActionTypes.HIDE_VOTE_SCREEN):
             return {
                 ...state,
@@ -294,6 +300,20 @@ export default function reducer(state = {
                 message: action.payload.message,                
                 allquestions: []
             }
+        case fulfilled(voteActionTypes.SHOW_QUESTION_FORM):
+            var selectedQuestion = blankQuestion;
+            for (var i = 0; i < state.allquestions.length; i++) {
+                if (action.payload === state.allquestions[i].id) {
+                    selectedQuestion = state.allquestions[i];
+                    break;
+                }
+            }
+            return {
+                ...state,
+                showQuestionForm: true,
+                currentQuestion: selectedQuestion
+            }
+
         case pending(voteActionTypes.VOTE_STAT):
             return {
                 ...state,
