@@ -148,9 +148,12 @@ class QuestionModal extends React.Component {
     }
 
     formatDate(dateVal) {
-        return String(dateVal).substring(5, 7) + "/" +
-            String(dateVal).substring(8, 10) + "/" +
-            String(dateVal).substring(0,4);
+        if (dateVal) {
+            return String(dateVal).substring(5, 7) + "/" +
+                String(dateVal).substring(8, 10) + "/" +
+                String(dateVal).substring(0, 4);
+        }
+
     }
 
     render() {

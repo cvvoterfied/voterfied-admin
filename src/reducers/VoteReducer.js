@@ -52,6 +52,7 @@ export default function reducer(state = {
             return {
                 ...state,
                 allquestions: temp2,
+                showQuestionForm: false,
                 message: ""
             }
         case rejected(voteActionTypes.ADD_QUESTION):
@@ -94,6 +95,25 @@ export default function reducer(state = {
                 showVoteScreen: false,
                 currentQuestion: blankQuestion
             }
+        case pending(voteActionTypes.DELETE_QUESTION):
+            return {
+                ...state,
+                message: "Working..."
+            }
+        case fulfilled(voteActionTypes.DELETE_QUESTION):
+            var temp = state.allquestions.filter(r => r.id !== state.currentQuestion.id);
+
+            return {
+                ...state,
+                showQuestionForm: false,
+                allquestions: temp,
+                message: ""
+            }
+        case rejected(voteActionTypes.DELETE_QUESTION):
+            return {
+                ...state,
+                message: action.payload.message
+            }
         case pending(voteActionTypes.EDIT_CATEGORY):
             return {
                 ...state,
@@ -133,8 +153,12 @@ export default function reducer(state = {
                 message: "Working..."
             }
         case fulfilled(voteActionTypes.EDIT_QUESTION):
+            var temp = state.allquestions.filter(r => r.id !== state.currentQuestion.id);
+            temp.push(action.payload.data);
             return {
-                ...state,                
+                ...state,         
+                showQuestionForm: false,
+                allquestions: state,
                 message: ""
             }
         case rejected(voteActionTypes.EDIT_QUESTION):

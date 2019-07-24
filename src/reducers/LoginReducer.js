@@ -24,6 +24,7 @@ export default function reducer(state = {
                 message: "Working..."
             }
         case fulfilled(loginActionTypes.ADD_USER_PROFILE):
+            state.allUsers.push(action.payload.data);
 
             return {
                 ...state,
@@ -52,8 +53,13 @@ export default function reducer(state = {
                 message: "Working..."
             }
         case fulfilled(loginActionTypes.DELETE_USER_PROFILE):
+            var temp = state.allUsers.filter(r => r.id !== state.currentUserLogin.id);
+
             return {
-                ...state
+                ...state,
+                allUsers: temp,
+                currentUserLogin:  { id: 0, name: "", UserRole: { id: 1, name: "Unverified" }, AuthorizedCustomers: [] },
+                showUserForm: false
             }
         case rejected(loginActionTypes.DELETE_USER_PROFILE):
             return {
@@ -66,9 +72,13 @@ export default function reducer(state = {
                 message: "Working..."
             }
         case fulfilled(loginActionTypes.EDIT_USER_PROFILE):
+            var temp = state.allUsers.filter(r => r.id !== state.currentCustomer.id);
+            temp.push(action.payload.data);
+
             return {
                 ...state,
                 showEditProfile: false,
+                allUsers: temp,
                 message: "User profile updated",
                 user: action.payload
             }

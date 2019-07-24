@@ -66,18 +66,22 @@ class QuestionDropdown extends React.Component {
         }
 
         return (
-            <Row>
-                <Select
-                    className="red-theme"
-                    name="categoryFilter"
-                    options={cats}
-                    value={this.state.currentQuestion}
-                    onChange={this.onChange}
-                /> 
-                <button className="transparent" onClick={this.showAddModal}><img className="crudicons" src={add} height="20" alt="" /> </button>
-                <button className="transparent" onClick={this.showEditModal}><img className="crudicons" src={edit} height="20" alt="" /> </button>
-                <button className="transparent" onClick={this.showDeleteModal}><img className="crudicons" src={del} height="20" alt=""/></button>
-            </Row>
+            <span>
+                <Row>
+                    <Select
+                        className="red-theme"
+                        name="categoryFilter"
+                        options={cats}
+                        value={this.state.currentQuestion}
+                        onChange={this.onChange}
+                    />   
+                </Row>
+                <Row className="centeredButtons">                    
+                    <button className="transparent" onClick={this.showAddModal}><img className="crudicons" src={add} height="20" alt="" /> </button>
+                    <button className="transparent" onClick={this.showEditModal}><img className="crudicons" src={edit} height="20" alt="" /> </button>
+                    <button className="transparent" onClick={this.showDeleteModal}><img className="crudicons" src={del} height="20" alt="" /></button>
+                </Row>                
+            </span>
         )
 
     }

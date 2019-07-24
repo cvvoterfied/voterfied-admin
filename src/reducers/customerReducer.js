@@ -15,9 +15,12 @@ export default function reducer(state = {
                 lastError: ""
             }
         case fulfilled(customerActionTypes.ADD_CUSTOMER):
+            state.customerList.push(action.payload.data);
+
             return {
                 ...state,
                 lastError: "",
+                customerFormVisible: false,
                 currentCustomer: action.payload.data
             }
         case rejected(customerActionTypes.ADD_CUSTOMER):
@@ -31,9 +34,13 @@ export default function reducer(state = {
                 lastError: ""
             }
         case fulfilled(customerActionTypes.DELETE_CUSTOMER):
+            var temp = state.customerList.filter(r => r.id !== state.currentCustomer.id);
+
             return {
                 ...state,
                 lastError: "",
+                customerFormVisible: false,
+                customerList: temp,
                 currentCustomer: emptyCustomer
             }
         case rejected(customerActionTypes.DELETE_CUSTOMER):
@@ -47,9 +54,14 @@ export default function reducer(state = {
                 lastError: ""
             }
         case fulfilled(customerActionTypes.EDIT_CUSTOMER):
+            var temp = state.customerList.filter(r => r.id !== state.currentCustomer.id);
+            temp.push(action.payload.data);
+
             return {
                 ...state,
                 currentCustomer: action.payload.data,
+                customerList: temp,
+                customerFormVisible: false,
                 lastError: ""
             }
         case rejected(customerActionTypes.EDIT_CUSTOMER):
