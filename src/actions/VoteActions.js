@@ -259,9 +259,11 @@ export function enumCategories(token) {
 
         dispatch(pending_function(ENUM_CATEGORIES));
 
-        axiosConfig.headers.token = token;
+        var test = serverEnvironment.API_URL + '/question/category';
+
+       // axiosConfig.headers.token = token;
         axios
-            .post(serverEnvironment.API_URL + '/question/category', axiosConfig)
+            .get(test)
             .then(res => {
                 dispatch(fulfilled_function(ENUM_CATEGORIES, res));
             })

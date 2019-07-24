@@ -21,7 +21,7 @@ import { connect } from 'react-redux';
 import { logout, startLogin, cancelLogin, startRegistering, verifyEmail, emailConfirmed, resetPassword, startEditProfile, showUserForm } from '../../actions/LoginActions';
 import { getApiVersion, hideVersionModal, showVersionModal } from '../../actions/VersionActions';
 import { enumCustomer} from '../../actions/CustomerActions';
-import { clearVotes } from '../../actions/VoteActions';
+import { clearVotes, enumCategories } from '../../actions/VoteActions';
 
 import DataGrid, { Scrolling, Sorting, Column } from 'devextreme-react/data-grid';
 
@@ -56,11 +56,12 @@ class Landing extends React.Component {
             this.props.startLogin();
             return;
         }
+        this.props.enumCategories(this.props.logintoken);
     }
 
     componentWillReceiveProps(newProps) {
         if (newProps.logintoken && newProps.logintoken !== this.props.logintoken) {
-            this.props.enumCustomer(newProps.logintoken);
+            this.props.enumCustomer(newProps.logintoken);            
         }
     }
 
@@ -345,6 +346,7 @@ export default connect(mapStateToProps, {
     emailConfirmed,
     resetPassword,
     enumCustomer,
+    enumCategories,
     showUserForm
     
 }

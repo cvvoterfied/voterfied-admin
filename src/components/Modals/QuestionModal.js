@@ -16,16 +16,7 @@ class QuestionModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userLoginName: '',
-            firstName: '',
-            lastName: '',
-            email: '',
-            phone: '',
-            password: '',
-            password2: '',
-            forcePasswordChange: false,
-            userRole: 2,
-            customers: [],
+            
             header: "Modify Question"
         };
 
@@ -41,6 +32,15 @@ class QuestionModal extends React.Component {
     isEditing() {
         return (this.state.id === 0 ? false : true)
             ;
+    }
+
+    componentWillReceiveProps(newProps) {
+        if (newProps.currentQuestion != this.props.currentQuestion) {
+            this.setState({
+                "categoryId": newProps.currentQuestion.categoryId,
+                "questionType": newProps.currentQuestion.questionType.id
+            });
+        }
     }
 
     onSubmit = () => {
@@ -147,6 +147,12 @@ class QuestionModal extends React.Component {
         this.setState({ "endDate": e });
     }
 
+    formatDate(dateVal) {
+        return String(dateVal).substring(5, 7) + "/" +
+            String(dateVal).substring(8, 10) + "/" +
+            String(dateVal).substring(0,4);
+    }
+
     render() {
 
         var data = this.props.currentQuestion;
@@ -161,7 +167,7 @@ class QuestionModal extends React.Component {
 
         // Load combo box with categories
         var cats = [];
-        for (var i = 0; i < this.props.categories; i++) {
+        for (var i = 0; i < this.props.categories.length; i++) {
             cats.push({ "label": this.props.categories[i].name, "value": this.props.categories[i].id });
         }
 
@@ -206,11 +212,11 @@ class QuestionModal extends React.Component {
 
                         <Form.Group>
                             <Label>Start Date: </Label><br/>
-                            <DatePicker id="startDate" defaultValue={data.startDate} selected={this.state.startDate} onSelect={this.onSelectStartDate}/>
+                            <DatePicker id="startDate" defaultValue={this.formatDate(data.startDate)} value={this.formatDate(data.startDate)} selected={this.state.startDate} onSelect={this.onSelectStartDate}/>
                         </Form.Group>
                         <Form.Group>
                             <Label>End Date: </Label><br />
-                            <DatePicker id="endDate" defaultValue={data.endDate} selected={this.state.endDate} onSelect={this.onSelectEndDate}/>
+                            <DatePicker id="endDate" defaultValue={this.formatDate(data.endDate)} value={this.formatDate(data.endDate)} selected={this.state.endDate} onSelect={this.onSelectEndDate}/>
                         </Form.Group>
 
                         <Form.Group>
@@ -219,7 +225,8 @@ class QuestionModal extends React.Component {
                                 className="red-theme"
                                 name="questionType"
                                 options={cats}
-                                value={data.categoryId}
+                                defaultValue={cats.filter(option => option.value === data.categoryId)}
+                                value={this.state.categoryId}
                                 onChange={this.onSelectCat}
                             />
                             
