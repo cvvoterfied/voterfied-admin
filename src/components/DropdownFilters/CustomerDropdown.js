@@ -4,7 +4,7 @@ import "./Dropdown.css";
 import { connect } from 'react-redux';
 import Select from 'react-styled-select';
 import Row from 'react-bootstrap/Row';
-import { enumQuestions, enumVotes } from '../../actions/VoteActions';
+import { enumQuestions, enumVotes, clearVotes } from '../../actions/VoteActions';
 import { enumUserProfile } from '../../actions/LoginActions';
 import { getCustomer, showCustomerForm, deleteCustomer  } from '../../actions/CustomerActions';
 
@@ -35,6 +35,9 @@ class CustomerDropdown extends React.Component {
             this.props.enumUserProfile(this.props.logintoken);
             this.props.enumVotes(this.props.logintoken, e);
             this.props.getCustomer(e);
+        }
+        else {
+            this.props.clearVotes();
         }
     }
 
@@ -98,4 +101,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { getCustomer, enumQuestions, enumUserProfile, enumVotes, showCustomerForm, deleteCustomer })(CustomerDropdown);
+export default connect(mapStateToProps, { getCustomer, enumQuestions, enumUserProfile, enumVotes, showCustomerForm, deleteCustomer, clearVotes })(CustomerDropdown);

@@ -59,7 +59,7 @@ class QuestionDropdown extends React.Component {
         var cats = [];
         cats.push({ "label": "All Questions", "value": "0" });
 
-        if (this.props.questions) {
+        if (this.props.questions && this.props.currentCustomer && this.props.currentCustomer.id !== "0") {
             for (var i = 0; i < this.props.questions.length; i++) {
                 cats.push({ "label": this.props.questions[i].name, "value": this.props.questions[i].id });
             }

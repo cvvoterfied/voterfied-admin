@@ -119,22 +119,27 @@ class Landing extends React.Component {
     }
 
     customizeColumns(columns) {
-        columns[0].width = 500;
-        columns[1].width = 100;
-        columns[2].width = 240;
-        columns[3].width = 100;
+        columns[0].width = 200;
+        columns[1].width = 500;
+        columns[2].width = 100;
+        columns[3].width = 240;
         columns[4].width = 100;
+        columns[5].width = 200;
+        columns[6].width = 100;
     }
 
     exportToCSV() {
         var processRow = function (row) {
-            return row.question + "," + 
-                row.createdDate + "," + 
-                row.answer + "," + 
-                String(row.rank) + ",\r\n"                            
+            return row.category + "," +
+                row.question + "," +
+                row.createdDate + "," +
+                row.answer + "," +
+                String(row.rank) + "," +
+                row.email + "," +
+                row.phone + ",\r\n";                         
         };
 
-        var csvFile = "Question,Vote Date,Answer,Rank,Email\n";
+        var csvFile = "Category,Question,Vote Date,Answer,Rank,Email,Phone\n";
         for (var i = 0; i < this.props.votes.length; i++) {
             csvFile += processRow(this.props.votes[i]);
         }
@@ -155,7 +160,7 @@ class Landing extends React.Component {
                 document.body.removeChild(link);
             }
         }
-    }
+    }    
 
     render() {
         
@@ -233,42 +238,61 @@ class Landing extends React.Component {
 
                 <br />
                <div className="grid">
-                    <span className={this.props.isloggedin ? "float-center " : "hidden"} md={4}>
+                    <span className={this.props.isloggedin && this.props.votes.length > 0 ? "float-center " : "hidden"} md={4}>
                     <DataGrid className="grid" elementAttr={{ id: 'gridContainer' }}
-                            dataSource={this.props.votes}
+                        dataSource={this.props.votes}
                             showBorders={true}
                             customizeColumns={this.customizeColumns}>                        
-                            <Sorting mode={'none'} />
-                            <Scrolling mode={'infinite'} />
+                            <Sorting mode={'single'} />
+                        <Scrolling mode={'infinite'} />
+                        <Column
+                            dataField={"category"}
+                            caption={"Category"}
+                            dataType={"string"}
+                            alignment={"left"}
+                            sortable={"true"}
+                        />
                         <Column
                             dataField={"question"}
                             caption={"Question"}
                             dataType={"string"}
                             alignment={"left"}
+                            sortable={"true"}
                         />
                         <Column
                             dataField={"createdDate"}
                             caption={"Vote Date"}
                             dataType={"date"}
                             alignment={"left"}
+                            sortable={"true"}
                         />
                         <Column
                             dataField={"answer"}
                             caption={"Answer"}
                             dataType={"string"}
                             alignment={"left"}
+                            sortable={"true"}
                         />
                         <Column
                             dataField={"rank"}
                             caption={"Rank"}
                             dataType={"number"}
                             alignment={"center"}
+                            sortable={"true"}
                         />
                         <Column
                             dataField={"email"}
                             caption={"Email"}
                             dataType={"string"}
                             alignment={"left"}
+                            sortable={"true"}
+                        />
+                        <Column
+                            dataField={"phone"}
+                            caption={"Phone"}
+                            dataType={"string"}
+                            alignment={"left"}
+                            sortable={"true"}
                         />
                         </DataGrid>
 

@@ -35,7 +35,7 @@ class QuestionModal extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.currentQuestion != this.props.currentQuestion) {
+        if (newProps.currentQuestion !== this.props.currentQuestion) {
             this.setState({
                 "categoryId": newProps.currentQuestion.categoryId,
                 "questionType": newProps.currentQuestion.questionType.id

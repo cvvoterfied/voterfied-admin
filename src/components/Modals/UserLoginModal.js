@@ -41,6 +41,14 @@ class UserLoginModal extends React.Component {
             ;
     }
 
+    componentWillReceiveProps(newProps) {
+        if (newProps.currentUserLogin !== this.props.currentUserLogin) {
+            this.setState({
+                "userRole": newProps.currentUserLogin.UserRole
+            })
+        }
+    }
+
     onSubmit = () => {
         var user = {}
 
