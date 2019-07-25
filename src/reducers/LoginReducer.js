@@ -39,7 +39,8 @@ export default function reducer(state = {
         case fulfilled(loginActionTypes.CANCEL_EDIT_PROFILE):
             return {
                 ...state,
-                showEditProfile: false
+                showEditProfile: false,
+                message: ""
             }
         case fulfilled(loginActionTypes.CANCEL_LOGIN):
             return {
@@ -59,7 +60,8 @@ export default function reducer(state = {
                 ...state,
                 allUsers: temp,
                 currentUserLogin:  { id: 0, name: "", UserRole: { id: 1, name: "Unverified" }, AuthorizedCustomers: [] },
-                showUserForm: false
+                showUserForm: false,
+                message: ""
             }
         case rejected(loginActionTypes.DELETE_USER_PROFILE):
             return {
@@ -95,7 +97,8 @@ export default function reducer(state = {
         case fulfilled(loginActionTypes.ENUM_USER_PROFILE):
             return {
                 ...state,
-                allUsers: action.payload.data
+                allUsers: action.payload.data,
+                message: ""
             }
         case rejected(loginActionTypes.ENUM_USER_PROFILE):
             return {
@@ -105,7 +108,8 @@ export default function reducer(state = {
         case fulfilled(loginActionTypes.HIDE_USER_FORM):
             return {
                 ...state,
-                showUserForm: false
+                showUserForm: false,
+                message: ""
             }
         case pending(loginActionTypes.LOGIN):
             return {
@@ -127,7 +131,7 @@ export default function reducer(state = {
                 loginToken: action.payload.token,
                 user: action.payload.user,
                 userName: action.payload.user.name,
-                message: "Success!",
+                message: "",
                 registrationStep: (isVerified ? 0 : (action.payload.user.IsVerified ? 2 : 1)), // redirect to verify if unverified voter
                 isLoggedIn: true
             }
@@ -171,7 +175,8 @@ export default function reducer(state = {
             return {
                 ...state,
                 registrationStep: 1,
-                user: action.payload
+                user: action.payload,
+                message: ""
             }
         case rejected(loginActionTypes.REGISTER):
             return {
@@ -240,7 +245,7 @@ export default function reducer(state = {
         case fulfilled(loginActionTypes.CONFIRM_VOTER):
             return {
                 ...state,
-                message: "Verified!",
+                message: "",
                 user: action.payload,
                 registrationStep: 4
             }

@@ -370,7 +370,7 @@ export function editQuestion(token, question) {
  * This will fail if there are any questions that have been answered already
  *
  * */
-export function deleteQuestion(token, question) {
+export function deleteQuestion(token, questionId) {
     const { DELETE_QUESTION } = voteActionTypes;
 
     return function (dispatch, getState) {
@@ -378,7 +378,7 @@ export function deleteQuestion(token, question) {
 
         axiosConfig.headers.token = token;
         axios
-            .delete(serverEnvironment.API_URL + '/question/' + String(question.id), axiosConfig)
+            .delete(serverEnvironment.API_URL + '/question/' + String(questionId), axiosConfig)
             .then(res => {
                 dispatch(fulfilled_function(DELETE_QUESTION));
             })

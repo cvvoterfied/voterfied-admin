@@ -29,31 +29,48 @@ class QuestionModal extends React.Component {
         this.onSelectEndDate = this.onSelectEndDate.bind(this);
     }
 
+    formatDate(dateVal) {
+        if (dateVal) {
+            return new Date(parseInt(String(dateVal).substring(0, 4)),
+                parseInt(String(dateVal).substring(5, 7)),
+                parseInt(String(dateVal).substring(8, 10)));
+        }
+
+    }
+
     isEditing() {
-        return (this.state.id === 0 ? false : true)
+        return (this.props.currentQuestion.id === 0 ? false : true)
             ;
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.currentQuestion !== this.props.currentQuestion) {
+        if (newProps.currentQuestion !== this.props.currentQuestion ) {
             this.setState({
                 "categoryId": newProps.currentQuestion.categoryId,
-                "questionType": newProps.currentQuestion.questionType.id
+                "questionType": newProps.currentQuestion.questionType.id,
+                "startDate": this.formatDate(newProps.currentQuestion.startDate),
+                "endDate": this.formatDate(newProps.currentQuestion.endDate)
             });
         }
     }
 
     onSubmit = () => {
         var question = {};
-        var answers = [];
-        var list = this.state.answers.split("\r\n");
-        var ordinal = 1;
+        var answers = [];         
 
-        for (var i = 0; i < list.length; i++ , ordinal++) {
-            if (list[i].name && list[i].name.length > 0) {
-                answers.push({ id: 0, name: list[i], ordinal });
+        if (this.state.answers) {
+            var list = this.state.answers.split("\n");
+            var ordinal = 1;
+
+            for (var i = 0; i < list.length; i++ , ordinal++) {
+                if (list[i] && list[i].length > 0) {
+                    answers.push({ id: 0, name: list[i], ordinal });
+                }
             }
-        }        
+        }
+        else {
+            answers = this.props.currentQuestion.answers;
+        }
 
         if (!this.isEditing()) {
             question = {
@@ -64,11 +81,11 @@ class QuestionModal extends React.Component {
                 startDate: this.state.startDate,
                 endDate: this.state.endDate,
                 categoryId: this.state.categoryId,
-                pros: this.state.pros,
-                cons: this.state.cons,
-                candidateOpinion: this.state.candidateOpinion,
+                pros: (this.state.pros ? this.state.pros : ""),
+                cons: (this.state.cons ? this.state.cons : ""),
+                candidateOpinion: (this.state.candidateOpinion ? this.state.candidateOpinion : ""),
                 answers: answers,
-                ordinal: this.state.ordinal,
+                ordinal: (this.state.ordinal ? this.state.ordinal : 1),
                 createdDate: new Date(),
                 modifiedDate: new Date(),
                 ts: "QEA="
@@ -131,7 +148,7 @@ class QuestionModal extends React.Component {
     onSelectType = (e) => {
         this.setState({ "questionType": e });
         if (e === 1) {
-            this.setState({"answers": "Yes\r\nNo\r\n"});
+            this.setState({"answers": "Yes\nNo\n"});
         }
     }
 
@@ -145,15 +162,6 @@ class QuestionModal extends React.Component {
 
     onSelectEndDate = (e) => {
         this.setState({ "endDate": e });
-    }
-
-    formatDate(dateVal) {
-        if (dateVal) {
-            return String(dateVal).substring(5, 7) + "/" +
-                String(dateVal).substring(8, 10) + "/" +
-                String(dateVal).substring(0, 4);
-        }
-
     }
 
     render() {
@@ -199,7 +207,7 @@ class QuestionModal extends React.Component {
                     <div className="userLoginForm">
                         <Form.Group>
                             <Label>Question: </Label>
-                            <Form.Control type='email' id='userLoginName' onChange={this.onChange} defaultValue={data.name} value={this.props.name} />
+                            <Form.Control type='text' id='question' onChange={this.onChange} defaultValue={data.name} value={this.props.name} />
                         </Form.Group>
                         <Form.Group>
                             <Label>Question Type: </Label>
@@ -215,11 +223,11 @@ class QuestionModal extends React.Component {
 
                         <Form.Group>
                             <Label>Start Date: </Label><br/>
-                            <DatePicker id="startDate" defaultValue={this.formatDate(data.startDate)} value={this.formatDate(data.startDate)} selected={this.state.startDate} onSelect={this.onSelectStartDate}/>
+                            <DatePicker id="startDate" defaultValue={this.state.startDate} selected={this.state.startDate} onSelect={this.onSelectStartDate}/>
                         </Form.Group>
                         <Form.Group>
                             <Label>End Date: </Label><br />
-                            <DatePicker id="endDate" defaultValue={this.formatDate(data.endDate)} value={this.formatDate(data.endDate)} selected={this.state.endDate} onSelect={this.onSelectEndDate}/>
+                            <DatePicker id="endDate" defaultValue={this.state.endDate} selected={this.state.endDate} onSelect={this.onSelectEndDate}/>
                         </Form.Group>
 
                         <Form.Group>
@@ -278,6 +286,7 @@ function mapStateToProps(state) {
     return {
         logintoken: state.loginReducer.loginToken,
         message: state.loginReducer.message,
+        currentCustomer: state.customerReducer.currentCustomer,
         currentQuestion: state.voteReducer.currentQuestion,
         customers: state.customerReducer.customerList,
         categories: state.voteReducer.categories

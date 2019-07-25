@@ -27,7 +27,7 @@ export default function reducer(state = {
                 message: "Working..."
             }
         case fulfilled(voteActionTypes.ADD_CATEGORY):            
-            var temp = this.state.categories;
+            var temp = state.categories;
             temp.push(action.payload.data);
 
             return {
@@ -46,7 +46,7 @@ export default function reducer(state = {
                 message: "Working..."
             }
         case fulfilled(voteActionTypes.ADD_QUESTION):
-            var temp2 = this.state.allquestions;
+            var temp2 = state.allquestions;
             temp2.push(action.payload.data);
             
             return {
@@ -335,6 +335,7 @@ export default function reducer(state = {
             return {
                 ...state,
                 showQuestionForm: true,
+                message: "",
                 currentQuestion: selectedQuestion
             }
 

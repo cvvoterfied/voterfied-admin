@@ -48,7 +48,7 @@ class QuestionDropdown extends React.Component {
 
     showDeleteModal() {
         if (this.state.currentQuestion && this.state.currentQuestion !== "0" && this.state.currentQuestion.value !== "0") {
-            this.props.deleteQuestion(this.state.logintoken, this.state.currentQuestion.id);
+            this.props.deleteQuestion(this.state.logintoken, this.state.currentQuestion);
         }
         else {
             alert("No question selected");

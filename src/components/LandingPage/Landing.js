@@ -232,7 +232,17 @@ class Landing extends React.Component {
                 <Col><div className="label">Customers: </div><CustomerDropdown customers={this.props.customerList}/> </Col>
                 <Col><div className="label">User List: </div><UserLoginDropdown userLogins={this.props.userLogins}/></Col>
                 <Col><div className="label">Questions: </div><QuestionDropdown questions={this.props.allquestions} /></Col>
-                <Col className={this.props.votes && this.props.votes.length > 0 ? "label" : "hidden"}><div className="label">&nbsp; </div><div><Button variant="danger" onClick={this.exportToCSV} className="exportButton">Export to CSV</Button></div></Col>
+                <Col className={this.props.votes && this.props.votes.length > 0 ? "label" : "hidden"}>
+                    <div className="label">&nbsp; </div>
+                    <div><Button variant="danger" onClick={this.exportToCSV} className="exportButton">Export to CSV</Button></div>                    
+                </Col>
+                <Col>
+                    <div className="errorMessages">{
+                        (this.props.voteMessages.length > 0 ? "Questions: " + this.props.voteMessages + " " : "") +
+                        (this.props.custMessages.length > 0 ? "Customer: " + this.props.custMessages + " "  : "") +
+                        (this.props.loginMessages.length > 0 ? "User: " + this.props.loginMessages : "")                         
+                    }</div>
+                </Col>
                 </Row>
                 <Row></Row>
 
@@ -352,7 +362,10 @@ function mapStateToProps(state) {
         customerLogo: (state.customerReducer.currentCustomer ? state.customerReducer.currentCustomer.logoURL : ""),
         userFormVisible: state.loginReducer.showUserForm,
         customerFormVisible: state.customerReducer.customerFormVisible,
-        showQuestionForm: state.voteReducer.showQuestionForm
+        showQuestionForm: state.voteReducer.showQuestionForm,
+        voteMessages: state.voteReducer.message,
+        custMessages: state.customerReducer.lastError,
+        loginMessages: state.loginReducer.message
     }
 }
 
