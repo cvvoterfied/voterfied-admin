@@ -14,7 +14,7 @@ class CustomerModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
+            customerName: '',
             logoURL: '',
             bioStatement: '',
             donateURL: '',
@@ -32,11 +32,11 @@ class CustomerModal extends React.Component {
     }
 
     isEditing() {
-        return (this.state.id === 0 ? false : true) ;
+        return (this.props.currentCustomer && this.props.currentCustomer.id !== 0 ? true : false) ;
     }
 
     onSubmit = () => {
-        var customer = {}
+        var customer = this.props.currentCustomer;
 
         if (!this.isEditing()) {
             customer = {
@@ -57,10 +57,9 @@ class CustomerModal extends React.Component {
             this.props.addCustomer(this.props.logintoken, customer);
 
         } else {
-
-            customer.name = this.props.name;
-            if (this.state.name && this.state.name.length > 0) {
-                customer.name = this.state.name;
+            
+            if (this.state.customerName && this.state.customerName.length > 0) {
+                customer.name = this.state.customerName;
             }
             if (this.state.title && this.state.title.length > 0) {
                 customer.title = this.state.title;
@@ -68,8 +67,8 @@ class CustomerModal extends React.Component {
             if (this.state.location && this.state.location.length > 0) {
                 customer.location = this.state.location;
             }
-            if (this.state.logoURL && this.state.logoURL >= 0) {
-                customer.logoURL.id = this.state.logoURL;
+            if (this.state.logoURL && this.state.logoURL.length >= 0) {
+                customer.logoURL = this.state.logoURL;
             }
             if (this.state.bioStatement && this.state.bioStatement.length > 0) {
                 customer.bioStatement = this.state.bioStatement;
@@ -122,7 +121,7 @@ class CustomerModal extends React.Component {
                     <div className="userLoginForm">
                         <Form.Group>
                             <Label>Customer Name: </Label>
-                            <Form.Control type='email' id='userLoginName' onChange={this.onChange} defaultValue={data.name} value={this.props.name} />
+                            <Form.Control type='email' id='customerName' onChange={this.onChange} defaultValue={data.name} value={this.props.name} />
                         </Form.Group>
                         <Form.Group>
                             <Label>Location: </Label>

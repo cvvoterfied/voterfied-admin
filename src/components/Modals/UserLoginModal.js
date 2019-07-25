@@ -10,7 +10,8 @@ import { addUserProfile, editUserProfile2, hideUserForm } from '../../actions/Lo
 import './Modal.css';
 import stars from '../../images/voterfied_stars.png';
 import Select from 'react-styled-select';
-import Multiselect from 'react-bootstrap-multiselect';
+
+import 'react-bootstrap-multiselect/css/bootstrap-multiselect.css';
 
 class UserLoginModal extends React.Component {
     constructor(props) {
@@ -26,31 +27,54 @@ class UserLoginModal extends React.Component {
             forcePasswordChange: false,
             userRole: 2,
             customers: [],
-            header: "Modify User Login"
+            header: "Modify User Login",
+            selectedItems: []
         };
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onClickCancel = this.onClickCancel.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onSelect = this.onSelect.bind(this);
-        this.onMultiSelect = this.onMultiSelect.bind(this);
     }
 
     isEditing() {
-        return (this.state.id === 0 ? false : true)
+        return (this.props.currentUserLogin && this.props.currentUserLogin.id ? true : false)
             ;
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.currentUserLogin !== this.props.currentUserLogin) {
+        if (newProps.currentUserLogin != this.props.currentUserLogin) {
+
+            var customerList = [];
+            var selectedItems = [];
+
+            for (var i = 0; i < this.props.customers.length; i++) {
+                customerList.push({ "label": this.props.customers[i].name, "value": this.props.customers[i].id });
+            }
+
+            if (newProps.currentUserLogin.AuthorizedCustomers) {
+                for (var j = 0; j < newProps.currentUserLogin.AuthorizedCustomers.length; j++) {
+                    selectedItems.push(newProps.currentUserLogin.AuthorizedCustomers[j].id);
+                }
+            }
+
             this.setState({
-                "userRole": newProps.currentUserLogin.UserRole
+                "userRole": newProps.currentUserLogin.UserRole,
+                "customerList": customerList,
+                "selectedItems": selectedItems
             })
         }
     }
 
     onSubmit = () => {
         var user = {}
+        var custs = [];
+
+        for (var n = 0; n < this.state.selectedItems.length; n++) {            
+            custs.push({
+                "id": this.state.selectedItems[n]
+            });            
+        }
 
         if (!this.isEditing()) {
             user = {
@@ -63,7 +87,7 @@ class UserLoginModal extends React.Component {
                 Email: this.state.email,
                 Phone: this.state.phone,
                 UserRole: this.state.userRole,
-                AuthorizedCustomers: this.state.customers,
+                AuthorizedCustomers: custs,
                 createdDate: new Date(),
                 modifiedDate: new Date(),
                 ts: "QEA="
@@ -84,7 +108,7 @@ class UserLoginModal extends React.Component {
                 user.ForcePasswordChange = this.state.forcePasswordChange;
             }
             if (this.state.userRole && this.state.userRole >= 0) {
-                user.UserRole.id = this.state.userRole;
+                user.UserRole = this.state.userRole;
             }
             if (this.state.phone && this.state.phone.length > 0) {
                 user.Phone = this.state.phone;
@@ -93,7 +117,7 @@ class UserLoginModal extends React.Component {
                 user.Email = this.state.email;
             }
             user.modifiedDate = new Date();
- //           user.AuthorizedCustomers = this.state.customers;
+            //user.AuthorizedCustomers = customers;
             
             this.props.editUserProfile2(this.props.logintoken, user);
         }
@@ -111,8 +135,8 @@ class UserLoginModal extends React.Component {
         this.setState({ "userRole": e });
     }
 
-    onMultiSelect = (e) => {
-        this.setState({ "customerList":  e });
+    handleChange = items => {
+        this.setState({ selectedItems: items })
     }
 
     render() {
@@ -122,17 +146,6 @@ class UserLoginModal extends React.Component {
             data = {
                 id: 0, name: "", UserRole:1, AuthorizedCustomers: []
             };
-        }
-        var customerList = [];
-        for (var i = 0; i < this.props.customers.length; i++) {
-            customerList.push({ "label": this.props.customers[i].name, "value": this.props.customers[i].id });
-        }
-        for (var j = 0; j < data.AuthorizedCustomers.length; j++) {
-            for (var k = 0; k < customerList.length; k++) {
-                if (customerList[k].value === data.AuthorizedCustomers[j].id) {
-                    customerList[k].selected = true;
-                }
-            }
         }
 
         var roles =
@@ -199,7 +212,7 @@ class UserLoginModal extends React.Component {
                         </Form.Group>
                         <Form.Group>
                             <Label>Customer(s): </Label><br/>
-                            <Multiselect data={customerList} multiple />
+                            <Select options={this.state.customerList} multi id="customers" value={this.state.selectedItems} onChange={this.handleChange}/>
                         </Form.Group>
                         
                     </div>

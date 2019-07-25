@@ -106,6 +106,7 @@ export default function reducer(state = {
             return {
                 ...state,
                 showQuestionForm: false,
+                currentQuestion: blankQuestion,
                 allquestions: temp,
                 message: ""
             }
