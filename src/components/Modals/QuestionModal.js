@@ -259,7 +259,11 @@ class QuestionModal extends React.Component {
                             <Label>Candidate's Opinion: </Label>
                             <textarea rows="5" cols="50" className="modal-longbox" id="candidateOpinion" onChange={this.onChange} defaultValue={data.candidateOpinion} value={this.props.candidateOpinion} />
                         </Form.Group>
-                        <Form.Group>
+                        <Form.Group className={this.isEditing() ? "" : "hidden"}>
+                            <Label>Answers: </Label>
+                            <textarea disabled rows="5" cols="50" className="modal-longbox" id='answers' onChange={this.onChange} defaultValue={tempAnswers} value={this.props.answers} />
+                        </Form.Group>
+                        <Form.Group className={this.isEditing() ? "hidden" : ""}>
                             <Label>Answers: </Label>
                             <textarea rows="5" cols="50" className="modal-longbox" id='answers' onChange={this.onChange} defaultValue={tempAnswers} value={this.props.answers} />
                         </Form.Group>
