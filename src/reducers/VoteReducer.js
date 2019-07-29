@@ -101,13 +101,13 @@ export default function reducer(state = {
                 message: "Working..."
             }
         case fulfilled(voteActionTypes.DELETE_QUESTION):
-            var temp = state.allquestions.filter(r => r.id !== state.currentQuestion.id);
+            var tempd = state.allquestions.filter(r => r.id !== state.currentQuestion.id);
 
             return {
                 ...state,
                 showQuestionForm: false,
                 currentQuestion: blankQuestion,
-                allquestions: temp,
+                allquestions: tempd,
                 message: ""
             }
         case rejected(voteActionTypes.DELETE_QUESTION):
@@ -154,12 +154,12 @@ export default function reducer(state = {
                 message: "Working..."
             }
         case fulfilled(voteActionTypes.EDIT_QUESTION):
-            var temp = state.allquestions.filter(r => r.id !== state.currentQuestion.id);
-            temp.push(action.payload.data);
+            var temp3 = state.allquestions.filter(r => r.id !== state.currentQuestion.id);
+            temp3.push(action.payload.data);
             return {
                 ...state,         
                 showQuestionForm: false,
-                allquestions: state,
+                allquestions: temp3,
                 message: ""
             }
         case rejected(voteActionTypes.EDIT_QUESTION):

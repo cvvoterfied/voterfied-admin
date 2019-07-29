@@ -54,13 +54,13 @@ export default function reducer(state = {
                 lastError: ""
             }
         case fulfilled(customerActionTypes.EDIT_CUSTOMER):
-            var temp = state.customerList.filter(r => r.id !== state.currentCustomer.id);
-            temp.push(action.payload.data);
+            var tempec = state.customerList.filter(r => r.id !== state.currentCustomer.id);
+            tempec.push(action.payload.data);
 
             return {
                 ...state,
                 currentCustomer: action.payload.data,
-                customerList: temp,
+                customerList: tempec,
                 customerFormVisible: false,
                 lastError: ""
             }

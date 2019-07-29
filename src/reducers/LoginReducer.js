@@ -74,13 +74,13 @@ export default function reducer(state = {
                 message: "Working..."
             }
         case fulfilled(loginActionTypes.EDIT_USER_PROFILE):
-            var temp = state.allUsers.filter(r => r.id !== state.currentCustomer.id);
-            temp.push(action.payload.data);
+            var tempeup = state.allUsers.filter(r => r.id !== state.currentCustomer.id);
+            tempeup.push(action.payload.data);
 
             return {
                 ...state,
                 showEditProfile: false,
-                allUsers: temp,
+                allUsers: tempeup,
                 message: "User profile updated",
                 user: action.payload
             }

@@ -43,7 +43,7 @@ class UserLoginModal extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.currentUserLogin != this.props.currentUserLogin) {
+        if (newProps.currentUserLogin !== this.props.currentUserLogin) {
 
             var customerList = [];
             var selectedItems = [];
