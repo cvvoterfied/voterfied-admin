@@ -35,6 +35,13 @@ export function fulfilled_function(type, res) {
 }
 
 export function rejected_function(type, err) {
+    const { LOGOUT } = loginActionTypes;
+    if (err && err.response && err.response.status === 401) {
+        return function (dispatch, getState) {
+            dispatch(fulfilled_function(LOGOUT, err));
+        }
+    }
+
     return {
         type: rejected(type),
         payload: err
