@@ -36,7 +36,7 @@ export function fulfilled_function(type, res) {
 
 export function rejected_function(type, err) {
     const { LOGOUT } = loginActionTypes;
-    if (err && err.response && err.response.status === 401) {
+    if (err && err.response && (err.response.status === 401 || err.response.status === 400)) {
         return function (dispatch, getState) {
             dispatch(fulfilled_function(LOGOUT, err));
         }
