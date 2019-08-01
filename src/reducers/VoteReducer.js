@@ -14,6 +14,7 @@ export default function reducer(state = {
     allquestions: [],
     stats: [],
     votes: [],
+    showCategoryForm: false,
     showQuestionForm: false,
     showVoteScreen: false,
     currentQuestion: blankQuestion
@@ -33,6 +34,7 @@ export default function reducer(state = {
             return {
                 ...state,                
                 message: "",
+                showCategoryForm: false,
                 categories: temp
             }
         case rejected(voteActionTypes.ADD_CATEGORY):
@@ -124,6 +126,7 @@ export default function reducer(state = {
             // TODO: edit the category inside the current category list, or refetch
             return {
                 ...state,
+                showCategoryForm: false,
                 message: ""
             }
         case rejected(voteActionTypes.EDIT_CATEGORY):
@@ -226,6 +229,11 @@ export default function reducer(state = {
                 showVoteScreen: true,
                 currentQuestion: action.payload
             }
+        case fulfilled(voteActionTypes.HIDE_CATEGORY_FORM):
+            return {
+                ...state,
+                showCategoryForm: false
+            }        
         case fulfilled(voteActionTypes.HIDE_QUESTION_FORM):
             return {
                 ...state,
@@ -324,6 +332,12 @@ export default function reducer(state = {
                 ...state,
                 message: action.payload.message,                
                 allquestions: []
+            }
+        case fulfilled(voteActionTypes.SHOW_CATEGORY_FORM):
+            return {
+                ...state,
+                showCategoryForm: true,
+                message: ""
             }
         case fulfilled(voteActionTypes.SHOW_QUESTION_FORM):
             var selectedQuestion = blankQuestion;

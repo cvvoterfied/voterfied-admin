@@ -249,32 +249,32 @@ export function emailConfirmed() {
     }
 }
 
-/*
- * verifyVoter() is the voter registration step.  If successful, this
- * endpoint returns the matching voter registration record
- *  
- * */
-export function verifyVoter(first, last, birthMonth, birthDay, birthYear, houseNumber, zip) {
+///*
+// * verifyVoter() is the voter registration step.  If successful, this
+// * endpoint returns the matching voter registration record
+// *  
+// * */
+//export function verifyVoter(first, last, birthMonth, birthDay, birthYear, houseNumber, zip) {
     
-    const { VERIFY_VOTER } = loginActionTypes;
+//    const { VERIFY_VOTER } = loginActionTypes;
 
-    return function (dispatch) {
-        dispatch(pending_function(VERIFY_VOTER));
-        axios
-            .get(serverEnvironment.API_URL + '/constituent/data/' +
-                String(serverEnvironment.customer.id) + '/' +
-                first + '/' + last + '/' + String(houseNumber) + '/' +
-                String(zip) + '/' + String(birthMonth) + '-' + String(birthDay) + '-' + String(birthYear))
-            .then((res) => {
-                let voter = res.data;
-                console.log(voter);                
-                dispatch(fulfilled_function(VERIFY_VOTER, voter));
-            })
-            .catch(err => {
-                dispatch(rejected_function(VERIFY_VOTER, err));
-            });
-    }
-}
+//    return function (dispatch) {
+//        dispatch(pending_function(VERIFY_VOTER));
+//        axios
+//            .get(serverEnvironment.API_URL + '/constituent/data/' +
+//                String(serverEnvironment.customer.id) + '/' +
+//                first + '/' + last + '/' + String(houseNumber) + '/' +
+//                String(zip) + '/' + String(birthMonth) + '-' + String(birthDay) + '-' + String(birthYear))
+//            .then((res) => {
+//                let voter = res.data;
+//                console.log(voter);                
+//                dispatch(fulfilled_function(VERIFY_VOTER, voter));
+//            })
+//            .catch(err => {
+//                dispatch(rejected_function(VERIFY_VOTER, err));
+//            });
+//    }
+//}
 
 /*
  * startRegistering() is used to invoke the initial email registration window

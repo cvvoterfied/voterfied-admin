@@ -14,7 +14,7 @@ export var axiosConfig = {
  * listCategories() returns the complete list of categories for this customer
  *
  * */
-export function listCategories() {
+export function listCategories(customerId) {
     const { LIST_CATEGORIES } = voteActionTypes;
 
     return function (dispatch, getState) {
@@ -22,7 +22,7 @@ export function listCategories() {
 
         axios
             .get(serverEnvironment.API_URL + '/question/category/' +
-                String(serverEnvironment.customer.id))
+                String(customerId))
             .then(res => {
                 dispatch(fulfilled_function(LIST_CATEGORIES, res));
             })
@@ -36,7 +36,7 @@ export function listCategories() {
  * getFeaturedCategories() returns the top 4 categories to display on the homepage
  *
  * */
-export function getFeaturedCategories(token, categoryId) {
+export function getFeaturedCategories(token, customerId, categoryId) {
     const { GET_FEATURED_CATS } = voteActionTypes;    
     
     return function (dispatch, getState) {
@@ -45,7 +45,7 @@ export function getFeaturedCategories(token, categoryId) {
         axiosConfig.headers.token = token;
         axios
             .get(serverEnvironment.API_URL + '/question/byCategory/' +
-                String(serverEnvironment.customer.id) + '/' +
+                String(customerId) + '/' +
                 String(categoryId), axiosConfig)
             .then(res => {
                 dispatch(fulfilled_function(GET_FEATURED_CATS, res));
@@ -60,7 +60,7 @@ export function getFeaturedCategories(token, categoryId) {
  * listQuestionsByCategory() returns the questions in the given category
  *
  * */
-export function listQuestionsByCategory(token, categoryId) {
+export function listQuestionsByCategory(token, customerId, categoryId) {
     const { LIST_QUESTION_BYCAT } = voteActionTypes;
     const { LOGOUT } = loginActionTypes;
 
@@ -70,7 +70,7 @@ export function listQuestionsByCategory(token, categoryId) {
         axiosConfig.headers.token = token;
         axios
             .get(serverEnvironment.API_URL + '/question/byCategory/' +
-                String(serverEnvironment.customer.id) + '/' + 
+                String(customerId) + '/' + 
                 String(categoryId), axiosConfig)
             .then(res => {
                 dispatch(fulfilled_function(LIST_QUESTION_BYCAT, res));
@@ -88,7 +88,7 @@ export function listQuestionsByCategory(token, categoryId) {
  * listQuestions() returns all questions for this customer
  *
  * */
-export function listQuestions(token) {
+export function listQuestions(token, customerId) {
     const { LIST_QUESTION } = voteActionTypes;
 
     return function (dispatch, getState) {
@@ -97,7 +97,7 @@ export function listQuestions(token) {
         axiosConfig.headers.token = token;
         axios
             .get(serverEnvironment.API_URL + '/question/unexpired/' +
-                String(serverEnvironment.customer.id) , axiosConfig)
+                String(customerId) , axiosConfig)
             .then(res => {
                 dispatch(fulfilled_function(LIST_QUESTION, res));
             })
@@ -434,5 +434,33 @@ export function hideQuestionModal() {
 
     return function (dispatch, getState) {
         dispatch(fulfilled_function(HIDE_QUESTION_FORM));
+    }
+}
+
+
+/*
+ * showCategoryModal
+ * 
+ * */
+
+export function showCategoryModal(question) {
+    const { SHOW_CATEGORY_FORM } = voteActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(fulfilled_function(SHOW_CATEGORY_FORM, question));
+    }
+}
+
+
+/*
+ * hideCategoryModal
+ * 
+ * */
+
+export function hideCategoryModal() {
+    const { HIDE_CATEGORY_FORM } = voteActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(fulfilled_function(HIDE_CATEGORY_FORM));
     }
 }

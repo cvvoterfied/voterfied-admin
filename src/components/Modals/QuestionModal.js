@@ -1,16 +1,23 @@
-﻿import React from 'react';
+﻿import React, { useRef } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import Column from 'react-bootstrap/Col';
 import { connect } from 'react-redux';
 import Label from 'react-bootstrap/FormLabel';
-import { addQuestion, editQuestion, hideQuestionModal } from '../../actions/VoteActions';
 import './Modal.css';
-import stars from '../../images/voterfied_stars.png';
 import Select from 'react-styled-select';
 import DatePicker from 'react-datepicker';
+import Overlay from 'react-bootstrap/Overlay';
 import "react-datepicker/dist/react-datepicker.css";
+
+import { addQuestion, editQuestion, hideQuestionModal, showCategoryModal, hideCategoryModal } from '../../actions/VoteActions';
+
+import stars from '../../images/voterfied_stars.png';
+import add from "../../images/icons/add.jpg";
+import CategoryModal from './CategoryModal';
+
 
 class QuestionModal extends React.Component {
     constructor(props) {
@@ -27,6 +34,16 @@ class QuestionModal extends React.Component {
         this.onSelectCat = this.onSelectCat.bind(this);
         this.onSelectStartDate = this.onSelectStartDate.bind(this);
         this.onSelectEndDate = this.onSelectEndDate.bind(this);
+        this.showAddModal = this.showAddModal.bind(this);
+    }
+
+    showAddModal() {
+        if (this.props.showCategoryForm) {
+            this.props.hideCategoryModal();
+        }
+        else {
+            this.props.showCategoryModal();
+        }
     }
 
     formatDate(dateVal) {
@@ -39,8 +56,7 @@ class QuestionModal extends React.Component {
     }
 
     isEditing() {
-        return (this.props.currentQuestion.id === 0 ? false : true)
-            ;
+        return (this.props.currentQuestion.id === 0 ? false : true);
     }
 
     componentWillReceiveProps(newProps) {
@@ -164,10 +180,9 @@ class QuestionModal extends React.Component {
         this.setState({ "endDate": e });
     }
 
-    render() {
-
+    render() {        
         var data = this.props.currentQuestion;
-
+        
         // Convert answer list into flat string
         var tempAnswers = '';
         for (var j = 0; j < data.answers.length; j++) {
@@ -198,16 +213,16 @@ class QuestionModal extends React.Component {
                 aria-labelledby='contained-modal-title-vcenter'
                 centered
             >
-                <Modal.Body >
+                <Modal.Body  >
                     <h1 className="loginModalHeader">{this.state.header}</h1>
                     <center>
                         <div className="float-center"><img src={stars} alt="" /></div>
                     </center><br />
 
-                    <div className="userLoginForm">
+                    <div className="userLoginForm" id='questionModal'>
                         <Form.Group>
                             <Label>Question: </Label>
-                            <Form.Control type='text' id='question' onChange={this.onChange} defaultValue={data.name} value={this.props.name} />
+                            <Form.Control disabled={this.props.showCategoryForm} type='text' id='question' onChange={this.onChange} defaultValue={data.name} value={this.props.name} />
                         </Form.Group>
                         <Form.Group>
                             <Label>Question Type: </Label>
@@ -218,46 +233,55 @@ class QuestionModal extends React.Component {
                                 defaultValue={items.filter(option => option.value === data.questionType.id)}
                                 value={this.state.questionType}
                                 onChange={this.onSelectType}
+                                disabled={this.props.showCategoryForm}
                             />
                         </Form.Group>
 
                         <Form.Group>
                             <Label>Start Date: </Label><br/>
-                            <DatePicker id="startDate" defaultValue={this.state.startDate} selected={this.state.startDate} onSelect={this.onSelectStartDate}/>
+                            <DatePicker disabled={this.props.showCategoryForm} id="startDate" defaultValue={this.state.startDate} selected={this.state.startDate} onSelect={this.onSelectStartDate}/>
                         </Form.Group>
                         <Form.Group>
                             <Label>End Date: </Label><br />
-                            <DatePicker id="endDate" defaultValue={this.state.endDate} selected={this.state.endDate} onSelect={this.onSelectEndDate}/>
+                            <DatePicker disabled={this.props.showCategoryForm} id="endDate" defaultValue={this.state.endDate} selected={this.state.endDate} onSelect={this.onSelectEndDate}/>
                         </Form.Group>
 
                         <Form.Group>
                             <Label>Category: </Label>
-                            <Select
-                                className="red-theme"
-                                name="questionType"
-                                options={cats}
-                                defaultValue={cats.filter(option => option.value === data.categoryId)}
-                                value={this.state.categoryId}
-                                onChange={this.onSelectCat}
-                            />
-                            
+                            <Row>
+                            <Column>
+                                <Select
+                                    className="red-theme"
+                                    name="questionType"
+                                    options={cats}
+                                    defaultValue={cats.filter(option => option.value === data.categoryId)}
+                                    value={this.state.categoryId}
+                                    onChange={this.onSelectCat}
+                                    />      
+                                    <CategoryModal show={this.props.showCategoryForm} />
+
+                            </Column>
+                            <Column>
+                                <button className="transparent" onClick={this.showAddModal}><img className="crudicons" src={add} height="20" alt="" /> </button>                           
+                            </Column>
+                            </Row>
                         </Form.Group>
                         <Form.Group>
                             <Label>Sort Order: </Label>
-                            <Form.Control type='text' id='ordinal' onChange={this.onChange} defaultValue="1" value={this.props.ordinal} />
+                            <Form.Control disabled={this.props.showCategoryForm} type='text' id='ordinal' onChange={this.onChange} defaultValue="1" value={this.props.ordinal} />
                         </Form.Group>
 
                         <Form.Group>
                             <Label>Pros: </Label>
-                            <textarea rows="5" cols="50" className="modal-longbox" id='pros' onChange={this.onChange} defaultValue={data.pros} value={this.props.pros} />
+                            <textarea disabled={this.props.showCategoryForm} rows="5" cols="50" className="modal-longbox" id='pros' onChange={this.onChange} defaultValue={data.pros} value={this.props.pros} />
                         </Form.Group>
                         <Form.Group>
                             <Label>Cons: </Label>
-                            <textarea rows="5" cols="50" className="modal-longbox" id='cons' onChange={this.onChange} defaultValue={data.cons} value={this.props.cons} />
+                            <textarea disabled={this.props.showCategoryForm} rows="5" cols="50" className="modal-longbox" id='cons' onChange={this.onChange} defaultValue={data.cons} value={this.props.cons} />
                         </Form.Group>
                         <Form.Group>
                             <Label>Candidate's Opinion: </Label>
-                            <textarea rows="5" cols="50" className="modal-longbox" id="candidateOpinion" onChange={this.onChange} defaultValue={data.candidateOpinion} value={this.props.candidateOpinion} />
+                            <textarea disabled={this.props.showCategoryForm} rows="5" cols="50" className="modal-longbox" id="candidateOpinion" onChange={this.onChange} defaultValue={data.candidateOpinion} value={this.props.candidateOpinion} />
                         </Form.Group>
                         <Form.Group className={this.isEditing() ? "" : "hidden"}>
                             <Label>Answers: </Label>
@@ -265,7 +289,7 @@ class QuestionModal extends React.Component {
                         </Form.Group>
                         <Form.Group className={this.isEditing() ? "hidden" : ""}>
                             <Label>Answers: </Label>
-                            <textarea rows="5" cols="50" className="modal-longbox" id='answers' onChange={this.onChange} defaultValue={tempAnswers} value={this.props.answers} />
+                            <textarea disabled={this.props.showCategoryForm} rows="5" cols="50" className="modal-longbox" id='answers' onChange={this.onChange} defaultValue={tempAnswers} value={this.props.answers} />
                         </Form.Group>
                       
                     </div>
@@ -273,12 +297,11 @@ class QuestionModal extends React.Component {
                         <Button className="modalLoginButton" variant="danger" onClick={this.onSubmit} href="#">Save</Button>
                         <Button className="modalLoginButton" variant="danger" onClick={this.onClickCancel} href="#">Cancel</Button>
                     </Row>
-
-
                     <Row>
-                        <div className="loginModalFooter">{this.props.message}</div>
                         <br /><br />
+                        <div className="loginModalFooter">{this.props.message}</div>
                     </Row>
+                  
 
                 </Modal.Body>
             </Modal>
@@ -293,8 +316,9 @@ function mapStateToProps(state) {
         currentCustomer: state.customerReducer.currentCustomer,
         currentQuestion: state.voteReducer.currentQuestion,
         customers: state.customerReducer.customerList,
-        categories: state.voteReducer.categories
+        categories: state.voteReducer.categories,
+        showCategoryForm: state.voteReducer.showCategoryForm
     }
 }
-export default connect(mapStateToProps, { addQuestion, editQuestion, hideQuestionModal })(QuestionModal);
+export default connect(mapStateToProps, { addQuestion, editQuestion, hideQuestionModal, showCategoryModal, hideCategoryModal })(QuestionModal);
 

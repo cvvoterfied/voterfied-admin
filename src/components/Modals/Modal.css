@@ -19,3 +19,15 @@
     color: darkblue;
     width: 100%;
 }
+
+.Modal {
+    position: absolute;
+    background-color: lightgray;
+    width: 700px;
+    height: 160px;
+    border-radius: 30px;
+    align-content: center;
+    align-items: center;
+    margin-left: 30px;
+
+}

@@ -116,6 +116,9 @@
     <Compile Include="components\DropdownFilters\UserLoginDropdown.js">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="components\Modals\CategoryModal.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="components\Modals\CustomerModal.js">
       <SubType>Code</SubType>
     </Compile>
