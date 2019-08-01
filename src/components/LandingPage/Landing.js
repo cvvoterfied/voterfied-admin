@@ -110,7 +110,7 @@ class Landing extends React.Component {
 
 
     onChange = (e) => {
-        this.setState({ [e.target.id]: e.target.value });
+        this.setState({ [e.target.id]: e.target.value.trim() });
     }
 
     onShowVersion = (e) => {

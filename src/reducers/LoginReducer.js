@@ -61,6 +61,7 @@ export default function reducer(state = {
                 allUsers: temp,
                 currentUserLogin:  { id: 0, name: "", UserRole: { id: 1, name: "Unverified" }, AuthorizedCustomers: [] },
                 showUserForm: false,
+                showEditProfile: false,
                 message: ""
             }
         case rejected(loginActionTypes.DELETE_USER_PROFILE):
@@ -74,12 +75,13 @@ export default function reducer(state = {
                 message: "Working..."
             }
         case fulfilled(loginActionTypes.EDIT_USER_PROFILE):
-            var tempeup = state.allUsers.filter(r => r.id !== state.currentCustomer.id);
+            var tempeup = state.allUsers.filter(r => r.id !== state.currentUserLogin.id);
             tempeup.push(action.payload.data);
 
             return {
                 ...state,
                 showEditProfile: false,
+                showUserForm: false,
                 allUsers: tempeup,
                 message: "User profile updated",
                 user: action.payload
