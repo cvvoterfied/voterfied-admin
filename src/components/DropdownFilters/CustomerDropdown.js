@@ -69,8 +69,10 @@ class CustomerDropdown extends React.Component {
         var cats = [];
         cats.push({ "label": "All Customers", "value": "0" });
 
-        for (var i = 0; i < this.props.customers.length; i++) {
-            cats.push({ "label": this.props.customers[i].name, "value": this.props.customers[i].id });
+        if (this.props.customers) {
+            for (var i = 0; i < this.props.customers.length; i++) {
+                cats.push({ "label": this.props.customers[i].name, "value": this.props.customers[i].id });
+            }
         }
 
         return (

@@ -9,7 +9,7 @@ import Label from 'react-bootstrap/FormLabel';
 import './Modal.css';
 import Select from 'react-styled-select';
 import DatePicker from 'react-datepicker';
-import Overlay from 'react-bootstrap/Overlay';
+import CheckBox from 'react-bootstrap/FormCheckInput';
 import "react-datepicker/dist/react-datepicker.css";
 
 import { addQuestion, editQuestion, hideQuestionModal, showCategoryModal, hideCategoryModal } from '../../actions/VoteActions';
@@ -102,6 +102,7 @@ class QuestionModal extends React.Component {
                 candidateOpinion: (this.state.candidateOpinion ? this.state.candidateOpinion : ""),
                 answers: answers,
                 ordinal: (this.state.ordinal ? this.state.ordinal : 1),
+                isAnonymous: (this.state.isAnonymous ? this.state.isAnonymous : false),
                 createdDate: new Date(),
                 modifiedDate: new Date(),
                 ts: "QEA="
@@ -142,6 +143,9 @@ class QuestionModal extends React.Component {
                 question.candidateOpinion = this.state.candidateOpinion;
             }
             question.answers = answers;
+            if (this.state.isAnonymous) {
+                question.isAnonymous = this.state.isAnonymous;
+            }
 
             if (this.state.ordinal && this.state.ordinal.length > 0) {
                 question.ordinal = this.state.ordinal;
@@ -265,6 +269,10 @@ class QuestionModal extends React.Component {
                                 <button className="transparent" onClick={this.showAddModal}><img className="crudicons" src={add} height="20" alt="" /> </button>                           
                             </Column>
                             </Row>
+                        </Form.Group>
+                        <Form.Group>
+                            <Label>Is Anonymous Question: </Label><br />
+                            <CheckBox value={this.state.isAnonymous} defaultValue={data.isAnonymous} />
                         </Form.Group>
                         <Form.Group>
                             <Label>Sort Order: </Label>

@@ -59,7 +59,7 @@ export function addCustomer(token, customer) {
         dispatch(pending_function(ADD_CUSTOMER));
         axiosConfig.headers.token = token;
         axios
-            .post(serverEnvironment.API_URL + '/customer', customer)
+            .post(serverEnvironment.API_URL + '/customer', customer, axiosConfig)
             .then(res => {
                 dispatch(fulfilled_function(ADD_CUSTOMER, res));
             })
@@ -81,7 +81,7 @@ export function editCustomer(token, customer) {
         dispatch(pending_function(EDIT_CUSTOMER));
         axiosConfig.headers.token = token;
         axios
-            .put(serverEnvironment.API_URL + '/customer/' + customer.id, customer)
+            .put(serverEnvironment.API_URL + '/customer/' + customer.id, customer, axiosConfig)
             .then(res => {
                 dispatch(fulfilled_function(EDIT_CUSTOMER, res));
             })
@@ -104,7 +104,7 @@ export function deleteCustomer(token, customerId) {
         dispatch(pending_function(DELETE_CUSTOMER));
         axiosConfig.headers.token = token;
         axios
-            .delete(serverEnvironment.API_URL + '/customer/' + customerId)
+            .delete(serverEnvironment.API_URL + '/customer/' + customerId, axiosConfig)
             .then(res => {
                 dispatch(fulfilled_function(DELETE_CUSTOMER));
             })
@@ -128,7 +128,7 @@ export function enumCustomer(token) {
         dispatch(pending_function(ENUM_CUSTOMER));
         axiosConfig.headers.token = token;
         axios
-            .get(serverEnvironment.API_URL + '/customer')
+            .get(serverEnvironment.API_URL + '/customer', axiosConfig)
             .then(res => {
                 dispatch(fulfilled_function(ENUM_CUSTOMER, res));
             })

@@ -238,9 +238,9 @@ class Landing extends React.Component {
                 </Col>
                 <Col>
                     <div className="errorMessages">{
-                        (this.props.voteMessages.length > 0 ? "Questions: " + this.props.voteMessages + " " : "") +
-                        (this.props.custMessages.length > 0 ? "Customer: " + this.props.custMessages + " "  : "") +
-                        (this.props.loginMessages.length > 0 ? "User: " + this.props.loginMessages : "")                         
+                        (this.props.voteMessages && this.props.voteMessages.length > 0 ? "Questions: " + this.props.voteMessages + " " : "") +
+                        (this.props.custMessages && this.props.custMessages.length > 0 ? "Customer: " + this.props.custMessages + " "  : "") +
+                        (this.props.loginMessages && this.props.loginMessages.length > 0 ? "User: " + this.props.loginMessages : "")                         
                     }</div>
                 </Col>
                 </Row>
