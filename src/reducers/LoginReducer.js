@@ -123,7 +123,7 @@ export default function reducer(state = {
             var isVerified = false;
 
             // Super Admin has access
-            if (action.payload.user.UserRole > 2 && action.payload.token) {
+            if (action.payload.user.UserRole >= 2 && action.payload.token) {
                 isVerified = true;
             }
            
