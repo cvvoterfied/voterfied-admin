@@ -35,6 +35,7 @@ class UserLoginModal extends React.Component {
         this.onClickCancel = this.onClickCancel.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onSelect = this.onSelect.bind(this);
+        this.onClickCheckbox = this.onClickCheckbox.bind(this);
     }
 
     isEditing() {
@@ -131,6 +132,10 @@ class UserLoginModal extends React.Component {
         this.setState({ [e.target.id]: e.target.value.trim() });
     }
 
+    onClickCheckbox = (e) => {
+        this.setState({ 'forcePasswordChange': e.target.checked });
+    }
+
     onSelect = (e) => {
         this.setState({ "userRole": e });
     }
@@ -196,7 +201,7 @@ class UserLoginModal extends React.Component {
                         </Form.Group>
                         <Form.Group>
                             <Label>Force Password Change: </Label><br/>
-                            <Checkbox value={this.state.forcePasswordChange} defaultValue={data.ForcePasswordChange} />
+                            <Checkbox checked={this.props.forcePasswordChange} defaultChecked={data.forcePasswordChange} onClick={this.onClickCheckbox} />
                         </Form.Group>
                         <Form.Group>
                             <Label>Role: </Label>
