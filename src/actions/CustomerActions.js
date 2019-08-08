@@ -59,7 +59,7 @@ export function addCustomer(token, customer) {
         dispatch(pending_function(ADD_CUSTOMER));
         axiosConfig.headers.token = token;
         axios
-            .post(serverEnvironment.API_URL + '/customer', customer)
+            .post(serverEnvironment.API_URL + '/customer', customer, axiosConfig)
             .then(res => {
                 dispatch(fulfilled_function(ADD_CUSTOMER, res));
             })
@@ -81,7 +81,7 @@ export function editCustomer(token, customer) {
         dispatch(pending_function(EDIT_CUSTOMER));
         axiosConfig.headers.token = token;
         axios
-            .put(serverEnvironment.API_URL + '/customer/' + customer.id, customer)
+            .put(serverEnvironment.API_URL + '/customer/' + customer.id, customer, axiosConfig)
             .then(res => {
                 dispatch(fulfilled_function(EDIT_CUSTOMER, res));
             })
@@ -104,7 +104,7 @@ export function deleteCustomer(token, customerId) {
         dispatch(pending_function(DELETE_CUSTOMER));
         axiosConfig.headers.token = token;
         axios
-            .delete(serverEnvironment.API_URL + '/customer/' + customerId)
+            .delete(serverEnvironment.API_URL + '/customer/' + customerId, axiosConfig)
             .then(res => {
                 dispatch(fulfilled_function(DELETE_CUSTOMER));
             })
@@ -128,7 +128,7 @@ export function enumCustomer(token) {
         dispatch(pending_function(ENUM_CUSTOMER));
         axiosConfig.headers.token = token;
         axios
-            .get(serverEnvironment.API_URL + '/customer')
+            .get(serverEnvironment.API_URL + '/customer', axiosConfig)
             .then(res => {
                 dispatch(fulfilled_function(ENUM_CUSTOMER, res));
             })
@@ -163,3 +163,94 @@ export function hideCustomerForm() {
     }
 }
 
+/* 
+ *  showConfigForm
+ *  
+ *  */
+export function showConfigForm(customer) {
+    const { SHOW_CONFIG_FORM } = customerActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(fulfilled_function(SHOW_CONFIG_FORM, customer));
+    }
+}
+
+/*
+ * hideConfigForm
+ * 
+ * */
+export function hideConfigForm() {
+    const { HIDE_CONFIG_FORM } = customerActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(fulfilled_function(HIDE_CONFIG_FORM));
+    }
+}
+
+/* 
+ * Update one config for a customer
+ * 
+ * */
+export function updateConfig(token, rowID, customerID, configName, configValue) {
+    const { UPDATE_CONFIG } = customerActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(pending_function(UPDATE_CONFIG));
+        axiosConfig.headers.token = token;
+
+        var item = {
+            id: rowID,
+            name: configName,
+            customerID: customerID,
+            configValue: configValue,            
+            createdDate: new Date(),
+            modifiedDate: new Date(),
+            ts: "QEA="
+        };
+
+        if (rowID !== 0) {
+            axios
+                .put(serverEnvironment.API_URL + '/config/' + String(rowID), item, axiosConfig)
+                .then(res => {
+                    dispatch(fulfilled_function(UPDATE_CONFIG, res));
+                })
+                .catch(err => {
+                    dispatch(rejected_function(UPDATE_CONFIG, err));
+                });
+        }
+        else {
+            var items = [];
+            items.push(item);
+            axios
+                .post(serverEnvironment.API_URL + '/config', items, axiosConfig)
+                .then(res => {
+                    dispatch(fulfilled_function(UPDATE_CONFIG, res));
+                })
+                .catch(err => {
+                    dispatch(rejected_function(UPDATE_CONFIG, err));
+                });
+        }
+    }
+}
+
+/* 
+ * Get configuration values for a customer
+ * 
+ * */
+export function getConfig(token, customerID) {
+    const { GET_CONFIG } = customerActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(pending_function(GET_CONFIG));
+        axiosConfig.headers.token = token;
+        axios
+            .get(serverEnvironment.API_URL + '/config/' + String(customerID), axiosConfig)
+            .then(res => {
+                dispatch(fulfilled_function(GET_CONFIG, res));
+            })
+            .catch(err => {
+                dispatch(rejected_function(GET_CONFIG, err));
+            });
+
+    }
+}

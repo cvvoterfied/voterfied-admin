@@ -20,6 +20,9 @@
     <Content Include="components\DropdownFilters\Dropdown.css">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="components\EditConfig\EditConfig.css">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="components\Modals\Modal.css">
       <SubType>Code</SubType>
     </Content>
@@ -97,6 +100,7 @@
     <Folder Include="components\LoginModal" />
     <Folder Include="components\DropdownFilters\" />
     <Folder Include="components\Modals\" />
+    <Folder Include="components\EditConfig\" />
     <Folder Include="components\VersionModal" />
     <Folder Include="constants" />
     <Folder Include="images" />
@@ -114,6 +118,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="components\DropdownFilters\UserLoginDropdown.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\EditConfig\EditConfig.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\EditConfig\index.js">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="components\Modals\CategoryModal.js">

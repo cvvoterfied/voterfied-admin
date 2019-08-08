@@ -6,7 +6,7 @@ import Select from 'react-styled-select';
 import Row from 'react-bootstrap/Row';
 import { enumQuestions, enumVotes, clearVotes } from '../../actions/VoteActions';
 import { enumUserProfile } from '../../actions/LoginActions';
-import { getCustomer, showCustomerForm, deleteCustomer  } from '../../actions/CustomerActions';
+import { getCustomer, showCustomerForm, deleteCustomer, getConfig  } from '../../actions/CustomerActions';
 
 import add from  "../../images/icons/add.jpg";
 import edit from "../../images/icons/edit.png";
@@ -34,6 +34,7 @@ class CustomerDropdown extends React.Component {
             this.props.enumQuestions(this.props.logintoken, e);
             this.props.enumUserProfile(this.props.logintoken);
             this.props.enumVotes(this.props.logintoken, e);
+            this.props.getConfig(this.props.logintoken, e);
             this.props.getCustomer(e);
         }
         else {
@@ -69,8 +70,10 @@ class CustomerDropdown extends React.Component {
         var cats = [];
         cats.push({ "label": "All Customers", "value": "0" });
 
-        for (var i = 0; i < this.props.customers.length; i++) {
-            cats.push({ "label": this.props.customers[i].name, "value": this.props.customers[i].id });
+        if (this.props.customers) {
+            for (var i = 0; i < this.props.customers.length; i++) {
+                cats.push({ "label": this.props.customers[i].name, "value": this.props.customers[i].id });
+            }
         }
 
         return (
@@ -104,4 +107,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { getCustomer, enumQuestions, enumUserProfile, enumVotes, showCustomerForm, deleteCustomer, clearVotes })(CustomerDropdown);
+export default connect(mapStateToProps, { getCustomer, enumQuestions, enumUserProfile, enumVotes, showCustomerForm, deleteCustomer, clearVotes, getConfig })(CustomerDropdown);

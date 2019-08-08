@@ -50,7 +50,7 @@ export function login(userName, password) {
         };
 
         axios
-            .post(serverEnvironment.API_URL + '/login', payload)
+            .post(serverEnvironment.API_URL + '/login/admin', payload)
             .then((res) => {                
                 dispatch(fulfilled_function(LOGIN, res.data));
             })
@@ -333,7 +333,7 @@ export function addUserProfile(token, user) {
         dispatch(pending_function(ADD_USER_PROFILE));
         axiosConfig.headers.token = token;
         axios
-            .post(serverEnvironment.API_URL + '/userLogin', user)
+            .post(serverEnvironment.API_URL + '/userLogin', user, axiosConfig)
             .then((res) => {                
                 dispatch(fulfilled_function(ADD_USER_PROFILE, res));
             })
@@ -357,7 +357,7 @@ export function editUserProfile2(token, user) {
         dispatch(pending_function(EDIT_USER_PROFILE));
         axiosConfig.headers.token = token;
         axios
-            .put(serverEnvironment.API_URL + '/userLogin/' + String(user.id), user)
+            .put(serverEnvironment.API_URL + '/userLogin/' + String(user.id), user, axiosConfig)
             .then((res) => {
                 dispatch(fulfilled_function(EDIT_USER_PROFILE, res));
             })
@@ -380,7 +380,7 @@ export function deleteUserLogin(token, userLoginId) {
         dispatch(pending_function(DELETE_USER_PROFILE));
         axiosConfig.headers.token = token;
         axios
-            .delete(serverEnvironment.API_URL + '/userLogin/' + String(userLoginId))
+            .delete(serverEnvironment.API_URL + '/userLogin/' + String(userLoginId), axiosConfig)
             .then((res) => {
                 dispatch(fulfilled_function(DELETE_USER_PROFILE));
             })
@@ -402,7 +402,7 @@ export function enumUserProfile(token) {
         dispatch(pending_function(ENUM_USER_PROFILE));
         axiosConfig.headers.token = token;
         axios
-            .get(serverEnvironment.API_URL + '/userLogin' )
+            .get(serverEnvironment.API_URL + '/userLogin', axiosConfig )
             .then((res) => {
                 dispatch(fulfilled_function(ENUM_USER_PROFILE, res));
             })
