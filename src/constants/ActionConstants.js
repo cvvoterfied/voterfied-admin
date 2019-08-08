@@ -2,8 +2,8 @@
 //
 
 export const serverEnvironment = {
-    API_URL: "https://voterfiedmtv2.azurewebsites.net",
-    //API_URL: "http://localhost:62364"
+    //API_URL: "https://voterfiedmtv2.azurewebsites.net",
+    API_URL: "http://localhost:62364"
 }
 
 export const colors = ["darkgreen", "darkred", "yellow", "darkblue", "magenta", "white", "orange", "purple", "lightblue", "darkgray", "lightgray"];
@@ -113,5 +113,9 @@ export const customerActionTypes = {
     DELETE_CUSTOMER: "DELETE_CUSTOMER",
     ENUM_CUSTOMER: "ENUM_CUSTOMER",
     SHOW_CUSTOMER_FORM: "SHOW_CUSTOMER_FORM",
-    HIDE_CUSTOMER_FORM: "HIDE_CUSTOMER_FORM"
+    HIDE_CUSTOMER_FORM: "HIDE_CUSTOMER_FORM",
+    SHOW_CONFIG_FORM: "SHOW_CONFIG_FORM",
+    HIDE_CONFIG_FORM: "HIDE_CONFIG_FORM",
+    GET_CONFIG: "GET_CONFIG",
+    UPDATE_CONFIG: "UPDATE_CONFIG"
 }

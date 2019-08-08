@@ -50,7 +50,7 @@ export function login(userName, password) {
         };
 
         axios
-            .post(serverEnvironment.API_URL + '/login', payload)
+            .post(serverEnvironment.API_URL + '/login/admin', payload)
             .then((res) => {                
                 dispatch(fulfilled_function(LOGIN, res.data));
             })

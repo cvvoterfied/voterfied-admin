@@ -163,3 +163,94 @@ export function hideCustomerForm() {
     }
 }
 
+/* 
+ *  showConfigForm
+ *  
+ *  */
+export function showConfigForm(customer) {
+    const { SHOW_CONFIG_FORM } = customerActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(fulfilled_function(SHOW_CONFIG_FORM, customer));
+    }
+}
+
+/*
+ * hideConfigForm
+ * 
+ * */
+export function hideConfigForm() {
+    const { HIDE_CONFIG_FORM } = customerActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(fulfilled_function(HIDE_CONFIG_FORM));
+    }
+}
+
+/* 
+ * Update one config for a customer
+ * 
+ * */
+export function updateConfig(token, rowID, customerID, configName, configValue) {
+    const { UPDATE_CONFIG } = customerActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(pending_function(UPDATE_CONFIG));
+        axiosConfig.headers.token = token;
+
+        var item = {
+            id: rowID,
+            name: configName,
+            customerID: customerID,
+            configValue: configValue,            
+            createdDate: new Date(),
+            modifiedDate: new Date(),
+            ts: "QEA="
+        };
+
+        if (rowID !== 0) {
+            axios
+                .put(serverEnvironment.API_URL + '/config/' + String(rowID), item, axiosConfig)
+                .then(res => {
+                    dispatch(fulfilled_function(UPDATE_CONFIG, res));
+                })
+                .catch(err => {
+                    dispatch(rejected_function(UPDATE_CONFIG, err));
+                });
+        }
+        else {
+            var items = [];
+            items.push(item);
+            axios
+                .post(serverEnvironment.API_URL + '/config', items, axiosConfig)
+                .then(res => {
+                    dispatch(fulfilled_function(UPDATE_CONFIG, res));
+                })
+                .catch(err => {
+                    dispatch(rejected_function(UPDATE_CONFIG, err));
+                });
+        }
+    }
+}
+
+/* 
+ * Get configuration values for a customer
+ * 
+ * */
+export function getConfig(token, customerID) {
+    const { GET_CONFIG } = customerActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(pending_function(GET_CONFIG));
+        axiosConfig.headers.token = token;
+        axios
+            .get(serverEnvironment.API_URL + '/config/' + String(customerID), axiosConfig)
+            .then(res => {
+                dispatch(fulfilled_function(GET_CONFIG, res));
+            })
+            .catch(err => {
+                dispatch(rejected_function(GET_CONFIG, err));
+            });
+
+    }
+}

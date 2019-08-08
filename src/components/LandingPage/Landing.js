@@ -11,6 +11,7 @@ import Col from 'react-bootstrap/Col';
 import CustomerDropdown from '../DropdownFilters/CustomerDropdown';
 
 import EditProfile from '../EditProfile';
+import EditConfig from '../EditConfig';
 import ChangePasswordModal from '../ChangePasswordModal';
 import VersionModal from '../VersionModal';
 import QuestionDropdown from '../DropdownFilters/QuestionDropdown';
@@ -329,7 +330,11 @@ class Landing extends React.Component {
             user={this.props.user}
             show={this.props.showEditProfile}
            />
-        
+
+                <EditConfig
+                    adminTimeout1={this.props.adminTimeout}
+                    portalTimeout1={this.props.portalTimeout}
+                    show={this.props.configFormVisible} />              
         
         <ChangePasswordModal show={this.props.forcePasswordChange} userName={this.props.username}/>
         <VersionModal show={this.props.showVersion} onHide={this.props.hideVersionModal} />  
@@ -362,10 +367,13 @@ function mapStateToProps(state) {
         customerLogo: (state.customerReducer.currentCustomer ? state.customerReducer.currentCustomer.logoURL : ""),
         userFormVisible: state.loginReducer.showUserForm,
         customerFormVisible: state.customerReducer.customerFormVisible,
+        configFormVisible: state.customerReducer.configFormVisible,
         showQuestionForm: state.voteReducer.showQuestionForm,
         voteMessages: state.voteReducer.message,
         custMessages: state.customerReducer.lastError,
-        loginMessages: state.loginReducer.message
+        loginMessages: state.loginReducer.message,
+        portalTimeout: state.customerReducer.portalTimeoutMins,
+        adminTimeout: state.customerReducer.adminTimeoutMins
     }
 }
 

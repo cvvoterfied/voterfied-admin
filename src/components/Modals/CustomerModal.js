@@ -9,6 +9,7 @@ import { addCustomer, editCustomer, hideCustomerForm } from '../../actions/Custo
 import { emptyCustomer } from '../../constants/ActionConstants';
 import './Modal.css';
 import stars from '../../images/voterfied_stars.png';
+import { showConfigForm, getConfig } from '../../actions/CustomerActions';
 
 class CustomerModal extends React.Component {
     constructor(props) {
@@ -28,6 +29,7 @@ class CustomerModal extends React.Component {
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onClickCancel = this.onClickCancel.bind(this);
+        this.onClickConfig = this.onClickConfig.bind(this);
         this.onChange = this.onChange.bind(this);
     }
 
@@ -95,6 +97,10 @@ class CustomerModal extends React.Component {
         this.props.hideCustomerForm();
     }
 
+    onClickConfig = () => {        
+        this.props.showConfigForm();
+    }
+
     onChange = (e) => {
         this.setState({ [e.target.id]: e.target.value.trim() });
     }
@@ -159,8 +165,9 @@ class CustomerModal extends React.Component {
                     </Form.Group>
 
                     <Row>
+                        <Button className={this.isEditing() ? "modalLoginButton" : "hidden"} variant="danger" onClick={this.onClickConfig} href="#">Configure</Button>                        
                         <Button className="modalLoginButton" variant="danger" onClick={this.onSubmit} href="#">Save</Button>
-                        <Button className="modalLoginButton" variant="danger" onClick={this.onClickCancel} href="#">Cancel</Button>
+                        <Button className="modalLoginButton" variant="danger" onClick={this.onClickCancel} href="#">Cancel</Button>                        
                     </Row>
 
 
@@ -180,9 +187,9 @@ function mapStateToProps(state) {
         logintoken: state.loginReducer.loginToken,
         message: state.loginReducer.message,
         currentCustomer: state.customerReducer.currentCustomer,
-        customers: state.customerReducer.customerList
-
+        customers: state.customerReducer.customerList,
+        configFormVisible: state.customerReducer.configFormVisible
     }
 }
-export default connect(mapStateToProps, { addCustomer, editCustomer, hideCustomerForm })(CustomerModal);
+export default connect(mapStateToProps, { addCustomer, editCustomer, hideCustomerForm, showConfigForm, getConfig  })(CustomerModal);
 
