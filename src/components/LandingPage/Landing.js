@@ -126,7 +126,8 @@ class Landing extends React.Component {
         columns[3].width = 240;
         columns[4].width = 100;
         columns[5].width = 200;
-        columns[6].width = 100;
+        columns[6].width = 200;
+        columns[7].width = 100;
     }
 
     exportToCSV() {
@@ -136,11 +137,12 @@ class Landing extends React.Component {
                 row.createdDate + "," +
                 row.answer + "," +
                 String(row.rank) + "," +
+                row.name + "," + 
                 row.email + "," +
                 row.phone + ",\r\n";                         
         };
 
-        var csvFile = "Category,Question,Vote Date,Answer,Rank,Email,Phone\n";
+        var csvFile = "Category,Question,Vote Date,Answer,Rank,Name,Email,Phone\n";
         for (var i = 0; i < this.props.votes.length; i++) {
             csvFile += processRow(this.props.votes[i]);
         }
@@ -289,6 +291,13 @@ class Landing extends React.Component {
                             caption={"Rank"}
                             dataType={"number"}
                             alignment={"center"}
+                            sortable={"true"}
+                        />
+                        <Column
+                            dataField={"name"}
+                            caption={"Name"}
+                            dataType={"string"}
+                            alignment={"left"}
                             sortable={"true"}
                         />
                         <Column
