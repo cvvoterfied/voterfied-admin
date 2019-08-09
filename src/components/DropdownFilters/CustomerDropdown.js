@@ -43,7 +43,7 @@ class CustomerDropdown extends React.Component {
     }
 
     showAddModal() {
-        this.props.showCustomerForm(emptyCustomer);
+        this.props.showCustomerForm(emptyCustomer.id);
     }
 
     showEditModal() {

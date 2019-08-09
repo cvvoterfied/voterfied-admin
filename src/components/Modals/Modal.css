@@ -12,6 +12,8 @@
     border-color: darkblue;
     color: darkblue;
     margin-top: 12px;
+    white-space: pre-line;
+    display: inline-block;
 }
 
 #startDate, #endDate {

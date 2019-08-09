@@ -2,7 +2,7 @@
 //
 
 export const serverEnvironment = {
-    API_URL: "https://voterfiedmtv2.azurewebsites.net"
+    API_URL: "https://voterfiedmtv2.azurewebsites.net",
     //API_URL: "http://localhost:62364"
 }
 
