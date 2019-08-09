@@ -35,6 +35,7 @@ class QuestionModal extends React.Component {
         this.onSelectStartDate = this.onSelectStartDate.bind(this);
         this.onSelectEndDate = this.onSelectEndDate.bind(this);
         this.showAddModal = this.showAddModal.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
     }
 
     showAddModal() {
@@ -66,6 +67,15 @@ class QuestionModal extends React.Component {
                 "questionType": newProps.currentQuestion.questionType.id,
                 "startDate": this.formatDate(newProps.currentQuestion.startDate),
                 "endDate": this.formatDate(newProps.currentQuestion.endDate)
+            });
+        }
+    }
+
+    onKeyDown(event) {
+        if ((event.which === 13) ) {
+            event.preventDefault();
+            this.setState({
+                "answers": this.state.answers + "\r"
             });
         }
     }
@@ -168,7 +178,10 @@ class QuestionModal extends React.Component {
     onSelectType = (e) => {
         this.setState({ "questionType": e });
         if (e === 1) {
-            this.setState({"answers": "Yes\nNo\n"});
+            this.setState({ "answers": "Yes\nNo\n" });
+        }
+        else {
+            this.setState({ "answers": "" });
         }
     }
 
@@ -279,11 +292,11 @@ class QuestionModal extends React.Component {
                             <Form.Control disabled={this.props.showCategoryForm} type='text' id='ordinal' onChange={this.onChange} defaultValue="1" value={this.props.ordinal} />
                         </Form.Group>
 
-                        <Form.Group>
+                        <Form.Group className={this.state.questionType === 1 ? "" : "hidden"}>
                             <Label>Pros: </Label>
                             <textarea disabled={this.props.showCategoryForm} rows="5" cols="50" className="modal-longbox" id='pros' onChange={this.onChange} defaultValue={data.pros} value={this.props.pros} />
                         </Form.Group>
-                        <Form.Group>
+                        <Form.Group className={this.state.questionType === 1 ? "" : "hidden"}>
                             <Label>Cons: </Label>
                             <textarea disabled={this.props.showCategoryForm} rows="5" cols="50" className="modal-longbox" id='cons' onChange={this.onChange} defaultValue={data.cons} value={this.props.cons} />
                         </Form.Group>
@@ -297,7 +310,7 @@ class QuestionModal extends React.Component {
                         </Form.Group>
                         <Form.Group className={this.isEditing() ? "hidden" : ""}>
                             <Label>Answers: </Label>
-                            <textarea disabled={this.props.showCategoryForm} rows="5" cols="50" className="modal-longbox" id='answers' onChange={this.onChange} defaultValue={tempAnswers} value={this.props.answers} />
+                            <textarea disabled={this.props.showCategoryForm} rows="5" cols="50" className="modal-longbox" id='answers' onChange={this.onChange} defaultValue={tempAnswers} value={this.state.answers} onKeyDown={this.onKeyDown} />
                         </Form.Group>
                       
                     </div>

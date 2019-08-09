@@ -156,7 +156,7 @@ export default function reducer(state = {
                 customerFormVisible: false
             }
         case fulfilled(customerActionTypes.SHOW_CUSTOMER_FORM):
-            var selectedItem = {};
+            var selectedItem = emptyCustomer;
             for (var i = 0; i < state.customerList.length; i++) {
                 if (state.customerList[i].id === action.payload) {
                     selectedItem = state.customerList[i];
