@@ -4,7 +4,7 @@ import "./Dropdown.css";
 import { connect } from 'react-redux';
 import Select from 'react-styled-select';
 import Row from 'react-bootstrap/Row';
-import { listVotesByQuestion, enumVotes, showQuestionModal, deleteQuestion } from '../../actions/VoteActions';
+import { listVotesByQuestion, enumVotes, showQuestionModal, deleteQuestion, getVotes, listVotesByUser  } from '../../actions/VoteActions';
 
 import add from "../../images/icons/add.jpg";
 import edit from "../../images/icons/edit.png";
@@ -25,12 +25,29 @@ class QuestionDropdown extends React.Component {
     onChange = (e) => {
         this.setState({ "currentQuestion": e });
 
+
         if (e && e !== "0") {
-            this.props.listVotesByQuestion(this.props.logintoken, this.props.currentCustomer.id, e);
+            if (this.props.currentUser && this.props.currentUser.id !== 0) {
+                // The vote for one question and user
+                this.props.getVotes(this.props.logintoken, this.props.currentCustomer.id, e, this.props.currentUser.id);
+            }
+            else {
+                // All votes for this question
+                this.props.listVotesByQuestion(this.props.logintoken, this.props.currentCustomer.id, e);
+            }
         }
-        if (e === "0") {
-            this.props.enumVotes(this.props.logintoken, this.props.currentCustomer.id);
+        else if (e && e === "0") {
+            if (this.props.currentUser && this.props.currentUser.id !== 0) {
+                // This customer + user
+                this.props.listVotesByUser(this.props.logintoken, this.props.currentCustomer.id, this.props.currentUser.id);
+            }
+            else {
+                // All questions 
+                this.props.enumVotes(this.props.logintoken, this.props.currentCustomer.id);
+            }
         }
+
+
     }
 
     showAddModal() {
@@ -100,8 +117,9 @@ function mapStateToProps(state) {
         logintoken: state.loginReducer.loginToken,
         currentCustomer: state.customerReducer.currentCustomer,
         user: state.loginReducer.user,
-        currentQuestion: state.voteReducer.currentQuestion
+        currentQuestion: state.voteReducer.currentQuestion,
+        currentUser: state.loginReducer.currentUserLogin
     }
 }
 
-export default connect(mapStateToProps, { listVotesByQuestion, enumVotes, showQuestionModal, deleteQuestion })(QuestionDropdown);
+export default connect(mapStateToProps, { listVotesByQuestion, enumVotes, showQuestionModal, deleteQuestion, getVotes, listVotesByUser })(QuestionDropdown);

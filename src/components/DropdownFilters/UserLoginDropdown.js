@@ -9,6 +9,7 @@ import edit from "../../images/icons/edit.png";
 import del from "../../images/icons/delete.jpg";
 
 import { showUserForm, enumUserProfile, deleteUserLogin } from '../../actions/LoginActions';
+import { getVotes, enumVotes, listVotesByUser, listVotesByQuestion } from '../../actions/VoteActions';
 
 class UserLoginDropdown extends React.Component {
     constructor(props) {
@@ -28,10 +29,24 @@ class UserLoginDropdown extends React.Component {
         this.setState({ "currentUserLogin": e });
 
         if (e && e !== "0") {
-            //this.props.listVotesByUserLogin(this.props.logintoken, this.props.currentCustomer.id, e);
+            if (this.props.currentQuestion && this.props.currentQuestion.id !== 0){
+                // The vote for one question and user
+                this.props.getVotes(this.props.logintoken, this.props.currentCustomer.id, this.props.currentQuestion.id, e);
+            }
+            else {
+                // All votes for this user
+                this.props.listVotesByUser(this.props.logintoken, this.props.currentCustomer.id, e);
+            }            
         }
-        if (e === "0") {
-            //this.props.enumVotes(this.props.logintoken, this.props.currentCustomer.id);
+        else if (e && e === "0") {
+            if (this.props.currentQuestion && this.props.currentQuestion.id !== 0) {
+                // This customer + question
+                this.props.listVotesByQuestion(this.props.logintoken, this.props.currentCustomer.id, this.props.currentQuestion.id);
+            }
+            else {
+                // All questions 
+                this.props.enumVotes(this.props.logintoken, this.props.currentCustomer.id);
+            }   
         }
     }
 
@@ -97,8 +112,9 @@ class UserLoginDropdown extends React.Component {
 function mapStateToProps(state) {
     return {
         logintoken: state.loginReducer.loginToken,
-        currentCustomer: state.customerReducer.currentCustomer
+        currentCustomer: state.customerReducer.currentCustomer,
+        currentQuestion: state.voteReducer.currentQuestion
     }
 }
 
-export default connect(mapStateToProps, { showUserForm, enumUserProfile, deleteUserLogin })(UserLoginDropdown);
+export default connect(mapStateToProps, { showUserForm, enumUserProfile, deleteUserLogin, getVotes, enumVotes, listVotesByUser, listVotesByQuestion  })(UserLoginDropdown);

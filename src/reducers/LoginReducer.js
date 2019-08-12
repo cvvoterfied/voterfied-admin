@@ -285,6 +285,18 @@ export default function reducer(state = {
                 ...state,
                 message: action.payload.message
             }
+        case fulfilled(loginActionTypes.SET_CURRENT_USER):
+            var selectedUser = { id: 0, name: "" };
+            for (var i = 0; i < state.allUsers.length; i++) {
+                if (action.payload === state.allUsers[i].id) {
+                    selectedUser = state.allUsers[i];
+                    break;
+                }
+            }
+            return {
+                ...state,
+                currentUserLogin: selectedUser
+            }
         case fulfilled(loginActionTypes.SHOW_EDIT_PROFILE):
             return {
                 ...state,
