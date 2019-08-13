@@ -4,7 +4,8 @@
     color: darkblue;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 1em;   
+    grid-column-gap: 1em; 
+    
 }
 
 .modal-longbox {
@@ -14,6 +15,7 @@
     margin-top: 12px;
     white-space: pre-line;
     display: inline-block;
+    
 }
 
 #startDate, #endDate {
@@ -22,17 +24,9 @@
     width: 100%;
 }
 
-.Modal {
-    position: absolute;
-    background-color: lightgray;
-    width: 900px;
-    min-width: 1200px;
-    height: 160px;
-    border-radius: 30px;
-    align-content: center;
-    align-items: center;
-    margin-left: 30px;
-
+.questionModal {
+    width: 1200px;
+    background-color: transparent;
 }
 
 .editGrid {
@@ -40,8 +34,21 @@
     border-width: 3px;
     border-style: solid;
     background-color: white;
+    max-width: 400px;
+}
+
+.editGroup {
+    border-color: white;
+    border-width: 0px;
+    border-style: none;
+    background-color: white;
+    max-width: 400px;
 }
 
 .modal-body {
     background-color: white;
+}
+
+.dx-datagrid-content .dx-datagrid-table .dx-row .dx-command-edit {
+    min-width: 40px;
 }
