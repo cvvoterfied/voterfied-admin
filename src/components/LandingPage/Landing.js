@@ -132,15 +132,24 @@ class Landing extends React.Component {
 
     exportToCSV() {
         var processRow = function (row) {
-            return row.category + "," +
-                row.question + "," +
-                row.createdDate + "," +
-                row.answer + "," +
+            if (!row) {
+                return "\r\n";
+            }
+
+            return String(row.category) + "," +
+                String(row.question) + "," +
+                String(row.createdDate) + "," +
+                String(row.answer) + "," +
                 String(row.rank) + "," +
-                row.name + "," + 
-                row.email + "," +
-                row.phone + ",\r\n";                         
+                String(row.name) + "," + 
+                String(row.email) + "," +
+                String(row.phone) + ",\r\n";                         
         };
+
+        if (this.props.votes.length === 0) {
+            alert("No data to export!");
+            return;
+        }
 
         var csvFile = "Category,Question,Vote Date,Answer,Rank,Name,Email,Phone\n";
         for (var i = 0; i < this.props.votes.length; i++) {

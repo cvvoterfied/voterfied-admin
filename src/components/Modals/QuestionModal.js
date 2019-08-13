@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import Column from 'react-bootstrap/Col';
+import Col from 'react-bootstrap/Col';
 import { connect } from 'react-redux';
 import Label from 'react-bootstrap/FormLabel';
 import './Modal.css';
@@ -11,6 +11,7 @@ import Select from 'react-styled-select';
 import DatePicker from 'react-datepicker';
 import CheckBox from 'react-bootstrap/FormCheckInput';
 import "react-datepicker/dist/react-datepicker.css";
+import DataGrid, { Editing, Texts, Scrolling, Sorting, Column } from 'devextreme-react/data-grid';
 
 import { addQuestion, editQuestion, hideQuestionModal, showCategoryModal, hideCategoryModal } from '../../actions/VoteActions';
 
@@ -23,7 +24,7 @@ class QuestionModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+            links: [],            
             header: "Modify Question",
             isAnonymous: false
         };
@@ -90,6 +91,7 @@ class QuestionModal extends React.Component {
         var answers = [];         
 
         if (this.state.answers) {
+            // Get the new answers from the text box
             var list = this.state.answers.split("\n");
             var ordinal = 1;
 
@@ -100,7 +102,35 @@ class QuestionModal extends React.Component {
             }
         }
         else {
+            // Get answers out of grid
             answers = this.props.currentQuestion.answers;
+
+            for (var apos = 0; apos < answers.length; apos++) {
+                var l = answers[apos];
+
+                if (!l.id || isNaN(l.id)) {
+                    l.id = 0;
+                }
+                if (!l.questionID) {
+                    l.questionID = this.props.currentQuestion.id;
+                }
+            }
+        }
+
+        // Grab links out of grid
+        if (this.props.currentQuestion.links) {
+            var list = this.props.currentQuestion.links;
+
+            for (var pos = 0; pos < list.length; pos++) {
+                var l = list[pos];
+
+                if (!l.id || isNaN(l.id)) {
+                    l.id = 0;
+                }
+                if (!l.questionId) {
+                    l.questionId = this.props.currentQuestion.id;
+                }
+            }
         }
 
         if (!this.isEditing()) {
@@ -158,7 +188,7 @@ class QuestionModal extends React.Component {
             if (this.state.candidateOpinion && this.state.candidateOpinion.length > 0) {
                 question.candidateOpinion = this.state.candidateOpinion;
             }
-            question.answers = answers;
+            
             if (this.state.isAnonymous) {
                 question.isAnonymous = this.state.isAnonymous;
             }
@@ -207,6 +237,27 @@ class QuestionModal extends React.Component {
         this.setState({ "endDate": e });
     }
 
+    customizeAnswerColumns(columns) {
+        columns[0].width = 40;
+        columns[1].width = 100;
+        columns[2].width = 100;
+    }
+
+    customizeColumns(columns) {
+        columns[0].width = 120;
+        columns[1].width = 100;
+    }
+
+    isLiveQuestion() {
+        var today = new Date();
+
+        if (this.state.startDate &&
+            this.state.startDate < today) {
+            return true;
+        }
+        return false;
+    }
+
     render() {        
         var data = this.props.currentQuestion;
         
@@ -232,15 +283,16 @@ class QuestionModal extends React.Component {
                 { "label": "Ranked Choice", "value": 3 },
                 { "label": "Cascading", "value": 4 }
             ];
-
+        
         return (
             <Modal
                 {...this.props}
                 size='lg'
+                
                 aria-labelledby='contained-modal-title-vcenter'
                 centered
             >
-                <Modal.Body  >
+                <Modal.Body className="questionModal">
                     <h1 className="loginModalHeader">{this.state.header}</h1>
                     <center>
                         <div className="float-center"><img src={stars} alt="" /></div>
@@ -276,7 +328,7 @@ class QuestionModal extends React.Component {
                         <Form.Group>
                             <Label>Category: </Label>
                             <Row>
-                            <Column>
+                            <Col>
                                 <Select
                                     className="red-theme"
                                     name="questionType"
@@ -287,10 +339,10 @@ class QuestionModal extends React.Component {
                                     />      
                                     <CategoryModal show={this.props.showCategoryForm} />
 
-                            </Column>
-                            <Column>
+                            </Col>
+                            <Col>
                                 <button className="transparent" onClick={this.showAddModal}><img className="crudicons" src={add} height="20" alt="" /> </button>                           
-                            </Column>
+                            </Col>
                             </Row>
                         </Form.Group>
                         <Form.Group>
@@ -303,26 +355,100 @@ class QuestionModal extends React.Component {
                         </Form.Group>
 
                         <Form.Group className={this.state.questionType === 1 ? "" : "hidden"}>
-                            <Label>Pros: </Label>
+                            <Label>Pros: </Label><br/>
                             <textarea disabled={this.props.showCategoryForm} rows="5" cols="50" className="modal-longbox" id='pros' onChange={this.onChange} defaultValue={data.pros} value={this.props.pros} />
                         </Form.Group>
                         <Form.Group className={this.state.questionType === 1 ? "" : "hidden"}>
-                            <Label>Cons: </Label>
+                            <Label>Cons: </Label><br/>
                             <textarea disabled={this.props.showCategoryForm} rows="5" cols="50" className="modal-longbox" id='cons' onChange={this.onChange} defaultValue={data.cons} value={this.props.cons} />
                         </Form.Group>
                         <Form.Group>
-                            <Label>Candidate's Opinion: </Label>
+                            <Label>Candidate's Opinion: </Label><br/>
                             <textarea disabled={this.props.showCategoryForm} rows="5" cols="50" className="modal-longbox" id="candidateOpinion" onChange={this.onChange} defaultValue={data.candidateOpinion} value={this.props.candidateOpinion} />
                         </Form.Group>
-                        <Form.Group className={this.isEditing() ? "" : "hidden"}>
-                            <Label>Answers: </Label>
-                            <textarea disabled rows="5" cols="50" className="modal-longbox" id='answers' onChange={this.onChange} defaultValue={tempAnswers} value={this.props.answers} />
+
+                        <Form.Group className={this.isEditing() && !this.isLiveQuestion()  ? "" : "hidden"}>
+                            <Label>Answers: </Label><br/>
+                            
+                            <DataGrid className="editGroup" elementAttr={{ id: 'gridAnswers' }}
+                                dataSource={this.props.currentQuestion.answers}
+                                keyExpr={'id'}
+                                showBorders={true}
+                                customizeColumns={this.customizeAnswerColumns}>
+                                <Editing 
+                                    mode={'row'}
+                                    allowUpdating={true}
+                                    allowDeleting={true}
+                                    allowAdding={true}
+                                >
+                                    <Texts
+                                        confirmDeleteMessage=""
+                                    />
+                                </Editing>
+                                <Column
+                                    dataField={"ordinal"}
+                                    caption="Order"
+                                    dataType={"number"}
+                                    alignment={"center"}
+                                />
+                                <Column
+                                    dataField={"name"}
+                                    caption="Answer"
+                                    dataType={"string"}
+                                    alignment={"left"}
+                                />                               
+                                <Column
+                                    dataField={"metadata"}
+                                    caption="Additional Info"
+                                    dataType={"string"}
+                                    alignment={"left"}
+                                />
+                            </DataGrid>
+
                         </Form.Group>
-                        <Form.Group className={this.isEditing() ? "hidden" : ""}>
-                            <Label>Answers: </Label>
-                            <textarea disabled={this.props.showCategoryForm} rows="5" cols="50" className="modal-longbox" id='answers' onChange={this.onChange} defaultValue={tempAnswers} value={this.state.answers} onKeyDown={this.onKeyDown} />
+
+                        <Form.Group className={ this.isEditing() && !this.isLiveQuestion() ? "hidden" : ""}>
+                            <Label>Answers: </Label><br/>
+                            <textarea disabled={this.props.showCategoryForm || this.isLiveQuestion()} rows="5" cols="50" className="modal-longbox" id='answers' onChange={this.onChange} defaultValue={tempAnswers} value={this.state.answers} onKeyDown={this.onKeyDown} />
                         </Form.Group>
-                      
+
+                        <Form.Group className={this.isEditing()? "" : "hidden"}>
+                            <Label>Links: </Label>
+                            <DataGrid className="editGrid" elementAttr={{ id: 'gridContainer' }}
+                                dataSource={this.props.currentQuestion.links}
+                                keyExpr={'id'}                                
+                                showBorders={true}
+                                
+                                customizeColumns={this.customizeColumns}>
+                                <Sorting mode={'single'} />   
+                                <Scrolling mode={'infinite'} />
+                                <Editing
+                                    mode={'row'}
+                                    allowUpdating={true}
+                                    allowDeleting={true}
+                                    allowAdding={true}
+                                >                                
+                                <Texts
+                                    confirmDeleteMessage=""
+                                    />                                    
+                                </Editing>
+
+                                <Column
+                                    dataField={"linkURL"}
+                                    caption={"URL"}
+                                    dataType={"string"}
+                                    alignment={"left"}
+                                    sortable={"true"}
+                                />
+                                <Column
+                                    dataField={"name"}
+                                    caption={"Title"}
+                                    dataType={"string"}
+                                    alignment={"left"}
+                                    sortable={"true"}
+                                />
+                            </DataGrid>
+                        </Form.Group>
                     </div>
                     <Row>
                         <Button className="modalLoginButton" variant="danger" onClick={this.onSubmit} href="#">Save</Button>
@@ -331,8 +457,7 @@ class QuestionModal extends React.Component {
                     <Row>
                         <br /><br />
                         <div className="loginModalFooter">{this.props.message}</div>
-                    </Row>
-                  
+                    </Row>                  
 
                 </Modal.Body>
             </Modal>
