@@ -24,8 +24,9 @@ class QuestionModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            links: [],
-            header: "Modify Question"
+            links: [],            
+            header: "Modify Question",
+            isAnonymous: false
         };
 
         this.onSubmit = this.onSubmit.bind(this);
@@ -36,6 +37,7 @@ class QuestionModal extends React.Component {
         this.onSelectStartDate = this.onSelectStartDate.bind(this);
         this.onSelectEndDate = this.onSelectEndDate.bind(this);
         this.showAddModal = this.showAddModal.bind(this);
+        this.onClickAnonymous = this.onClickAnonymous.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
     }
 
@@ -50,11 +52,14 @@ class QuestionModal extends React.Component {
 
     formatDate(dateVal) {
         if (dateVal) {
-            return new Date(parseInt(String(dateVal).substring(0, 4)),
-                parseInt(String(dateVal).substring(5, 7)),
-                parseInt(String(dateVal).substring(8, 10)));
-        }
+            //var date = String(dateVal).substring(0, 10);
+            var ret = new Date(Date.parse(dateVal));
 
+            return ret;
+
+        }
+        // YYYY-MM-DD
+        // 0123456789
     }
 
     isEditing() {
@@ -157,20 +162,21 @@ class QuestionModal extends React.Component {
             if (this.state.question && this.state.question.length > 0) {
                 question.name = this.state.question;
             }
-            if (this.state.questionType && this.state.questionType.length > 0) {
+            if (this.state.questionType) {
                 question.questionType = { id: this.state.questionType, name: '' };
             }           
-            if (this.state.startDate && this.state.startDate.length > 0) {
+            if (this.state.startDate) {
                 question.startDate = this.state.startDate;
             }
-            if (this.state.endDate && this.state.endDate.length > 0) {
+            if (this.state.endDate) {
                 question.endDate = this.state.endDate;
             }
-            if (this.state.categoryId && this.state.categoryId.length > 0) {
+            if (this.state.categoryId && this.state.categoryId > 0) {
                 question.categoryId = this.state.categoryId;
                 if (!question.categoryId || question.categoryId === 0) {
                     // TODO: Need the option to add a new category and then use the new category ID
                     // 
+                    console.log("Non-existent category")
                 }
             }
             if (this.state.pros && this.state.pros.length > 0) {
@@ -187,7 +193,7 @@ class QuestionModal extends React.Component {
                 question.isAnonymous = this.state.isAnonymous;
             }
 
-            if (this.state.ordinal && this.state.ordinal.length > 0) {
+            if (this.state.ordinal && this.state.ordinal > 0) {
                 question.ordinal = this.state.ordinal;
             }
                    
@@ -203,6 +209,10 @@ class QuestionModal extends React.Component {
 
     onChange = (e) => {
         this.setState({ [e.target.id]: e.target.value.trim() });
+    }
+
+    onClickAnonymous = (e) => {
+        this.setState({ 'isAnonymous': e.target.checked });
     }
 
     onSelectType = (e) => {
@@ -337,7 +347,7 @@ class QuestionModal extends React.Component {
                         </Form.Group>
                         <Form.Group>
                             <Label>Is Anonymous Question: </Label><br />
-                            <CheckBox value={this.state.isAnonymous} defaultValue={data.isAnonymous} />
+                            <CheckBox checked={this.props.isAnonymous} defaultChecked={data.isAnonymous} onClick={this.onClickAnonymous} />
                         </Form.Group>
                         <Form.Group>
                             <Label>Sort Order: </Label>
@@ -358,7 +368,7 @@ class QuestionModal extends React.Component {
                         </Form.Group>
 
                         <Form.Group className={this.isEditing() && !this.isLiveQuestion()  ? "" : "hidden"}>
-                            <Label>Answers: </Label>
+                            <Label>Answers: </Label><br/>
                             
                             <DataGrid className="editGroup" elementAttr={{ id: 'gridAnswers' }}
                                 dataSource={this.props.currentQuestion.answers}
@@ -398,7 +408,7 @@ class QuestionModal extends React.Component {
                         </Form.Group>
 
                         <Form.Group className={ this.isEditing() && !this.isLiveQuestion() ? "hidden" : ""}>
-                            <Label>Answers: </Label>
+                            <Label>Answers: </Label><br/>
                             <textarea disabled={this.props.showCategoryForm || this.isLiveQuestion()} rows="5" cols="50" className="modal-longbox" id='answers' onChange={this.onChange} defaultValue={tempAnswers} value={this.state.answers} onKeyDown={this.onKeyDown} />
                         </Form.Group>
 

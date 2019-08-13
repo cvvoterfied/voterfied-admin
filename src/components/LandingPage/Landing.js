@@ -126,21 +126,32 @@ class Landing extends React.Component {
         columns[3].width = 240;
         columns[4].width = 100;
         columns[5].width = 200;
-        columns[6].width = 100;
+        columns[6].width = 200;
+        columns[7].width = 100;
     }
 
     exportToCSV() {
         var processRow = function (row) {
-            return row.category + "," +
-                row.question + "," +
-                row.createdDate + "," +
-                row.answer + "," +
+            if (!row) {
+                return "\r\n";
+            }
+
+            return String(row.category) + "," +
+                String(row.question) + "," +
+                String(row.createdDate) + "," +
+                String(row.answer) + "," +
                 String(row.rank) + "," +
-                row.email + "," +
-                row.phone + ",\r\n";                         
+                String(row.name) + "," + 
+                String(row.email) + "," +
+                String(row.phone) + ",\r\n";                         
         };
 
-        var csvFile = "Category,Question,Vote Date,Answer,Rank,Email,Phone\n";
+        if (this.props.votes.length === 0) {
+            alert("No data to export!");
+            return;
+        }
+
+        var csvFile = "Category,Question,Vote Date,Answer,Rank,Name,Email,Phone\n";
         for (var i = 0; i < this.props.votes.length; i++) {
             csvFile += processRow(this.props.votes[i]);
         }
@@ -289,6 +300,13 @@ class Landing extends React.Component {
                             caption={"Rank"}
                             dataType={"number"}
                             alignment={"center"}
+                            sortable={"true"}
+                        />
+                        <Column
+                            dataField={"name"}
+                            caption={"Name"}
+                            dataType={"string"}
+                            alignment={"left"}
                             sortable={"true"}
                         />
                         <Column

@@ -283,7 +283,7 @@ export function enumVotes(token, customerId) {
 
     return function (dispatch, getState) {
         dispatch(pending_function(ENUM_VOTES));
-
+        
         axiosConfig.headers.token = token;
         axios
             .get(serverEnvironment.API_URL + '/vote/' + String(customerId), axiosConfig)
@@ -298,14 +298,17 @@ export function enumVotes(token, customerId) {
 
 
 /*
- * enumVotes() returns all votes for a single customer and question
+ * listVotesByQuestion() returns all votes for a single customer and question
  *
  * */
 export function listVotesByQuestion(token, customerId, questionId) {
-    const { LIST_VOTES_BYCAT } = voteActionTypes;
+    const { LIST_VOTES_BYCAT, SET_CURRENT_QUESTION } = voteActionTypes;
+    const { SET_CURRENT_USER } = loginActionTypes;
 
     return function (dispatch, getState) {
         dispatch(pending_function(LIST_VOTES_BYCAT));
+        dispatch(fulfilled_function(SET_CURRENT_QUESTION, questionId));
+        dispatch(fulfilled_function(SET_CURRENT_USER, 0));
 
         axiosConfig.headers.token = token;
         axios
@@ -319,6 +322,57 @@ export function listVotesByQuestion(token, customerId, questionId) {
     };
 }
 
+
+/*
+ * listVotesByUser() returns all votes for a single customer and user
+ *
+ * */
+export function listVotesByUser(token, customerId, userId) {
+    const { LIST_VOTES_BYUSER, SET_CURRENT_QUESTION } = voteActionTypes;
+    const { SET_CURRENT_USER } = loginActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(pending_function(LIST_VOTES_BYUSER));
+        dispatch(fulfilled_function(SET_CURRENT_USER, userId));
+        dispatch(fulfilled_function(SET_CURRENT_QUESTION, 0));
+
+        axiosConfig.headers.token = token;
+        axios
+            .get(serverEnvironment.API_URL + '/vote/byUser/' + String(customerId) + '/' + String(userId), axiosConfig)
+            .then(res => {
+                dispatch(fulfilled_function( LIST_VOTES_BYUSER, res ));
+            })
+            .catch(err => {
+                dispatch(rejected_function(LIST_VOTES_BYUSER, err));
+            });
+    };
+}
+
+
+/*
+ * getVote() returns a votes for a single customer and user and question
+ *
+ * */
+export function getVotes(token, customerId, questionId, userId) {
+    const { GET_VOTE, SET_CURRENT_QUESTION } = voteActionTypes;
+    const { SET_CURRENT_USER } = loginActionTypes;
+
+    return function (dispatch, getState) {
+        dispatch(pending_function(GET_VOTE));
+        dispatch(fulfilled_function(SET_CURRENT_QUESTION, questionId));
+        dispatch(fulfilled_function(SET_CURRENT_USER, userId));
+
+        axiosConfig.headers.token = token;
+        axios
+            .get(serverEnvironment.API_URL + '/vote/' + String(customerId) + '/' + String(questionId) + '/' + String(userId), axiosConfig)
+            .then(res => {
+                dispatch(fulfilled_function( GET_VOTE, res ));
+            })
+            .catch(err => {
+                dispatch(rejected_function(GET_VOTE, err));
+            });
+    };
+}
 
 /*
  * addQuestion() adds a single question to the database

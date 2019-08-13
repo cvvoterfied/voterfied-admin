@@ -7,6 +7,9 @@ import { voteActionTypes, pending, rejected, fulfilled } from '../constants/Acti
 const blankQuestion = {
     id: 0, name: "", questionType: { id: 1 }, answers: [{ id: 0, percentage: 0, votecount: 0 }, { id: 1, percentage: 0, votecount: 0 }], links: []
 }
+const blankUser = {
+    id: 0, name: ""
+}
 
 export default function reducer(state = {    
     message: '',
@@ -17,7 +20,8 @@ export default function reducer(state = {
     showCategoryForm: false,
     showQuestionForm: false,
     showVoteScreen: false,
-    currentQuestion: blankQuestion
+    currentQuestion: blankQuestion,
+    currentUser: blankUser
 
 }, action) {
 
@@ -222,6 +226,25 @@ export default function reducer(state = {
                 currentQuestion: blankQuestion,
                 allquestions: []
             }
+        case pending(voteActionTypes.GET_VOTE):
+            return {
+                ...state,
+                message: ""                                
+            }
+        case fulfilled(voteActionTypes.GET_VOTE):
+            var votes = [];
+            votes.push(action.payload.data);
+            return {
+                ...state,
+                message: "",                              
+                votes: votes
+            }
+        case rejected(voteActionTypes.GET_VOTE):
+            return {
+                ...state,
+                message: action.payload.message,                
+                votes: []
+            }
         case fulfilled(voteActionTypes.GO_VOTE):
             return {
                 ...state,
@@ -296,6 +319,26 @@ export default function reducer(state = {
                 votes: [],
                 message: action.payload.message,
             }
+        case pending(voteActionTypes.LIST_VOTES_BYUSER):
+            return {
+                ...state,
+                message: "",
+                currentUser: blankUser
+            }
+        case fulfilled(voteActionTypes.LIST_VOTES_BYUSER):
+            return {
+                ...state,
+                message: "",                
+                votes: action.payload.data
+            }
+        case rejected(voteActionTypes.LIST_VOTES_BYUSER):
+            return {
+                ...state,
+                message: action.payload.message,
+                currentQuestion: blankQuestion,
+                votes: [],
+                currentUser: blankUser
+            }
         case pending(voteActionTypes.LIST_QUESTION):            
             return {
                 ...state,
@@ -333,6 +376,19 @@ export default function reducer(state = {
                 message: action.payload.message,                
                 allquestions: []
             }
+        case fulfilled(voteActionTypes.SET_CURRENT_QUESTION):
+            var selectedQuestion = blankQuestion;
+            for (var i = 0; i < state.allquestions.length; i++) {
+                if (action.payload === state.allquestions[i].id) {
+                    selectedQuestion = state.allquestions[i];
+                    break;
+                }
+            }
+            return {
+                ...state,
+                currentQuestion: selectedQuestion
+            }
+
         case fulfilled(voteActionTypes.SHOW_CATEGORY_FORM):
             return {
                 ...state,

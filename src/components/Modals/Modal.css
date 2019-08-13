@@ -8,6 +8,18 @@
     
 }
 
+.Modal {
+    position: absolute;
+    background-color: lightgray;
+    width: 900px;
+    min-width: 1200px;
+    height: 160px;
+    border-radius: 30px;
+    align-content: center;
+    align-items: center;
+    margin-left: 30px;
+}
+
 .modal-longbox {
     border-radius: 12px;
     border-color: darkblue;

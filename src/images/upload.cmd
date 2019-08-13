@@ -1,0 +1,1 @@
+for %%i in (*.*) do az storage blob upload -c images -f %%i -n %%i --account-name v2qamtdiag
