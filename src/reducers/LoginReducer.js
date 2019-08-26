@@ -287,9 +287,9 @@ export default function reducer(state = {
             }
         case fulfilled(loginActionTypes.SET_CURRENT_USER):
             var selectedUser = { id: 0, name: "" };
-            for (var i = 0; i < state.allUsers.length; i++) {
-                if (action.payload === state.allUsers[i].id) {
-                    selectedUser = state.allUsers[i];
+            for (var u = 0; u < state.allUsers.length; u++) {
+                if (action.payload === state.allUsers[u].id) {
+                    selectedUser = state.allUsers[u];
                     break;
                 }
             }

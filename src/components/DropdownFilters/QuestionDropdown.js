@@ -55,15 +55,13 @@ class QuestionDropdown extends React.Component {
     }
 
     showEditModal() {
-        if (this.state.currentQuestion && this.state.currentQuestion !== "0" && this.state.currentQuestion.value !== "0") {
-            {
-                if (new Date(this.props.currentQuestion.startDate) < new Date() && this.props.user.UserRole < 3) {
-                    alert("This question is live and cannot be edited by an Admin. Contact a Super Admin.");
-                }
-                else {
-                    this.props.showQuestionModal(this.state.currentQuestion);
-                }
+        if (this.state.currentQuestion && this.state.currentQuestion !== "0" && this.state.currentQuestion.value !== "0") {            
+            if (new Date(this.props.currentQuestion.startDate) < new Date() && this.props.user.UserRole < 3) {
+                alert("This question is live and cannot be edited by an Admin. Contact a Super Admin.");
             }
+            else {
+                this.props.showQuestionModal(this.state.currentQuestion);
+            }            
         }
         else {
             alert("No question selected");

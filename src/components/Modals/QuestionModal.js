@@ -106,23 +106,23 @@ class QuestionModal extends React.Component {
             answers = this.props.currentQuestion.answers;
 
             for (var apos = 0; apos < answers.length; apos++) {
-                var l = answers[apos];
+                var a = answers[apos];
 
-                if (!l.id || isNaN(l.id)) {
-                    l.id = 0;
+                if (!a.id || isNaN(a.id)) {
+                    a.id = 0;
                 }
-                if (!l.questionID) {
-                    l.questionID = this.props.currentQuestion.id;
+                if (!a.questionID) {
+                    a.questionID = this.props.currentQuestion.id;
                 }
             }
         }
 
         // Grab links out of grid
         if (this.props.currentQuestion.links) {
-            var list = this.props.currentQuestion.links;
+            var links = this.props.currentQuestion.links;
 
-            for (var pos = 0; pos < list.length; pos++) {
-                var l = list[pos];
+            for (var pos = 0; pos < links.length; pos++) {
+                var l = links[pos];
 
                 if (!l.id || isNaN(l.id)) {
                     l.id = 0;

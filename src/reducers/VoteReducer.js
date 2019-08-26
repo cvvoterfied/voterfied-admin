@@ -396,10 +396,10 @@ export default function reducer(state = {
                 message: ""
             }
         case fulfilled(voteActionTypes.SHOW_QUESTION_FORM):
-            var selectedQuestion = blankQuestion;
-            for (var i = 0; i < state.allquestions.length; i++) {
-                if (action.payload === state.allquestions[i].id) {
-                    selectedQuestion = state.allquestions[i];
+            var currentQuestion = blankQuestion;
+            for (var q = 0; q < state.allquestions.length; q++) {
+                if (action.payload === state.allquestions[q].id) {
+                    currentQuestion = state.allquestions[q];
                     break;
                 }
             }
@@ -407,7 +407,7 @@ export default function reducer(state = {
                 ...state,
                 showQuestionForm: true,
                 message: "",
-                currentQuestion: selectedQuestion
+                currentQuestion: currentQuestion
             }
 
         case pending(voteActionTypes.VOTE_STAT):
