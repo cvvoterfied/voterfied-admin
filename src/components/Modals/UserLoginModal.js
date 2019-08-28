@@ -118,7 +118,7 @@ class UserLoginModal extends React.Component {
                 user.Email = this.state.email;
             }
             user.modifiedDate = new Date();
-            //user.AuthorizedCustomers = customers;
+            user.AuthorizedCustomers = custs;
             
             this.props.editUserProfile2(this.props.logintoken, user);
         }

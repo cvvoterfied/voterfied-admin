@@ -84,7 +84,7 @@ export default function reducer(state = {
                 showUserForm: false,
                 allUsers: tempeup,
                 message: "User profile updated",
-                user: action.payload
+                user: action.payload.data
             }
         case rejected(loginActionTypes.EDIT_USER_PROFILE):
             return {
