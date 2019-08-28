@@ -24,7 +24,7 @@ class CustomerModal extends React.Component {
             title: '',
             volunteerURL: '',
             website: '',
-            header: "Modify Customer"
+            header: "Save Customer"
         };
 
         this.onSubmit = this.onSubmit.bind(this);

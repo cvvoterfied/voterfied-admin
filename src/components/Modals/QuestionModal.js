@@ -25,7 +25,7 @@ class QuestionModal extends React.Component {
         super(props);
         this.state = {
             links: [],            
-            header: "Modify Question",
+            header: "Save Question",
             isAnonymous: false
         };
 
@@ -51,12 +51,9 @@ class QuestionModal extends React.Component {
     }
 
     formatDate(dateVal) {
-        if (dateVal) {
-            //var date = String(dateVal).substring(0, 10);
+        if (dateVal) {            
             var ret = new Date(Date.parse(dateVal));
-
             return ret;
-
         }
         // YYYY-MM-DD
         // 0123456789
@@ -251,7 +248,8 @@ class QuestionModal extends React.Component {
     isLiveQuestion() {
         var today = new Date();
 
-        if (this.state.startDate &&
+        if (this.isEditing() &&
+            this.state.startDate &&
             this.state.startDate < today) {
             return true;
         }
@@ -409,7 +407,7 @@ class QuestionModal extends React.Component {
 
                         <Form.Group className={ this.isEditing() && !this.isLiveQuestion() ? "hidden" : ""}>
                             <Label>Answers: </Label><br/>
-                            <textarea disabled={this.props.showCategoryForm || this.isLiveQuestion()} rows="5" cols="50" className="modal-longbox" id='answers' onChange={this.onChange} defaultValue={tempAnswers} value={this.state.answers} onKeyDown={this.onKeyDown} />
+                            <textarea disabled={this.props.showCategoryForm || this.isLiveQuestion()} rows="5" cols="50" className="modal-longbox" id='answers' onChange={this.onChange} defaultValue={tempAnswers} value={this.isLiveQuestion() ? tempAnswers : this.state.answers} onKeyDown={this.onKeyDown} />
                         </Form.Group>
 
                         <Form.Group className={this.isEditing()? "" : "hidden"}>

@@ -27,7 +27,7 @@ class UserLoginModal extends React.Component {
             forcePasswordChange: false,
             userRole: 2,
             customers: [],
-            header: "Modify User Login",
+            header: "Save User Login",
             selectedItems: []
         };
 
