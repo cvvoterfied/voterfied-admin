@@ -46,8 +46,6 @@ class QuestionDropdown extends React.Component {
                 this.props.enumVotes(this.props.logintoken, this.props.currentCustomer.id);
             }
         }
-
-
     }
 
     showAddModal() {
