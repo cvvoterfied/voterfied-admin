@@ -66,6 +66,16 @@ class Landing extends React.Component {
         }
     }
 
+    checkExpiration() {
+        var now = new Date();
+        var then = new Date(this.props.loginTime);
+        var diff = Math.abs(now - then);
+
+        if (this.props.isloggedin && diff > (60 * 60 * 1000)) {
+            this.props.logout();
+        }
+    }
+
     getTitle() {
         return ("Voterfied Admin Portal" );
     }
@@ -178,7 +188,9 @@ class Landing extends React.Component {
         
         let loginClose = () => {
             this.props.cancelLogin();
-        };        
+        };       
+
+        this.checkExpiration();
 
     return (
         <div className="loginPage">
@@ -368,6 +380,7 @@ function mapStateToProps(state) {
         username: state.loginReducer.userName,
         logintoken: state.loginReducer.loginToken,
         loginshow: state.loginReducer.loginShow,
+        loginTime: state.loginReducer.loginTime,
         signupshow: state.loginReducer.registerShow,
         showEditProfile: state.loginReducer.showEditProfile,
         isloggedin: state.loginReducer.isLoggedIn,

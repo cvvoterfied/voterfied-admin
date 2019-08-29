@@ -6,6 +6,8 @@ export default function reducer(state = {
     user: [],
     allUsers: [],
     userName: '',
+    loginTime: new Date(),
+    isLoggedIn: false,
     loginShow: false,
     registerShow: false,
     showEditProfile: false,
@@ -120,11 +122,12 @@ export default function reducer(state = {
             }
         case fulfilled(loginActionTypes.LOGIN):
             console.log("Logged In! " + action.payload.token);
-            var isVerified = false;
+            var isVerified = false;            
 
             // Super Admin has access
             if (action.payload.user.UserRole >= 2 && action.payload.token) {
                 isVerified = true;
+                state.loginTime = new Date();
             }
            
             return {
