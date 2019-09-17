@@ -24,6 +24,7 @@ class CustomerModal extends React.Component {
             title: '',
             volunteerURL: '',
             website: '',
+            backgroundImageUrl: '',
             header: "Save Customer"
         };
 
@@ -51,7 +52,8 @@ class CustomerModal extends React.Component {
                 donateURL : this.state.donateURL,
                 headshotURL : this.state.headshotURL,
                 volunteerURL : this.state.volunteerURL,
-                website : this.state.website,
+                website: this.state.website,
+                backgroundImageUrl: this.state.backgroundImageUrl,
                 createdDate: new Date(),
                 modifiedDate: new Date(),
                 ts: "QEA="
@@ -86,6 +88,9 @@ class CustomerModal extends React.Component {
             }
             if (this.state.website && this.state.website.length > 0) {
                 customer.website = this.state.website;
+            }
+            if (this.state.backgroundImageUrl && this.state.backgroundImageUrl.length > 0) {
+                customer.backgroundImageUrl = this.state.backgroundImageUrl;
             }
             customer.modifiedDate = new Date();
 
@@ -157,6 +162,10 @@ class CustomerModal extends React.Component {
                             <Label>Website: </Label>
                             <Form.Control type='text' id='website' onChange={this.onChange} defaultValue={data.website} value={this.props.website} />
                         </Form.Group>                       
+                        <Form.Group>
+                            <Label>Background Image URL: </Label>
+                            <Form.Control type='text' id='backgroundImageUrl' onChange={this.onChange} defaultValue={data.backgroundImageUrl} value={this.props.backgroundImageUrl} />
+                        </Form.Group>    
                         <Label>Biography: </Label>
                     </div>
                     <Form.Group>
