@@ -5,6 +5,11 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+window.history.pushState(null, null, window.location.href);
+window.onpopstate = function (e) {
+    e.preventDefault();
+    window.history.go(1);
+};
 
 ReactDOM.render(  
     <App />
