@@ -2,8 +2,8 @@
 //
 
 export const serverEnvironment = {
-    API_URL: "https://voterfiedmtv2.azurewebsites.net",
-    //API_URL: "http://localhost:62364"
+    //API_URL: "https://voterfiedmtv2.azurewebsites.net",
+    API_URL: "http://localhost:62364"
 }
 
 export const colors = ["darkgreen", "darkred", "yellow", "darkblue", "magenta", "white", "orange", "purple", "lightblue", "darkgray", "lightgray"];
