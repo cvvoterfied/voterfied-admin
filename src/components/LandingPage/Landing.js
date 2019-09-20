@@ -251,7 +251,8 @@ class Landing extends React.Component {
                 <div className={this.props.isloggedin ? "hidden" : "landingSignupForm "}>
                     <h1>{this.getTitle()}</h1>
                     <div className={this.props.isloggedin ? "hidden" : ""}><img alt="" src={stars} /><br /><br /></div>                   
-                </div>
+            </div>
+            <div className={this.props.isloggedin ? "landingSignupForm ": "hidden"}>
                 <Row>
                 <Col><div className="label">Customers: </div><CustomerDropdown customers={this.props.customerList}/> </Col>
                 <Col><div className="label">User List: </div><UserLoginDropdown userLogins={this.props.userLogins}/></Col>
@@ -268,8 +269,7 @@ class Landing extends React.Component {
                     }</div>
                 </Col>
                 </Row>
-                <Row></Row>
-
+                <Row></Row>            
                 <br />
                <div className="grid">
                     <span className={this.props.isloggedin && this.props.votes.length > 0 ? "float-center " : "hidden"} md={4}>
@@ -339,7 +339,7 @@ class Landing extends React.Component {
 
                     </span>
             </div>
-
+            </div>
             <UserLoginModal show={this.props.userFormVisible} />
             <CustomerModal show={this.props.customerFormVisible}/>
             <QuestionModal show={this.props.showQuestionForm} />
