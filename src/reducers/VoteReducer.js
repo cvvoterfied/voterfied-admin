@@ -199,6 +199,8 @@ export default function reducer(state = {
             return {
                 ...state,
                 votes: action.payload.data,
+                currentQuestion: blankQuestion,
+                currentUser: blankUser,
                 message: ""
             }
         case rejected(voteActionTypes.ENUM_VOTES):
@@ -310,13 +312,14 @@ export default function reducer(state = {
             return {
                 ...state,
                 votes: action.payload.data,
+                currentUser: blankUser,
                 message: ""
             }
         case rejected(voteActionTypes.LIST_VOTES_BYCAT):
             return {
                 ...state,
-                votes: [],
-                message: action.payload.message,
+                votes: [],                
+                message: action.payload.message
             }
         case pending(voteActionTypes.LIST_VOTES_BYUSER):
             return {
@@ -330,13 +333,13 @@ export default function reducer(state = {
                 message: "",                
                 votes: action.payload.data
             }
-        case rejected(voteActionTypes.LIST_VOTES_BYUSER):
+        case rejected(voteActionTypes.LIST_VOTES_BYUSER):            
             return {
                 ...state,
                 message: action.payload.message,
-                currentQuestion: blankQuestion,
-                votes: [],
-                currentUser: blankUser
+                currentQuestion: blankQuestion,                
+                votes: []
+                
             }
         case pending(voteActionTypes.LIST_QUESTION):            
             return {

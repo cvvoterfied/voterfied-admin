@@ -279,11 +279,14 @@ export function enumCategories(token) {
  *
  * */
 export function enumVotes(token, customerId) {
-    const { ENUM_VOTES } = voteActionTypes;
+    const { ENUM_VOTES, SET_CURRENT_QUESTION } = voteActionTypes;
+    const { SET_CURRENT_USER } = loginActionTypes;
 
     return function (dispatch, getState) {
         dispatch(pending_function(ENUM_VOTES));
-        
+        dispatch(fulfilled_function(SET_CURRENT_USER, 0));
+        dispatch(fulfilled_function(SET_CURRENT_QUESTION, 0));
+
         axiosConfig.headers.token = token;
         axios
             .get(serverEnvironment.API_URL + '/vote/' + String(customerId), axiosConfig)
