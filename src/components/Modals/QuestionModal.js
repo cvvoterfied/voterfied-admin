@@ -289,8 +289,8 @@ class QuestionModal extends React.Component {
             [
                 { "label": "Yes/No", "value": 1 },
                 { "label": "Multiple Choice", "value": 2},
-                { "label": "Ranked Choice", "value": 3 },
-                { "label": "Cascading", "value": 4 }
+                { "label": "Ranked Choice", "value": 3 }
+                //,{ "label": "Cascading", "value": 4 }
             ];
         
         return (
