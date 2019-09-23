@@ -26,7 +26,8 @@ class QuestionModal extends React.Component {
         this.state = {
             links: [],            
             header: "Save Question",
-            isAnonymous: false
+            isAnonymous: false,
+            hideResults: false
         };
 
         this.onSubmit = this.onSubmit.bind(this);
@@ -38,6 +39,7 @@ class QuestionModal extends React.Component {
         this.onSelectEndDate = this.onSelectEndDate.bind(this);
         this.showAddModal = this.showAddModal.bind(this);
         this.onClickAnonymous = this.onClickAnonymous.bind(this);
+        this.onClickHideResults = this.onClickHideResults.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
     }
 
@@ -145,6 +147,7 @@ class QuestionModal extends React.Component {
                 answers: answers,
                 ordinal: (this.state.ordinal ? this.state.ordinal : 1),
                 isAnonymous: (this.state.isAnonymous ? this.state.isAnonymous : false),
+                hideResults: (this.state.hideResults ? this.state.hideResults: false),
                 createdDate: new Date(),
                 modifiedDate: new Date(),
                 ts: "QEA="
@@ -190,6 +193,10 @@ class QuestionModal extends React.Component {
                 question.isAnonymous = this.state.isAnonymous;
             }
 
+            if (this.state.hideResults) {
+                question.hideResults = this.state.hideResults;
+            }
+
             if (this.state.ordinal && this.state.ordinal > 0) {
                 question.ordinal = this.state.ordinal;
             }
@@ -210,6 +217,10 @@ class QuestionModal extends React.Component {
 
     onClickAnonymous = (e) => {
         this.setState({ 'isAnonymous': e.target.checked });
+    }
+
+    onClickHideResults = (e) => {
+        this.setState({ 'hideResults': e.target.checked });
     }
 
     onSelectType = (e) => {
@@ -346,6 +357,10 @@ class QuestionModal extends React.Component {
                         <Form.Group>
                             <Label>Is Anonymous Question: </Label><br />
                             <CheckBox checked={this.props.isAnonymous} defaultChecked={data.isAnonymous} onClick={this.onClickAnonymous} />
+                        </Form.Group>
+                        <Form.Group>
+                            <Label>Hide Results from Voters: </Label><br />
+                            <CheckBox checked={this.props.hideResults} defaultChecked={data.hideResults} onClick={this.onClickHideResults} />
                         </Form.Group>
                         <Form.Group>
                             <Label>Sort Order: </Label>
