@@ -70,8 +70,15 @@ class QuestionModal extends React.Component {
             this.setState({
                 "categoryId": newProps.currentQuestion.categoryId,
                 "questionType": newProps.currentQuestion.questionType.id,
+                "question": newProps.currentQuestion.name,
                 "startDate": this.formatDate(newProps.currentQuestion.startDate),
-                "endDate": this.formatDate(newProps.currentQuestion.endDate)
+                "endDate": this.formatDate(newProps.currentQuestion.endDate),
+                "pros": newProps.currentQuestion.pros,
+                "cons": newProps.currentQuestion.cons,
+                "candidateOpinion": newProps.currentQuestion.candidateOpinion,
+                "ordinal": newProps.currentQuestion.ordinal,
+                "hideResults": newProps.currentQuestion.hideResults,
+                "isAnonymous": newProps.currentQuestion.isAnonymous
             });
         }
     }
@@ -182,11 +189,19 @@ class QuestionModal extends React.Component {
             if (this.state.pros && this.state.pros.length > 0) {
                 question.pros = this.state.pros;
             }
+            else {
+                question.pros = "";
+            }
             if (this.state.cons && this.state.cons.length > 0) {
                 question.cons = this.state.cons;
             }
+            else {
+                question.cons = "";
+            }
             if (this.state.candidateOpinion && this.state.candidateOpinion.length > 0) {
                 question.candidateOpinion = this.state.candidateOpinion;
+            } else {
+                question.candidateOpinion = "";
             }
             
             if (this.state.isAnonymous) {
@@ -360,7 +375,7 @@ class QuestionModal extends React.Component {
                         </Form.Group>
                         <Form.Group>
                             <Label>Hide Results from Voters: </Label><br />
-                            <CheckBox checked={this.props.hideResults} defaultChecked={data.hideResults} onClick={this.onClickHideResults} />
+                            <CheckBox className={this.props.showCategoryForm ? "hidden" : ""} checked={this.props.hideResults} defaultChecked={data.hideResults} onClick={this.onClickHideResults} />
                         </Form.Group>
                         <Form.Group>
                             <Label>Sort Order: </Label>
