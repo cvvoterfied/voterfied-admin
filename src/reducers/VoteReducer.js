@@ -2,13 +2,17 @@
  * 
  * */
 
-import { voteActionTypes, pending, rejected, fulfilled } from '../constants/ActionConstants';
+import { voteActionTypes, pending, rejected, fulfilled, emptyCustomer } from '../constants/ActionConstants';
 
 const blankQuestion = {
     id: 0, name: "", questionType: { id: 1 }, answers: [{ id: 0, percentage: 0, votecount: 0 }, { id: 1, percentage: 0, votecount: 0 }], links: []
 }
 const blankUser = {
     id: 0, name: ""
+}
+
+const blankOpinion = {
+    choiceDesc: "", choiceid: "", donateURL: ""
 }
 
 export default function reducer(state = {    
@@ -21,7 +25,9 @@ export default function reducer(state = {
     showQuestionForm: false,
     showVoteScreen: false,
     currentQuestion: blankQuestion,
-    currentUser: blankUser
+    currentUser: blankUser,
+    currentOpinion: blankOpinion
+    
 
 }, action) {
 
@@ -428,6 +434,23 @@ export default function reducer(state = {
                 ...state,
                 message: action.payload.message,
                 stats: []
+            }
+        case pending(voteActionTypes.GET_DONATE_PREFERENCE):
+            return {
+                ...state,
+                currentOpinion: blankOpinion,
+                message: "Working..."
+            }
+        case fulfilled(voteActionTypes.GET_DONATE_PREFERENCE):
+            return {
+                ...state,
+                currentOpinion: action.payload.data,
+                message: ""
+            }
+        case rejected(voteActionTypes.GET_DONATE_PREFERENCE):
+            return {
+                ...state,
+                message: action.payload.message
             }
         default:
             return state;

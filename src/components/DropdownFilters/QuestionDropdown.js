@@ -4,7 +4,7 @@ import "./Dropdown.css";
 import { connect } from 'react-redux';
 import Select from 'react-styled-select';
 import Row from 'react-bootstrap/Row';
-import { listVotesByQuestion, enumVotes, showQuestionModal, deleteQuestion, getVotes, listVotesByUser  } from '../../actions/VoteActions';
+import { listVotesByQuestion, enumVotes, showQuestionModal, deleteQuestion, getVotes, listVotesByUser, getDonatePreference } from '../../actions/VoteActions';
 
 import add from "../../images/icons/add.jpg";
 import edit from "../../images/icons/edit.png";
@@ -59,6 +59,7 @@ class QuestionDropdown extends React.Component {
             }
             else {
                 this.props.showQuestionModal(this.state.currentQuestion);
+                this.props.getDonatePreference(this.props.logintoken, this.props.currentCustomer.id, this.props.currentQuestion.id); 
             }            
         }
         else {
@@ -114,8 +115,9 @@ function mapStateToProps(state) {
         currentCustomer: state.customerReducer.currentCustomer,
         user: state.loginReducer.user,
         currentQuestion: state.voteReducer.currentQuestion,
-        currentUser: state.loginReducer.currentUserLogin
+        currentUser: state.loginReducer.currentUserLogin,
+        currentOpinion: state.voteReducer.currentOpinion
     }
 }
 
-export default connect(mapStateToProps, { listVotesByQuestion, enumVotes, showQuestionModal, deleteQuestion, getVotes, listVotesByUser })(QuestionDropdown);
+export default connect(mapStateToProps, { listVotesByQuestion, enumVotes, showQuestionModal, deleteQuestion, getVotes, listVotesByUser, getDonatePreference })(QuestionDropdown);

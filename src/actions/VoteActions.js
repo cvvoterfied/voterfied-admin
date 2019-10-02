@@ -521,3 +521,59 @@ export function hideCategoryModal() {
         dispatch(fulfilled_function(HIDE_CATEGORY_FORM));
     }
 }
+
+export function setDonatePreference(token, orgid, questionId, choiceid, choicedesc, donateURL, customerName) {
+
+    return function (dispatch, getState) {
+
+        const { SET_DONATE_PREFERENCE } = voteActionTypes;
+        const { LOGOUT } = loginActionTypes;
+
+        var payload = {
+            orgid: orgid,
+            questionId: questionId,
+            choiceid: choiceid,
+            choicedesc: choicedesc,
+            donateURL: donateURL, 
+            id: 0,
+            name: customerName,
+            createdDate: new Date(),
+            modifiedDate: new Date(),
+            ts: "QEA="
+        };
+
+        dispatch(pending_function(SET_DONATE_PREFERENCE));
+
+        axiosConfig.headers.token = token;
+        axios
+            .post(serverEnvironment.API_URL + '/candidateOp', payload, axiosConfig)
+            .then(res => {
+                dispatch(fulfilled_function(SET_DONATE_PREFERENCE, res));
+                console.log(res); 
+            })
+            .catch(err => {
+                dispatch(rejected_function(SET_DONATE_PREFERENCE, err));
+            });
+    };
+
+}
+
+export function getDonatePreference(token, customerId, questionId) {
+    return function (dispatch, getState) {
+
+        const { GET_DONATE_PREFERENCE } = voteActionTypes;
+        const { LOGOUT } = loginActionTypes; 
+
+        dispatch(pending_function(GET_DONATE_PREFERENCE)); 
+
+        axiosConfig.headers.token = token; 
+        axios
+            .get(serverEnvironment.API_URL + '/candidateOp/' + String(customerId) + '/' + String(questionId), axiosConfig)
+            .then(res => {
+                dispatch(fulfilled_function(GET_DONATE_PREFERENCE, res));
+            })
+            .catch(err => {
+                dispatch(rejected_function(GET_DONATE_PREFERENCE, err));
+            });
+    }
+}

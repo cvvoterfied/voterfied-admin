@@ -13,7 +13,7 @@ import CheckBox from 'react-bootstrap/FormCheckInput';
 import "react-datepicker/dist/react-datepicker.css";
 import DataGrid, { Editing, Texts, Scrolling, Sorting, Column } from 'devextreme-react/data-grid';
 
-import { addQuestion, editQuestion, hideQuestionModal, showCategoryModal, hideCategoryModal } from '../../actions/VoteActions';
+import { addQuestion, editQuestion, hideQuestionModal, showCategoryModal, hideCategoryModal, setDonatePreference } from '../../actions/VoteActions';
 
 import stars from '../../images/voterfied_stars.png';
 import add from "../../images/icons/add.jpg";
@@ -41,6 +41,7 @@ class QuestionModal extends React.Component {
         this.onClickAnonymous = this.onClickAnonymous.bind(this);
         this.onClickHideResults = this.onClickHideResults.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
+        this.selectedAnswer = this.selectedAnswer.bind(this);
     }
 
     showAddModal() {
@@ -66,7 +67,7 @@ class QuestionModal extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.currentQuestion !== this.props.currentQuestion ) {
+        if (newProps.currentQuestion !== this.props.currentQuestion) {
             this.setState({
                 "categoryId": newProps.currentQuestion.categoryId,
                 "questionType": newProps.currentQuestion.questionType.id,
@@ -79,6 +80,11 @@ class QuestionModal extends React.Component {
                 "ordinal": newProps.currentQuestion.ordinal,
                 "hideResults": newProps.currentQuestion.hideResults,
                 "isAnonymous": newProps.currentQuestion.isAnonymous
+            });
+        }
+        if (newProps.currentOpinion !== this.props.currentOpinion) {
+            this.setState({
+                "choiceid": newProps.currentOpinion.choiceid
             });
         }
     }
@@ -94,7 +100,8 @@ class QuestionModal extends React.Component {
 
     onSubmit = () => {
         var question = {};
-        var answers = [];         
+        var answers = [];
+        var opinion = {};
 
         if (this.state.answers) {
             // Get the new answers from the text box
@@ -164,7 +171,36 @@ class QuestionModal extends React.Component {
         } else {
 
             
+            
             question = this.props.currentQuestion;
+            opinion = this.props.currentOpinion;
+            var donateLink = document.getElementById("donateLink").value;
+            var choiceText = document.querySelector(".opinionSelect").textContent;
+        
+
+
+
+            if (!opinion.choiceid) {
+                if (this.state.choiceid && donateLink) {
+                    this.props.setDonatePreference(this.props.logintoken, this.props.currentCustomer.id, this.props.currentQuestion.id, this.state.choiceid, choiceText, donateLink);
+                }
+                else if (this.state.choiceid && !donateLink || (!this.state.choiceid && donateLink)) {
+                    alert("Please select an option for both fields");
+                }
+            }
+
+            if (opinion.choiceid) {
+                if (this.state.choiceid && donateLink) {
+                    if (this.state.choiceid != this.props.currentOpinion.choiceid) {
+                        this.props.setDonatePreference(this.props.logintoken, this.props.currentCustomer.id, this.props.currentQuestion.id, this.state.choiceid, choiceText, donateLink);
+                    }
+                    else alert("This donation preference is already active");
+                }
+                else if ((this.state.choiceid && !donateLink) || (!this.state.chioceid && donateLink)) {
+                    alert("Please select an option for both fields");
+                }
+            }
+
 
             if (this.state.question && this.state.question.length > 0) {
                 question.name = this.state.question;
@@ -215,7 +251,9 @@ class QuestionModal extends React.Component {
             if (this.state.ordinal && this.state.ordinal > 0) {
                 question.ordinal = this.state.ordinal;
             }
-                   
+
+
+
             question.modifiedDate = new Date();            
 
             this.props.editQuestion(this.props.logintoken, question);
@@ -246,6 +284,10 @@ class QuestionModal extends React.Component {
         else {
             this.setState({ "answers": "" });
         }
+    }
+
+    onSelectOpinion = (e) => {
+        this.setState({ "choiceid": e });
     }
 
     onSelectCat = (e) => {
@@ -282,8 +324,26 @@ class QuestionModal extends React.Component {
         return false;
     }
 
-    render() {        
+    selectedAnswer() {
+        // Check the selected answer from the redux store 
+        // Iterate through the Potential Answers from the question
+        // If the answer matches that which is stored in redux, Return that value to be used within the component 
+        var answers = this.props.answers; 
+        for (var x = 0; x < answers.length; x++) {
+            if (answers[x].questionID === this.props.currentOpinion.questionId && String(answers[x].id) === this.props.currentOpinion.choiceid) {
+                return answers[x].name;
+                break;
+            }
+            else {
+                return;
+            }
+        }
+
+    }
+
+    render() {
         var data = this.props.currentQuestion;
+        var setAnswer = this.props.currentOpinion;
         
         // Convert answer list into flat string
         var tempAnswers = '';
@@ -298,6 +358,21 @@ class QuestionModal extends React.Component {
         for (var i = 0; i < this.props.categories.length; i++) {
             cats.push({ "label": this.props.categories[i].name, "value": this.props.categories[i].id });
         }
+
+        // Load combo box with Answers
+        var answers = [];
+        for (var i = 0; i < this.props.answers.length; i++) {
+            answers.push({ "label": this.props.answers[i].name, "value": String(this.props.answers[i].id) })
+        }
+
+        //function answerOptions (answerset, compare) {
+        //    const answers = answerset; 
+        //    return (
+        //        <Form.Control className="red-theme" as="select">
+        //            {answers.map((answer) => answer.id == compare.choiceid ? (<option selected value={answer.id}>{answer.name}</option>) : (<option selected value={answer.id}>{answer.name}</option>))}
+        //        </Form.Control>
+        //        );
+        //}
 
         // Question Types
         var items =
@@ -424,7 +499,7 @@ class QuestionModal extends React.Component {
                                     caption="Answer"
                                     dataType={"string"}
                                     alignment={"left"}
-                                />                               
+                                />     
                                 <Column
                                     dataField={"metadata"}
                                     caption="Additional Info"
@@ -477,6 +552,26 @@ class QuestionModal extends React.Component {
                                 />
                             </DataGrid>
                         </Form.Group>
+
+                        <Form.Group>
+                            <Label>Donate Preference: </Label>
+                            <Row>
+                                <Col>
+                                    <Select 
+                                        className="red-theme opinionSelect"
+                                        name="donatePreference"
+                                        options={answers}
+                                        defaultValue={answers.filter(option => option.value === setAnswer.choiceid)}
+                                        value={this.state.choiceid}
+                                        onChange={this.onSelectOpinion}
+                                    />
+                                    
+                                </Col>
+                                <Col>
+                                    <input type="text" name="donateLink" id="donateLink" placeholder="Donation Link" defaultValue={this.props.currentOpinion.donateURL ? this.props.currentOpinion.donateURL : ""}/>
+                                </Col>
+                            </Row>
+                        </Form.Group>
                     </div>
                     <Row>
                         <Button className="modalLoginButton" variant="danger" onClick={this.onSubmit} href="#">Save</Button>
@@ -501,8 +596,12 @@ function mapStateToProps(state) {
         currentQuestion: state.voteReducer.currentQuestion,
         customers: state.customerReducer.customerList,
         categories: state.voteReducer.categories,
-        showCategoryForm: state.voteReducer.showCategoryForm
+        showCategoryForm: state.voteReducer.showCategoryForm,
+        customerId: state.voteReducer.currentQuestion.customerID,
+        questionId: state.voteReducer.currentQuestion.id,
+        answers: state.voteReducer.currentQuestion.answers,
+        currentOpinion: state.voteReducer.currentOpinion
     }
 }
-export default connect(mapStateToProps, { addQuestion, editQuestion, hideQuestionModal, showCategoryModal, hideCategoryModal })(QuestionModal);
+export default connect(mapStateToProps, { addQuestion, editQuestion, hideQuestionModal, showCategoryModal, hideCategoryModal, setDonatePreference })(QuestionModal);
 
