@@ -561,14 +561,14 @@ class QuestionModal extends React.Component {
                                         className="red-theme opinionSelect"
                                         name="donatePreference"
                                         options={answers}
-                                        defaultValue={answers.filter(option => option.value === setAnswer.choiceid)}
+                                        defaultValue={setAnswer ? answers.filter(option => option.value === setAnswer.choiceid) : ""}
                                         value={this.state.choiceid}
                                         onChange={this.onSelectOpinion}
                                     />
                                     
                                 </Col>
                                 <Col>
-                                    <input type="text" name="donateLink" id="donateLink" placeholder="Donation Link" defaultValue={this.props.currentOpinion.donateURL ? this.props.currentOpinion.donateURL : ""}/>
+                                    <input type="text" name="donateLink" id="donateLink" placeholder="Donation Link" defaultValue={(this.props.currentOpinion && this.props.currentOpinion.donateURL) ? this.props.currentOpinion.donateURL : ""}/>
                                 </Col>
                             </Row>
                         </Form.Group>
