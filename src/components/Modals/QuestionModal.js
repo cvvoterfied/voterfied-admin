@@ -184,14 +184,14 @@ class QuestionModal extends React.Component {
                 if (this.state.choiceid && donateLink) {
                     this.props.setDonatePreference(this.props.logintoken, this.props.currentCustomer.id, this.props.currentQuestion.id, this.state.choiceid, choiceText, donateLink);
                 }
-                else if (this.state.choiceid && !donateLink || (!this.state.choiceid && donateLink)) {
+                else if ((this.state.choiceid && !donateLink) || (!this.state.choiceid && donateLink)) {
                     alert("Please select an option for both fields");
                 }
             }
 
             if (opinion.choiceid) {
                 if (this.state.choiceid && donateLink) {
-                    if (this.state.choiceid != this.props.currentOpinion.choiceid) {
+                    if (this.state.choiceid !== this.props.currentOpinion.choiceid) {
                         this.props.setDonatePreference(this.props.logintoken, this.props.currentCustomer.id, this.props.currentQuestion.id, this.state.choiceid, choiceText, donateLink);
                     }
                     else alert("This donation preference is already active");
@@ -331,8 +331,7 @@ class QuestionModal extends React.Component {
         var answers = this.props.answers; 
         for (var x = 0; x < answers.length; x++) {
             if (answers[x].questionID === this.props.currentOpinion.questionId && String(answers[x].id) === this.props.currentOpinion.choiceid) {
-                return answers[x].name;
-                break;
+                return answers[x].name;                
             }
             else {
                 return;
@@ -361,7 +360,7 @@ class QuestionModal extends React.Component {
 
         // Load combo box with Answers
         var answers = [];
-        for (var i = 0; i < this.props.answers.length; i++) {
+        for (i = 0; i < this.props.answers.length; i++) {
             answers.push({ "label": this.props.answers[i].name, "value": String(this.props.answers[i].id) })
         }
 

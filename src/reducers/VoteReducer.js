@@ -2,7 +2,7 @@
  * 
  * */
 
-import { voteActionTypes, pending, rejected, fulfilled, emptyCustomer } from '../constants/ActionConstants';
+import { voteActionTypes, pending, rejected, fulfilled } from '../constants/ActionConstants';
 
 const blankQuestion = {
     id: 0, name: "", questionType: { id: 1 }, answers: [{ id: 0, percentage: 0, votecount: 0 }, { id: 1, percentage: 0, votecount: 0 }], links: []

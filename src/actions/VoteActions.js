@@ -527,8 +527,7 @@ export function setDonatePreference(token, orgid, questionId, choiceid, choicede
     return function (dispatch, getState) {
 
         const { SET_DONATE_PREFERENCE } = voteActionTypes;
-        const { LOGOUT } = loginActionTypes;
-
+        
         var payload = {
             orgid: orgid,
             questionId: questionId,
@@ -562,7 +561,6 @@ export function getDonatePreference(token, customerId, questionId) {
     return function (dispatch, getState) {
 
         const { GET_DONATE_PREFERENCE } = voteActionTypes;
-        const { LOGOUT } = loginActionTypes; 
 
         dispatch(pending_function(GET_DONATE_PREFERENCE)); 
 
