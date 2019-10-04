@@ -89,13 +89,20 @@ class QuestionModal extends React.Component {
         }
     }
 
-    onKeyDown(event) {
-        if ((event.which === 13) ) {
+    onKeyDown(event) {        
+        if ((event.which === 13)) {
             event.preventDefault();
             this.setState({
                 "answers": this.state.answers + "\r"
             });
         }
+        if ((event.which === 32)) {
+            event.preventDefault();
+            this.setState({
+                "answers": this.state.answers + " "
+            });
+        }
+
     }
 
     onSubmit = () => {
