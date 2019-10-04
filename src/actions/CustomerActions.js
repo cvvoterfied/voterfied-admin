@@ -254,3 +254,15 @@ export function getConfig(token, customerID) {
 
     }
 }
+
+/*
+ * Clears the current customer reducer
+ * */
+
+export function clearCustomer() {
+    const { CLEAR_CUSTOMER } = customerActionTypes;
+
+    return function (dispatch) {
+        dispatch(fulfilled_function(CLEAR_CUSTOMER));
+    }
+}

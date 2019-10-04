@@ -35,6 +35,11 @@ export default function reducer(state = {
                 ...state,
                 lastError: action.payload.message
             }
+        case fulfilled(customerActionTypes.CLEAR_CUSTOMER):
+            return {
+                ...state,
+                currentCustomer: emptyCustomer
+            }
         case pending(customerActionTypes.DELETE_CUSTOMER):
             return {
                 ...state,

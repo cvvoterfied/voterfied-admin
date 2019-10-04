@@ -21,7 +21,7 @@ import Footerbar from '../Footerbar';
 import { connect } from 'react-redux';
 import { logout, startLogin, cancelLogin, startRegistering, verifyEmail, emailConfirmed, resetPassword, startEditProfile, showUserForm } from '../../actions/LoginActions';
 import { getApiVersion, hideVersionModal, showVersionModal } from '../../actions/VersionActions';
-import { enumCustomer} from '../../actions/CustomerActions';
+import { enumCustomer, clearCustomer} from '../../actions/CustomerActions';
 import { clearVotes, enumCategories } from '../../actions/VoteActions';
 
 import DataGrid, { Scrolling, Sorting, Column } from 'devextreme-react/data-grid';
@@ -72,7 +72,7 @@ class Landing extends React.Component {
         var diff = Math.abs(now - then);
 
         if (this.props.isloggedin && diff > (60 * 60 * 1000)) {
-            this.props.logout();
+            this.logOut();
         }
     }
 
@@ -105,6 +105,7 @@ class Landing extends React.Component {
     logOut(e) {
         if (this.props.logintoken !== undefined && this.props.logintoken !== '') {
             this.props.logout();  
+            this.props.clearCustomer();
             this.props.clearVotes();
             this.setState({ loggingOut: true });
         }
@@ -430,6 +431,7 @@ export default connect(mapStateToProps, {
     emailConfirmed,
     resetPassword,
     enumCustomer,
+    clearCustomer,
     enumCategories,
     showUserForm
     

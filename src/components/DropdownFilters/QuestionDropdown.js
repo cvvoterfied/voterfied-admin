@@ -49,21 +49,32 @@ class QuestionDropdown extends React.Component {
     }
 
     showAddModal() {
-        this.props.showQuestionModal({});
+        if (this.props.currentCustomer && this.props.currentCustomer.id !== 0) {
+            this.props.showQuestionModal({});
+        }
+        else {
+            alert("Please select a customer");
+        }
+
     }
 
     showEditModal() {
-        if (this.state.currentQuestion && this.state.currentQuestion !== "0" && this.state.currentQuestion.value !== "0") {            
-            if (new Date(this.props.currentQuestion.startDate) < new Date() && this.props.user.UserRole < 3) {
-                alert("This question is live and cannot be edited by an Admin. Contact a Super Admin.");
+        if (this.props.currentCustomer && this.props.currentCustomer.id !== 0) {
+            if (this.state.currentQuestion && this.state.currentQuestion !== "0" && this.state.currentQuestion.value !== "0") {
+                if (new Date(this.props.currentQuestion.startDate) < new Date() && this.props.user.UserRole < 3) {
+                    alert("This question is live and cannot be edited by an Admin. Contact a Super Admin.");
+                }
+                else {
+                    this.props.showQuestionModal(this.state.currentQuestion);
+                    this.props.getDonatePreference(this.props.logintoken, this.props.currentCustomer.id, this.props.currentQuestion.id);
+                }
             }
             else {
-                this.props.showQuestionModal(this.state.currentQuestion);
-                this.props.getDonatePreference(this.props.logintoken, this.props.currentCustomer.id, this.props.currentQuestion.id); 
-            }            
+                alert("No question selected");
+            }
         }
         else {
-            alert("No question selected");
+            alert("Please select a customer first");
         }
     }
 

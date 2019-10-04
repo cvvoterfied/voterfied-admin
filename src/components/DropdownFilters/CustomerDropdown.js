@@ -6,7 +6,7 @@ import Select from 'react-styled-select';
 import Row from 'react-bootstrap/Row';
 import { enumQuestions, enumVotes, clearVotes } from '../../actions/VoteActions';
 import { enumUserProfile } from '../../actions/LoginActions';
-import { getCustomer, showCustomerForm, deleteCustomer, getConfig  } from '../../actions/CustomerActions';
+import { getCustomer, showCustomerForm, clearCustomer, deleteCustomer, getConfig  } from '../../actions/CustomerActions';
 
 import add from  "../../images/icons/add.jpg";
 import edit from "../../images/icons/edit.png";
@@ -27,6 +27,10 @@ class CustomerDropdown extends React.Component {
 
     }
 
+    componentDidMount() {
+        this.setState({ "currentCustomer": { "label": this.props.currentCustomer.name, "value": this.props.currentCustomer.id } });
+    }
+
     onChange = (e) => {
         this.setState({ "currentCustomer": e });
 
@@ -39,6 +43,7 @@ class CustomerDropdown extends React.Component {
         }
         else {
             this.props.clearVotes();
+            this.props.clearCustomer();
         }
     }
 
@@ -83,7 +88,7 @@ class CustomerDropdown extends React.Component {
                         className="red-theme"
                         name="categoryFilter"
                         options={cats}
-                        value={this.state.currentCustomer}
+                        value={this.props.currentCustomer.id}
                         onChange={this.onChange}
                     />
                 </Row>
@@ -107,4 +112,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { getCustomer, enumQuestions, enumUserProfile, enumVotes, showCustomerForm, deleteCustomer, clearVotes, getConfig })(CustomerDropdown);
+export default connect(mapStateToProps, { getCustomer, enumQuestions, enumUserProfile, enumVotes, clearCustomer, showCustomerForm, deleteCustomer, clearVotes, getConfig })(CustomerDropdown);
