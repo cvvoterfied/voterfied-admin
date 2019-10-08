@@ -26,9 +26,11 @@ class QuestionModal extends React.Component {
         this.state = {
             links: [],            
             header: "Save Question",
+            answers: "Yes\nNo\n",
             isAnonymous: false,
             hideResults: false
         };
+        
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onClickCancel = this.onClickCancel.bind(this);
